@@ -7,3 +7,22 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+puts "login: #{Rails.application.credentials.dig(:admin, :nickname)}"
+admin_login = Rails.application.credentials.dig(:admin, :nickname)
+admin_password = Rails.application.credentials.dig(:admin, :password)
+if admin_login.present? && admin_password.present?
+	unless User.exists?(nickname: admin_login)
+		User.create!(
+			nickname: admin_login,
+			password: admin_password,
+			password_confirmation: admin_password,
+			user_name: "admin",
+			status: "in_service",
+			staff_grade: "administrator",
+			)
+		puts "Admin account created"
+	else
+		puts "Admin account already exists"
+	end
+end

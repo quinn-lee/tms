@@ -61,3 +61,6 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+# 用户管理
+gem 'sorcery', '~> 0.17.0'
