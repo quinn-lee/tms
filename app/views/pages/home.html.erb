@@ -1,0 +1,306 @@
+
+
+            <!-- 数据卡片 -->
+            <div class="dashboard-cards">
+                <div class="card-new">
+                    <div class="card-header">
+                        <div class="card-title">Operational Vehicles</div>
+                        <div class="card-icon primary">
+                            <i class="fas fa-truck"></i>
+                        </div>
+                    </div>
+                    <div class="card-value">42</div>
+                    <div class="card-footer">较上月 +12%</div>
+                </div>
+                <div class="card-new">
+                    <div class="card-header">
+                        <div class="card-title">Transport Tasks</div>
+                        <div class="card-icon success">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                    </div>
+                    <div class="card-value">28</div>
+                    <div class="card-footer">今日新增 3 个</div>
+                </div>
+                <div class="card-new">
+                    <div class="card-header">
+                        <div class="card-title">In Transit</div>
+                        <div class="card-icon warning">
+                            <i class="fas fa-road"></i>
+                        </div>
+                    </div>
+                    <div class="card-value">18</div>
+                    <div class="card-footer">平均时长 6.2h</div>
+                </div>
+                <div class="card-new">
+                    <div class="card-header">
+                        <div class="card-title">Pending Issues</div>
+                        <div class="card-icon danger">
+                            <i class="fas fa-exclamation-circle"></i>
+                        </div>
+                    </div>
+                    <div class="card-value">5</div>
+                    <div class="card-footer">需尽快处理</div>
+                </div>
+            </div>
+
+            <!-- 订单管理卡片 -->
+            <div class="dashboard-cards">
+                <div class="card-new">
+                    <div class="card-header">
+                        <div class="card-title">Pending Orders</div>
+                        <div class="card-icon primary">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                    </div>
+                    <div class="card-value">15</div>
+                    <div class="card-footer">今日新增 5 个</div>
+                </div>
+                <div class="card-new">
+                    <div class="card-header">
+                        <div class="card-title">Completed Orders</div>
+                        <div class="card-icon success">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                    </div>
+                    <div class="card-value">32</div>
+                    <div class="card-footer">本月已完成</div>
+                </div>
+                <div class="card-new">
+                    <div class="card-header">
+                        <div class="card-title">Cancelled Orders</div>
+                        <div class="card-icon danger">
+                            <i class="fas fa-times-circle"></i>
+                        </div>
+                    </div>
+                    <div class="card-value">3</div>
+                    <div class="card-footer">本月已取消</div>
+                </div>
+            </div>
+
+            <!-- 图表行 -->
+            <div class="chart-row">
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <div class="chart-title">Monthly Transport Volume</div>
+                    </div>
+                    <div id="monthlyChart" class="chart"></div>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <div class="chart-title">Vehicle Status Distribution</div>
+                    </div>
+                    <div id="statusChart" class="chart"></div>
+                </div>
+            </div>
+
+            <!-- 订单表单 (默认隐藏) -->
+            <div id="orderForm" class="card-new" style="display: none; margin-bottom: 2rem;">
+                <div class="card-header">
+                    <div class="card-title">新建订单</div>
+                    <button id="closeForm" class="btn-icon"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="card-body" style="padding: 1.5rem;">
+                    <form id="newOrderForm">
+                        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                            <div class="form-group">
+                                <label for="goodsName" style="display: block; margin-bottom: 0.5rem; color: var(--gray-500); font-weight: 500;">Goods Name</label>
+                                <input type="text" id="goodsName" class="form-input" placeholder="Enter goods name" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--gray-200); border-radius: var(--border-radius);">
+                            </div>
+                            <div class="form-group">
+                                <label for="goodsType" style="display: block; margin-bottom: 0.5rem; color: var(--gray-500); font-weight: 500;">Goods Type</label>
+                                <select id="goodsType" class="form-input" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--gray-200); border-radius: var(--border-radius); background-color: white;">
+                                    <option value="">Select goods type</option>
+                                    <option value="electronics">Electronics</option>
+                                    <option value="food">Food</option>
+                                    <option value="machinery">Machinery</option>
+                                    <option value="chemical">Chemical Products</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                            <div class="form-group">
+                                <label for="isValuable" style="display: block; margin-bottom: 0.5rem; color: var(--gray-500); font-weight: 500;">Is High Value</label>
+                                <select id="isValuable" class="form-input" style="width: 100%; padding: 0.75rem; border: 1px solid var(--gray-200); border-radius: var(--border-radius);">
+                                    <option value="no">No</option>
+                                    <option value="yes">Yes</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="weight" style="display: block; margin-bottom: 0.5rem; color: var(--gray-500); font-weight: 500;">Weight (kg)</label>
+                                <input type="number" id="weight" class="form-input" placeholder="0.00" step="0.01" style="width: 100%; padding: 0.75rem; border: 1px solid var(--gray-200); border-radius: var(--border-radius);">
+                            </div>
+                            <div class="form-group">
+                                <label for="volume" style="display: block; margin-bottom: 0.5rem; color: var(--gray-500); font-weight: 500;">Volume (m³)</label>
+                                <input type="number" id="volume" class="form-input" placeholder="0.00" step="0.01" style="width: 100%; padding: 0.75rem; border: 1px solid var(--gray-200); border-radius: var(--border-radius);">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                            <div class="form-group">
+                                <label for="boxCount" style="display: block; margin-bottom: 0.5rem; color: var(--gray-500); font-weight: 500;">Box Count</label>
+                                <input type="number" id="boxCount" class="form-input" placeholder="0" style="width: 100%; padding: 0.75rem; border: 1px solid var(--gray-200); border-radius: var(--border-radius);">
+                            </div>
+                            <div class="form-group">
+                                <label for="pickupTime" style="display: block; margin-bottom: 0.5rem; color: var(--gray-500); font-weight: 500;">Scheduled Delivery Time</label>
+                                <input type="datetime-local" id="pickupTime" class="form-input" style="width: 100%; padding: 0.75rem; border: 1px solid var(--gray-200); border-radius: var(--border-radius);">
+                            </div>
+                            <div class="form-group">
+                                <label for="isPickup" style="display: block; margin-bottom: 0.5rem; color: var(--gray-500); font-weight: 500;">Door-to-Door Pickup</label>
+                                <select id="isPickup" class="form-input" style="width: 100%; padding: 0.75rem; border: 1px solid var(--gray-200); border-radius: var(--border-radius);">
+                                    <option value="no">否</option>
+                                    <option value="yes">是</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                            <div class="form-group">
+                                <label for="senderName" style="display: block; margin-bottom: 0.5rem; color: var(--gray-500); font-weight: 500;">Sender Name</label>
+                                <input type="text" id="senderName" class="form-input" placeholder="Enter sender name" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--gray-200); border-radius: var(--border-radius);">
+                            </div>
+                            <div class="form-group">
+                                <label for="senderPhone" style="display: block; margin-bottom: 0.5rem; color: var(--gray-500); font-weight: 500;">Sender Phone</label>
+                                <input type="tel" id="senderPhone" class="form-input" placeholder="Enter sender phone" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--gray-200); border-radius: var(--border-radius);">
+                            </div>
+                            <div class="form-group">
+                                <label for="senderAddress" style="display: block; margin-bottom: 0.5rem; color: var(--gray-500); font-weight: 500;">Sender Address</label>
+                                <input type="text" id="senderAddress" class="form-input" placeholder="Enter sender address" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--gray-200); border-radius: var(--border-radius);">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                            <div class="form-group">
+                                <label for="senderLat" style="display: block; margin-bottom: 0.5rem; color: var(--gray-500); font-weight: 500;">Sender Latitude</label>
+                                <input type="number" id="senderLat" class="form-input" placeholder="e.g. 39.9042" step="0.0001" style="width: 100%; padding: 0.75rem; border: 1px solid var(--gray-200); border-radius: var(--border-radius);">
+                            </div>
+                            <div class="form-group">
+                                <label for="senderLng" style="display: block; margin-bottom: 0.5rem; color: var(--gray-500); font-weight: 500;">Sender Longitude</label>
+                                <input type="number" id="senderLng" class="form-input" placeholder="e.g. 116.4074" step="0.0001" style="width: 100%; padding: 0.75rem; border: 1px solid var(--gray-200); border-radius: var(--border-radius);">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                            <div class="form-group">
+                                <label for="receiverName" style="display: block; margin-bottom: 0.5rem; color: var(--gray-500); font-weight: 500;">Receiver Name</label>
+                                <input type="text" id="receiverName" class="form-input" placeholder="Enter receiver name" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--gray-200); border-radius: var(--border-radius);">
+                            </div>
+                            <div class="form-group">
+                                <label for="receiverPhone" style="display: block; margin-bottom: 0.5rem; color: var(--gray-500); font-weight: 500;">Receiver Phone</label>
+                                <input type="tel" id="receiverPhone" class="form-input" placeholder="Enter receiver phone" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--gray-200); border-radius: var(--border-radius);">
+                            </div>
+                            <div class="form-group">
+                                <label for="receiverAddress" style="display: block; margin-bottom: 0.5rem; color: var(--gray-500); font-weight: 500;">Receiver Address</label>
+                                <input type="text" id="receiverAddress" class="form-input" placeholder="Enter receiver address" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--gray-200); border-radius: var(--border-radius);">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                            <div class="form-group">
+                                <label for="receiverLat" style="display: block; margin-bottom: 0.5rem; color: var(--gray-500); font-weight: 500;">Receiver Latitude</label>
+                                <input type="number" id="receiverLat" class="form-input" placeholder="e.g. 31.2304" step="0.0001" style="width: 100%; padding: 0.75rem; border: 1px solid var(--gray-200); border-radius: var(--border-radius);">
+                            </div>
+                            <div class="form-group">
+                                <label for="receiverLng" style="display: block; margin-bottom: 0.5rem; color: var(--gray-500); font-weight: 500;">Receiver Longitude</label>
+                                <input type="number" id="receiverLng" class="form-input" placeholder="e.g. 121.4737" step="0.0001" style="width: 100%; padding: 0.75rem; border: 1px solid var(--gray-200); border-radius: var(--border-radius);">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group" style="margin-bottom: 1.5rem;">
+                            <label for="notes" style="display: block; margin-bottom: 0.5rem; color: var(--gray-500); font-weight: 500;">Notes</label>
+                            <textarea id="notes" class="form-input" rows="3" placeholder="Enter order notes" style="width: 100%; padding: 0.75rem; border: 1px solid var(--gray-200); border-radius: var(--border-radius);"></textarea>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: flex-end; gap: 1rem;">
+                            <button type="button" id="cancelOrder" class="btn" style="background: var(--gray-200); color: var(--gray-600);">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Submit Order</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- 订单列表 -->
+            <div class="vehicle-list" style="margin-bottom: 2rem;">
+                <div class="list-header">
+                    <div class="list-title">Order List</div>
+                    <button id="newOrderBtn" class="btn btn-primary" style="float: right; margin-left: 1rem;">
+                        <i class="fas fa-plus"></i> New Order
+                    </button>
+                    <div class="search-box" style="float: right;">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search orders...">
+                    </div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer</th>
+                            <th>Goods Type</th>
+                            <th>Weight (ton)</th>
+                            <th>Amount (¥)</th>
+                            <th>Status</th>
+                            <th>Deadline</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#OD-2023-105</td>
+                            <td>山东物流</td>
+                            <td>电子产品</td>
+                            <td>12.5</td>
+                            <td>8,500</td>
+                            <td><span class="status on-route">Processing</span></td>
+                            <td>2023-08-15</td>
+                            <td>
+                                <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#OD-2023-104</td>
+                            <td>青岛贸易</td>
+                            <td>食品</td>
+                            <td>8.2</td>
+                            <td>6,200</td>
+                            <td><span class="status available">Completed</span></td>
+                            <td>2023-08-10</td>
+                            <td>
+                                <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                <button class="btn-icon"><i class="fas fa-print"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#OD-2023-103</td>
+                            <td>济南制造</td>
+                            <td>工业设备</td>
+                            <td>22.0</td>
+                            <td>15,000</td>
+                            <td><span class="status on-route">In Transit</span></td>
+                            <td>2023-08-12</td>
+                            <td>
+                                <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                <button class="btn-icon"><i class="fas fa-map-marker-alt"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 订单统计图表 -->
+            <div class="chart-row">
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <div class="chart-title">Order Status Distribution</div>
+                    </div>
+                    <div id="orderStatusChart" class="chart"></div>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <div class="chart-title">Monthly Order Trend</div>
+                    </div>
+                    <div id="orderTrendChart" class="chart"></div>
+                </div>
+            </div>
