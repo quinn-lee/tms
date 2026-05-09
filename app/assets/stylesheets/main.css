@@ -282,7 +282,7 @@ body {
 }
 
 .user-avatar {
-    width: 40px;
+    /*width: 40px;*/
     height: 40px;
     border-radius: 50%;
     background: var(--primary);
@@ -462,6 +462,43 @@ th {
 .status.maintenance {
     background: rgba(239, 68, 68, 0.1);
     color: var(--danger);
+}
+
+.form-title {
+    color: var(--primary); 
+    margin-bottom: 1rem; 
+    padding-bottom: 0.5rem; 
+    border-bottom: 1px solid var(--gray-200);
+    display: block;
+    font-size: 1.17em;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+    unicode-bidi: isolate;
+}
+
+.form-input {
+    width: 100%; 
+    padding: 0.75rem; 
+    border: 1px solid var(--gray-200); 
+    border-radius: var(--border-radius);
+}
+
+.form-select {
+    width: 100%; 
+    padding: 0.75rem; 
+    border: 1px solid var(--gray-200); 
+    border-radius: var(--border-radius); 
+    background-color: white;
+}
+
+.form-label {
+    display: block; 
+    margin-bottom: 0.5rem; 
+    color: var(--gray-500); 
+    font-weight: 500;
 }
 
 /* 响应式设计 */

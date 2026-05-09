@@ -10,9 +10,40 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_04_29_061233) do
+ActiveRecord::Schema[8.0].define(version: 2026_04_29_115737) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "transport_orders", force: :cascade do |t|
+    t.string "order_no"
+    t.integer "task_id"
+    t.integer "user_id"
+    t.string "goods_name"
+    t.string "goods_type"
+    t.boolean "is_high_value"
+    t.decimal "goods_weight"
+    t.decimal "goods_volume"
+    t.integer "goods_quantity"
+    t.string "start_address"
+    t.decimal "start_latitude"
+    t.decimal "start_longitude"
+    t.string "shipper_name"
+    t.string "shipper_phone"
+    t.string "end_address"
+    t.decimal "end_latitude"
+    t.decimal "end_longitude"
+    t.string "consignee_name"
+    t.string "consignee_phone"
+    t.datetime "appointment_time"
+    t.boolean "need_pickup"
+    t.string "order_status"
+    t.decimal "order_amount"
+    t.string "remark"
+    t.integer "allocator_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_no"], name: "index_transport_orders_on_order_no", unique: true
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "nickname", null: false

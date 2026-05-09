@@ -1,0 +1,130 @@
+<div id="orderForm" class="card-new" style="margin-bottom: 2rem;">
+  <div class="card-header">
+      <div class="card-title">New Order</div>
+  </div>
+  <div class="card-body">
+    <%= form_with(model: @order, url: transport_orders_path) do |f|%>
+      <% unless f.object.errors.empty? %>
+        <ul class="list-group">
+          <li class="list-group-item active">Order Created Failed</li>
+          <% f.object.errors.full_messages.each do |msg| %>
+            <li class="list-group-item list-group-item-danger"><%= msg %></li>
+          <% end -%>
+        </ul>
+      <% end -%>
+      <div class="form-section" style="margin-bottom: 2rem;    margin-top: 2.5rem;">
+        <div class="form-title">
+            <i class="fas fa-weight-hanging" style="margin-right: 0.5rem;"></i>Cargo Information
+        </div>
+        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+          <div class="form-group">
+              <label for="goods_name" class="form-label">Goods Name</label>
+              <%= f.text_field :goods_name, class: "form-input", placeholder: "", required: true %>
+          </div>
+          <div class="form-group">
+              <label for="goods_type" class="form-label">Goods Type</label>
+              <%= f.select :goods_type, [['General','general'],['Fragile','fragile'],['Cold','cold']], {required: true}, {class: 'form-select'} %>
+          </div>
+          <div class="form-group">
+              <label for="goods_quantity" class="form-label">Goods Quantity</label>
+              <%= f.number_field :goods_quantity, class: "form-input", placeholder: "", required: true %>
+          </div>
+        </div>
+      
+        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+          <div class="form-group">
+              <label for="is_high_value" class="form-label">Is High Value</label>
+              <%= f.select :is_high_value, [['No',false],['Yes',true]], {required: true}, {class: 'form-select'} %>
+          </div>
+          <div class="form-group">
+              <label for="goods_weight" class="form-label">Weight (kg)</label>
+              <%= f.number_field :goods_weight, class: "form-input", placeholder: "", required: true, step: '0.01' %>
+          </div>
+          <div class="form-group">
+              <label for="goods_volume" class="form-label">Volume (m³)</label>
+              <%= f.number_field :goods_volume, class: "form-input", placeholder: "", required: true, step: '0.01' %>
+          </div>
+        </div>
+      
+      </div>
+      <div class="form-section" style="margin-bottom: 2rem;    margin-top: 2.5rem;">
+        <div class="form-title">
+            <i class="fas fa-user" style="margin-right: 0.5rem;"></i>Shipping Information
+        </div>
+        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+          <div class="form-group">
+              <label for="shipper_name" class="form-label">Sender Name</label>
+              <%= f.text_field :shipper_name, class: "form-input", placeholder: "", required: true %>
+          </div>
+          <div class="form-group">
+              <label for="shipper_phone" class="form-label">Sender Phone</label>
+              <%= f.phone_field :shipper_phone, class: "form-input", placeholder: "", required: true %>
+          </div>
+          <div class="form-group">
+              <label for="start_address" class="form-label">Sender Address</label>
+              <%= f.text_field :start_address, class: "form-input", placeholder: "", required: true %>
+          </div>
+        </div>
+      
+        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+          <div class="form-group">
+              <label for="start_latitude" class="form-label">Sender Latitude</label>
+              <%= f.number_field :start_latitude, class: "form-input", placeholder: "e.g. 39.9042", step: '0.0001' %>
+          </div>
+          <div class="form-group">
+              <label for="start_longitude" class="form-label">Sender Longitude</label>
+              <%= f.number_field :start_longitude, class: "form-input", placeholder: "e.g. 116.4074", step: '0.0001' %>
+          </div>
+        </div>
+      </div>
+      <div class="form-section" style="margin-bottom: 2rem;    margin-top: 2.5rem;">
+        <div class="form-title">
+            <i class="fas fa-user-tie" style="margin-right: 0.5rem;"></i>Receiving Information
+        </div>
+        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+          <div class="form-group">
+              <label for="consignee_name" class="form-label">Receiver Name</label>
+              <%= f.text_field :consignee_name, class: "form-input", placeholder: "", required: true %>
+          </div>
+          <div class="form-group">
+              <label for="consignee_phone" class="form-label">Receiver Phone</label>
+              <%= f.phone_field :consignee_phone, class: "form-input", placeholder: "", required: true %>
+          </div>
+          <div class="form-group">
+              <label for="end_address" class="form-label">Receiver Address</label>
+              <%= f.text_field :end_address, class: "form-input", placeholder: "", required: true %>
+          </div>
+        </div>
+      
+        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+          <div class="form-group">
+              <label for="end_latitude" class="form-label">Receiver Latitude</label>
+              <%= f.number_field :end_latitude, class: "form-input", placeholder: "e.g. 31.2304", step: '0.0001' %>
+          </div>
+          <div class="form-group">
+              <label for="end_longitude" class="form-label">Receiver Longitude</label>
+              <%= f.number_field :end_longitude, class: "form-input", placeholder: "e.g. 121.4737", step: '0.0001' %>
+          </div>
+        </div>
+      </div>
+      <div class="form-section" style="margin-bottom: 2rem;    margin-top: 2.5rem;">
+        <div class="form-title">
+            <i class="fas fa-sticky-note" style="margin-right: 0.5rem;"></i>Other Information
+        </div>
+        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+          <div class="form-group">
+              <label for="need_pickup" class="form-label">Need Pickup</label>
+              <%= f.select :need_pickup, [['No',false],['Yes',true]], {}, {class: 'form-select'} %>
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom: 1.5rem;">
+          <label for="remark" class="form-label">Remark</label>
+          <%= f.text_area :remark, class: "form-input", placeholder: "", rows: 2%>
+        </div>
+      </div>
+      <div style="display: flex; justify-content: flex-end; gap: 1rem;">
+          <button type="submit" class="btn btn-primary">Submit Order</button>
+      </div>
+    <% end %>
+  </div>
+</div>
