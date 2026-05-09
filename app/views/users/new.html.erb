@@ -1,0 +1,60 @@
+<div id="userForm" class="card-new" style="margin-bottom: 2rem;">
+  <div class="card-header">
+      <div class="card-title">New Staff</div>
+  </div>
+  <div class="card-body">
+    <%= form_with(model: @user, url: users_path) do |f|%>
+      <% unless f.object.errors.empty? %>
+        <ul class="list-group">
+          <li class="list-group-item active">Staff Created Failed</li>
+          <% f.object.errors.full_messages.each do |msg| %>
+            <li class="list-group-item list-group-item-danger"><%= msg %></li>
+          <% end -%>
+        </ul>
+      <% end -%>
+      <div class="form-section" style="margin-bottom: 2rem;    margin-top: 2.5rem;">
+        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+          <div class="form-group">
+              <label for="nickname" class="form-label">Login Name</label>
+              <%= f.text_field :nickname, class: "form-input", placeholder: "", required: true %>
+          </div>
+          <div class="form-group">
+              <label for="password" class="form-label">Password</label>
+              <%= f.password_field :password, class: "form-input", placeholder: "", required: true %>
+          </div>
+          <div class="form-group">
+              <label for="password_confirmation" class="form-label">Password Confirmation</label>
+              <%= f.password_field :password_confirmation, class: "form-input", placeholder: "", required: true %>
+          </div>
+        </div>
+      </div>
+      <div class="form-section" style="margin-bottom: 2rem;    margin-top: 2.5rem;">
+        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+          <div class="form-group">
+              <label for="user_name" class="form-label">Staff Name</label>
+              <%= f.text_field :user_name, class: "form-input", placeholder: "", required: true %>
+          </div>
+          <div class="form-group">
+              <label for="id_card" class="form-label">ID Card</label>
+              <%= f.text_field :id_card, class: "form-input", placeholder: "", required: false %>
+          </div>
+          <div class="form-group">
+              <label for="user_phone" class="form-label">Staff Phone</label>
+              <%= f.phone_field :user_phone, class: "form-input", placeholder: "", required: false %>
+          </div>
+        </div>
+      </div>
+      <div class="form-section" style="margin-bottom: 2rem;    margin-top: 2.5rem;">
+        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+          <div class="form-group">
+              <label for="staff_grade" class="form-label">Staff Grade</label>
+              <%= f.select :staff_grade, [['Dispatcher','dispatcher'],['AppealHandler','appeal_handler']], {required: true}, {class: 'form-select'} %>
+          </div>
+        </div>
+      </div>
+      <div style="display: flex; justify-content: flex-end; gap: 1rem;">
+          <button type="submit" class="btn btn-primary">Create Staff</button>
+      </div>
+    <% end %>
+  </div>
+</div>

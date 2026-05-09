@@ -8,6 +8,12 @@ Rails.application.routes.draw do
     collection do
       get :edit_password
       post :change_password
+
+      get :new_driver
+      post :create_driver
+
+      get :new_customer
+      post :create_customer
     end
   end
 

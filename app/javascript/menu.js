@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
   navGroups.forEach(group => {
     const navLink = group.querySelector('.nav-link');
     navLink.addEventListener('click', (e) => {
-      //e.preventDefault();
+      e.preventDefault();
       e.stopPropagation();
       // 关闭其他打开的菜单
       navGroups.forEach(otherGroup => {
