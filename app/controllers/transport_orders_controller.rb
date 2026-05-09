@@ -16,7 +16,7 @@ class TransportOrdersController < ApplicationController
       begin
         @order.save!
         flash[:success] = "Created Successful"
-        redirect_to new_transport_order_path
+        redirect_to transport_orders_path
       rescue => e
         render :new, status: :unprocessable_entity
         raise ActiveRecord::Rollback,"rollback!"

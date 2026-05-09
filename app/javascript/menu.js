@@ -5,9 +5,8 @@ document.addEventListener('DOMContentLoaded', function() {
   navGroups.forEach(group => {
     const navLink = group.querySelector('.nav-link');
     navLink.addEventListener('click', (e) => {
-      e.preventDefault();
+      //e.preventDefault();
       e.stopPropagation();
-      
       // 关闭其他打开的菜单
       navGroups.forEach(otherGroup => {
         if (otherGroup !== group) {
@@ -18,6 +17,41 @@ document.addEventListener('DOMContentLoaded', function() {
       // 切换当前菜单状态
       group.classList.toggle('active');
     });
+    const subLinks = group.querySelectorAll('.submenu-link');
+    subLinks.forEach(subLink => {
+      subLink.addEventListener('click', (e) => {
+        //e.preventDefault();
+        e.stopPropagation();
+        subLinks.forEach(otherLink => {
+        if (otherLink !== subLink) {
+            otherLink.classList.remove('active');
+            otherLink.parentNode.previousElementSibling.classList.remove('active');
+            otherLink.parentNode.parentNode.classList.remove('active');
+          }
+        });
+        // 切换当前菜单状态
+        subLink.classList.add('active');
+        subLink.parentNode.previousElementSibling.classList.add('active');
+        group.classList.add('active');
+      });
+      const currentPath = window.location.pathname;
+      const itemPath = subLink.getAttribute('href');
+      if (currentPath===itemPath) {
+        subLinks.forEach(otherLink => {
+        if (otherLink !== subLink) {
+            otherLink.classList.remove('active');
+            otherLink.parentNode.previousElementSibling.classList.remove('active');
+            otherLink.parentNode.parentNode.classList.remove('active');
+          }
+        });
+        // 切换当前菜单状态
+        subLink.classList.add('active');
+        subLink.parentNode.previousElementSibling.classList.add('active');
+        group.classList.add('active');
+      }
+
+    });
+
   });
   // 用户头像下拉菜单交互
   const userAvatar = document.getElementById('userAvatarDropdown');
@@ -44,6 +78,7 @@ document.addEventListener('DOMContentLoaded', function() {
     dropdownMenu.classList.remove('show');
   });
     // 订单状态分布图表
+  /*
     const orderStatusChart = echarts.init(document.getElementById('orderStatusChart'));
     const orderStatusOption = {
         tooltip: {
@@ -152,13 +187,13 @@ document.addEventListener('DOMContentLoaded', function() {
         orderStatusChart.resize();
         orderTrendChart.resize();
     });
-
+*/
     // 订单表单交互
-    const orderForm = document.getElementById('orderForm');
-    const newOrderBtn = document.getElementById('newOrderBtn');
-    const closeForm = document.getElementById('closeForm');
-    const cancelOrder = document.getElementById('cancelOrder');
-    
+    //const orderForm = document.getElementById('orderForm');
+    //const newOrderBtn = document.getElementById('newOrderBtn');
+    //const closeForm = document.getElementById('closeForm');
+    //const cancelOrder = document.getElementById('cancelOrder');
+    /*
     newOrderBtn.addEventListener('click', () => {
         orderForm.style.display = 'block';
         window.scrollTo({ top: orderForm.offsetTop - 20, behavior: 'smooth' });
@@ -180,4 +215,5 @@ document.addEventListener('DOMContentLoaded', function() {
         orderForm.style.display = 'none';
         document.getElementById('newOrderForm').reset();
     });
+    */
 });
