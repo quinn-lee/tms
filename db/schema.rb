@@ -10,9 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_04_29_115737) do
+ActiveRecord::Schema[8.0].define(version: 2026_05_10_055054) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "branches", force: :cascade do |t|
+    t.string "branch_code"
+    t.string "branch_name"
+    t.string "province"
+    t.string "city"
+    t.string "address"
+    t.string "postcode"
+    t.decimal "latitude"
+    t.decimal "longitude"
+    t.string "contact_person"
+    t.string "contact_phone"
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["branch_code"], name: "index_branches_on_branch_code", unique: true
+  end
 
   create_table "transport_orders", force: :cascade do |t|
     t.string "order_no"

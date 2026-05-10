@@ -15,15 +15,15 @@
       <div class="form-section" style="margin-bottom: 2rem;    margin-top: 2.5rem;">
         <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
           <div class="form-group">
-              <label for="nickname" class="form-label">Login Name</label>
+              <label class="form-label">Login Name*</label>
               <%= f.text_field :nickname, class: "form-input", placeholder: "", required: true %>
           </div>
           <div class="form-group">
-              <label for="password" class="form-label">Password</label>
+              <label class="form-label">Password*</label>
               <%= f.password_field :password, class: "form-input", placeholder: "", required: true %>
           </div>
           <div class="form-group">
-              <label for="password_confirmation" class="form-label">Password Confirmation</label>
+              <label class="form-label">Password Confirmation*</label>
               <%= f.password_field :password_confirmation, class: "form-input", placeholder: "", required: true %>
           </div>
         </div>
@@ -31,15 +31,15 @@
       <div class="form-section" style="margin-bottom: 2rem;    margin-top: 2.5rem;">
         <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
           <div class="form-group">
-              <label for="customer_code" class="form-label">Customer Code</label>
+              <label class="form-label">Customer Code*</label>
               <%= f.text_field :customer_code, class: "form-input", placeholder: "", required: true %>
           </div>
           <div class="form-group">
-              <label for="customer_name" class="form-label">Customer Name</label>
+              <label class="form-label">Customer Name*</label>
               <%= f.text_field :customer_name, class: "form-input", placeholder: "", required: true %>
           </div>
           <div class="form-group">
-              <label for="customer_type" class="form-label">Customer Type</label>
+              <label class="form-label">Customer Type*</label>
               <%= f.select :customer_type, [['Individual','individual'],['Enterprise','enterprise']], {required: true}, {class: 'form-select'} %>
           </div>
         </div>
@@ -47,15 +47,15 @@
       <div class="form-section" style="margin-bottom: 2rem;    margin-top: 2.5rem;">
         <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
           <div class="form-group">
-              <label for="contact_person" class="form-label">Contact Person</label>
+              <label class="form-label">Contact Person</label>
               <%= f.text_field :contact_person, class: "form-input", placeholder: "", required: false %>
           </div>
           <div class="form-group">
-              <label for="contact_phone" class="form-label">Contact Phone</label>
+              <label class="form-label">Contact Phone</label>
               <%= f.phone_field :contact_phone, class: "form-input", placeholder: "", required: false %>
           </div>
           <div class="form-group">
-              <label for="contact_address" class="form-label">Contact Address</label>
+              <label class="form-label">Contact Address</label>
               <%= f.phone_field :contact_address, class: "form-input", placeholder: "", required: false %>
           </div>
         </div>
@@ -63,7 +63,7 @@
       <div class="form-section" style="margin-bottom: 2rem;    margin-top: 2.5rem;">
         <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
           <div class="form-group">
-              <label for="credit_level" class="form-label">Credit Level</label>
+              <label class="form-label">Credit Level*</label>
               <%= f.select :credit_level, options_for_select([['1', '1'],['2', '2'],['3', '3'],['4', '4'],['5', '5']], '3'), {required: true}, {class: 'form-select'} %>
           </div>
         </div>
