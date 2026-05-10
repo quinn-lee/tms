@@ -1,5 +1,5 @@
 // 初始化ECharts图表
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('turbo:load', function() {
   // 处理二级菜单点击事件
   const navGroups = document.querySelectorAll('.nav-group');
   navGroups.forEach(group => {
