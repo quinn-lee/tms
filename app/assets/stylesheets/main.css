@@ -52,7 +52,7 @@
 }
 
 /* 下拉菜单样式 */
-.dropdown-menu {
+.dropdown-menu-user {
   position: absolute;
   right: 0;
   top: 3.5rem;
@@ -66,7 +66,7 @@
   transition: all 0.2s ease;
 }
 
-.dropdown-menu.show {
+.dropdown-menu-user.show {
   display: block;
 }
 

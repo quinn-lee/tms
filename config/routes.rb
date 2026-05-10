@@ -10,9 +10,11 @@ Rails.application.routes.draw do
       post :change_password
 
       get :new_driver
+      get :drivers
       post :create_driver
 
       get :new_customer
+      get :customers
       post :create_customer
     end
   end

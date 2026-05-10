@@ -6,18 +6,54 @@
   <nav class="nav-links">
     <div class="nav-group">
       <a href="#" class="nav-link">
-          <i class="fas fa-user"></i>
-          <span>User</span>
+          <i class="fas fa-clipboard-user"></i>
+          <span>Staff</span>
           <i class="fas fa-chevron-down submenu-icon"></i>
       </a>
       <div class="submenu">
-          <a href="<%=users_path%>" class="submenu-link">
+        <a href="<%=users_path%>" class="submenu-link">
+          <i class="fas fa-bars"></i>
+          <span>Staff List</span>
+        </a>
+        <a href="<%=new_user_path%>" class="submenu-link">
+          <i class="fas fa-plus"></i>
+          <span>Add Staff</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="nav-group">
+      <a href="#" class="nav-link">
+          <i class="fas fa-user "></i>
+          <span>Customer</span>
+          <i class="fas fa-chevron-down submenu-icon"></i>
+      </a>
+      <div class="submenu">
+        <a href="<%=customers_users_path%>" class="submenu-link">
+          <i class="fas fa-bars"></i>
+          <span>Customer List</span>
+        </a>
+        <a href="<%=new_customer_users_path%>" class="submenu-link">
+          <i class="fas fa-plus"></i>
+          <span>Add Customer</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="nav-group">
+      <a href="#" class="nav-link">
+          <i class="fas fa-users"></i>
+          <span>Driver</span>
+          <i class="fas fa-chevron-down submenu-icon"></i>
+      </a>
+      <div class="submenu">
+          <a href="<%=drivers_users_path%>" class="submenu-link">
               <i class="fas fa-list"></i>
-              <span>Users List</span>
+              <span>Driver List</span>
           </a>
-          <a href="<%=new_user_path%>" class="submenu-link">
+          <a href="<%=new_driver_users_path%>" class="submenu-link">
               <i class="fas fa-plus"></i>
-              <span>Add User</span>
+              <span>Add Driver</span>
           </a>
       </div>
     </div>
@@ -55,24 +91,6 @@
           <a href="<%=new_truck_path%>" class="submenu-link">
               <i class="fas fa-plus"></i>
               <span>Add Truck</span>
-          </a>
-      </div>
-    </div>
-
-    <div class="nav-group">
-      <a href="#" class="nav-link">
-          <i class="fas fa-users"></i>
-          <span>Driver</span>
-          <i class="fas fa-chevron-down submenu-icon"></i>
-      </a>
-      <div class="submenu">
-          <a href="#" class="submenu-link">
-              <i class="fas fa-list"></i>
-              <span>Driver List</span>
-          </a>
-          <a href="#" class="submenu-link">
-              <i class="fas fa-plus"></i>
-              <span>Add Driver</span>
           </a>
       </div>
     </div>

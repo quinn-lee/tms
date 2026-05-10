@@ -33,9 +33,30 @@ class UsersController < ApplicationController
       begin
         @user.save!
         flash[:success] = "Customer Created Successful"
-        redirect_to users_path
+        redirect_to customers_users_path
       rescue => e
         render :new_customer, status: :unprocessable_entity
+        raise ActiveRecord::Rollback,"rollback!"
+      end
+    end
+	end
+
+	def new_driver
+		@user = User.new
+	end
+
+	def create_driver
+		@user = User.new(params.require(:user)
+      .permit(:nickname, :password, :password_confirmation, :user_name, 
+        :id_card, :user_phone, :driver_license, :license_type, :license_expire_date))
+		@user.staff_grade = "driver"
+    ActiveRecord::Base.transaction do
+      begin
+        @user.save!
+        flash[:success] = "Driver Created Successful"
+        redirect_to drivers_users_path
+      rescue => e
+        render :new_driver, status: :unprocessable_entity
         raise ActiveRecord::Rollback,"rollback!"
       end
     end
