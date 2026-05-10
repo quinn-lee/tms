@@ -1,114 +1,118 @@
 <!-- 侧边导航栏 -->
 <aside class="sidebar">
-    <div class="logo">
-        <h1><i class="fas fa-truck-moving"></i> TMS </h1>
+  <div class="logo">
+    <h1><i class="fas fa-truck-moving"></i> TMS </h1>
+  </div>
+  <nav class="nav-links">
+    <div class="nav-group">
+      <a href="#" class="nav-link">
+          <i class="fas fa-user"></i>
+          <span>User</span>
+          <i class="fas fa-chevron-down submenu-icon"></i>
+      </a>
+      <div class="submenu">
+          <a href="<%=users_path%>" class="submenu-link">
+              <i class="fas fa-list"></i>
+              <span>Users List</span>
+          </a>
+          <a href="<%=new_user_path%>" class="submenu-link">
+              <i class="fas fa-plus"></i>
+              <span>Add User</span>
+          </a>
+      </div>
     </div>
-    <nav class="nav-links">
-        <div class="nav-group">
-            <a href="#" class="nav-link">
-                <i class="fas fa-user"></i>
-                <span>User Management</span>
-                <i class="fas fa-chevron-down submenu-icon"></i>
-            </a>
-            <div class="submenu">
-                <a href="<%=users_path%>" class="submenu-link">
-                    <i class="fas fa-list"></i>
-                    <span>Users List</span>
-                </a>
-                <a href="<%=new_user_path%>" class="submenu-link">
-                    <i class="fas fa-plus"></i>
-                    <span>Add User</span>
-                </a>
-            </div>
-        </div>
-        
-        <div class="nav-group">
-            <a href="#" class="nav-link">
-                <i class="fas fa-truck"></i>
-                <span>Vehicle Management</span>
-                <span class="notification-badge">3</span>
-                <i class="fas fa-chevron-down submenu-icon"></i>
-            </a>
-            <div class="submenu">
-                <a href="<%=root_path%>" class="submenu-link">
-                    <i class="fas fa-list"></i>
-                    <span>Vehicle List</span>
-                </a>
-                <a href="#" class="submenu-link">
-                    <i class="fas fa-plus"></i>
-                    <span>Add Vehicle</span>
-                </a>
-            </div>
-        </div>
-        
-        <a href="#" class="nav-link">
-            <i class="fas fa-map-marked-alt"></i>
-            <span>Transport Tasks</span>
-        </a>
-        
-        <div class="nav-group">
-            <a href="#" class="nav-link">
-                <i class="fas fa-clipboard-list"></i>
-                <span>Order Management</span>
-                <span class="notification-badge">5</span>
-                <i class="fas fa-chevron-down submenu-icon"></i>
-            </a>
-            <div class="submenu">
-                <a href="<%=transport_orders_path%>" class="submenu-link">
-                    <i class="fas fa-list"></i>
-                    <span>Order List</span>
-                </a>
-                <a href="<%=new_transport_order_path%>" class="submenu-link">
-                    <i class="fas fa-plus"></i>
-                    <span>Create Order</span>
-                </a>
-            </div>
-        </div>
-        
-        <a href="#" class="nav-link">
-            <i class="fas fa-route"></i>
-            <span>Route Planning</span>
-        </a>
-        
-        <a href="#" class="nav-link">
-            <i class="fas fa-chart-line"></i>
-            <span>Data Analysis</span>
-        </a>
-        
-        <div class="nav-group">
-            <a href="#" class="nav-link">
-                <i class="fas fa-users"></i>
-                <span>Driver Management</span>
-                <i class="fas fa-chevron-down submenu-icon"></i>
-            </a>
-            <div class="submenu">
-                <a href="#" class="submenu-link">
-                    <i class="fas fa-list"></i>
-                    <span>Driver List</span>
-                </a>
-                <a href="#" class="submenu-link">
-                    <i class="fas fa-plus"></i>
-                    <span>Add Driver</span>
-                </a>
-            </div>
-        </div>
-        
-        <div class="nav-group">
-            <a href="#" class="nav-link">
-                <i class="fas fa-network-wired"></i>
-                <span>Branch Management</span>
-                <i class="fas fa-chevron-down submenu-icon"></i>
-            </a>
-            <div class="submenu">
-                <a href="<%=branches_path%>" class="submenu-link">
-                    <i class="fas fa-list"></i>
-                    <span>Branch List</span>
-                </a>
-                <a href="<%=new_branch_path%>" class="submenu-link">
-                    <i class="fas fa-plus"></i>
-                    <span>Add Branch</span>
-                </a>
-            </div>
-        </div>
-    </nav>
+
+    <div class="nav-group">
+      <a href="#" class="nav-link">
+          <i class="fas fa-network-wired"></i>
+          <span>Branch</span>
+          <i class="fas fa-chevron-down submenu-icon"></i>
+      </a>
+      <div class="submenu">
+          <a href="<%=branches_path%>" class="submenu-link">
+              <i class="fas fa-list"></i>
+              <span>Branch List</span>
+          </a>
+          <a href="<%=new_branch_path%>" class="submenu-link">
+              <i class="fas fa-plus"></i>
+              <span>Add Branch</span>
+          </a>
+      </div>
+    </div>
+    
+    <div class="nav-group">
+      <a href="#" class="nav-link">
+          <i class="fas fa-truck"></i>
+          <span>Truck</span>
+          <span class="notification-badge">3</span>
+          <i class="fas fa-chevron-down submenu-icon"></i>
+      </a>
+      <div class="submenu">
+          <a href="<%=trucks_path%>" class="submenu-link">
+              <i class="fas fa-list"></i>
+              <span>Truck List</span>
+          </a>
+          <a href="<%=new_truck_path%>" class="submenu-link">
+              <i class="fas fa-plus"></i>
+              <span>Add Truck</span>
+          </a>
+      </div>
+    </div>
+
+    <div class="nav-group">
+      <a href="#" class="nav-link">
+          <i class="fas fa-users"></i>
+          <span>Driver</span>
+          <i class="fas fa-chevron-down submenu-icon"></i>
+      </a>
+      <div class="submenu">
+          <a href="#" class="submenu-link">
+              <i class="fas fa-list"></i>
+              <span>Driver List</span>
+          </a>
+          <a href="#" class="submenu-link">
+              <i class="fas fa-plus"></i>
+              <span>Add Driver</span>
+          </a>
+      </div>
+    </div>
+    
+    <a href="#" class="nav-link">
+      <i class="fas fa-map-marked-alt"></i>
+      <span>Transport Tasks</span>
+    </a>
+    
+    <div class="nav-group">
+      <a href="#" class="nav-link">
+          <i class="fas fa-clipboard-list"></i>
+          <span>Order</span>
+          <span class="notification-badge">5</span>
+          <i class="fas fa-chevron-down submenu-icon"></i>
+      </a>
+      <div class="submenu">
+          <a href="<%=transport_orders_path%>" class="submenu-link">
+              <i class="fas fa-list"></i>
+              <span>Order List</span>
+          </a>
+          <a href="<%=new_transport_order_path%>" class="submenu-link">
+              <i class="fas fa-plus"></i>
+              <span>Create Order</span>
+          </a>
+      </div>
+    </div>
+    
+    <a href="#" class="nav-link">
+      <i class="fas fa-route"></i>
+      <span>Route Planning</span>
+    </a>
+    
+    <a href="#" class="nav-link">
+      <i class="fas fa-chart-line"></i>
+      <span>Data Analysis</span>
+    </a>
+    
+    
+    
+    
+  </nav>
 </aside>
