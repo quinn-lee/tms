@@ -1,0 +1,55 @@
+<!-- 列表 -->
+<div class="vehicle-list" style="margin-bottom: 2rem;">
+  <div class="list-header">
+    <div class="list-title">Bound Drivers <<%=@truck.truck_plate%>></div>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Driver Name</th>
+        <th>Id Card</th>
+        <th>License</th>
+        <th>License Type</th>
+        <th>License Expire Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @bound_drivers.each do |driver|%>
+      <tr>
+        <td><%=driver.user_name%></td>
+        <td><%=driver.id_card%></td>
+        <td><%=driver.driver_license%></td>
+        <td><%=driver.license_type%></td>
+        <td><%=driver.license_expire_date&.strftime('%F')%></td>
+        <td>
+            <a class="btn-icon" title="Unbound This Driver" href="<%=unbind_driver_truck_path(@truck, driver_id: driver.id)%>"><i class="fas fa-link-slash"></i></a>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+</div>
+
+<div id="userForm" class="card-new" style="margin-bottom: 2rem;">
+  <div class="card-header">
+      <div class="card-title">Assign New Driver</div>
+  </div>
+  <div class="card-body">
+    <%= form_with(url: binding_driver_truck_path(@truck), method: "post") do |f|%>
+      <div class="form-section" style="margin-bottom: 2rem;    margin-top: 2.5rem;">
+        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+          <div class="form-group">
+              <label class="form-label">Driver*</label>
+              <%= f.select :driver_id, @new_drivers.all.map{|driver| [driver.user_name, driver.id]}, {required: true}, {class: 'form-select'} %>
+          </div>
+        </div>
+      </div>
+      <div style="display: flex; justify-content: flex-start; gap: 1rem;">
+          <button type="submit" class="btn btn-primary">Assign</button>
+          <a type="button" href="<%=trucks_path%>" class="btn" style="background: var(--gray-200); color: var(--gray-600);">Return</a>
+      </div>
+    <% end %>
+  </div>
+</div>

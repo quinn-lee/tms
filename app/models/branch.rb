@@ -1,4 +1,6 @@
 class Branch < ApplicationRecord
+	has_many :trucks, :class_name => 'Truck', :dependent => :destroy, :foreign_key => :branch_id
+	
 	validates_presence_of :branch_code, :branch_name, :city, :address, 
 		:postcode, message: "Can't be blank"
   validates :branch_code, uniqueness: true
