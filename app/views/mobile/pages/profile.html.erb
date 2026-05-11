@@ -1,0 +1,29 @@
+<% content_for :p_active do %>
+  <%="active"%>
+<% end %>
+<div id="profilePage" class="page">
+  <div class="mobile-profile-header">
+    <div class="mobile-profile-avatar"><i class="fas fa-user"></i></div>
+    <div class="mobile-profile-name" id="userName"><%=current_user.user_name%></div>
+    <!--<div class="mobile-text-center" id="userRole">拣货员</div>-->
+  </div>
+  
+  <div class="mobile-profile-info">
+    <div class="mobile-info-item">
+      <div class="mobile-info-label" id="branchLabel">License</div>
+      <div class="mobile-info-value"><%=current_user.driver_license%></div>
+    </div>
+    <div class="mobile-info-item">
+      <div class="mobile-info-label" id="companyLabel">Type</div>
+      <div class="mobile-info-value"><%=current_user.license_type%></div>
+    </div>
+    <div class="mobile-info-item">
+      <div class="mobile-info-label" id="positionLabel">ExipredAt</div>
+      <div class="mobile-info-value"><%=current_user.license_expire_date&.strftime('%F')%></div>
+    </div>
+  </div>
+    
+  <%= link_to logout_path, data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'}, class: "mobile-btn btn-secondary", style: "text-decoration: none;" do %>
+    Logout
+  <% end %>
+</div>
