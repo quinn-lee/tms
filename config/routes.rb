@@ -62,6 +62,17 @@ Rails.application.routes.draw do
         get :start
         get :finish
       end
+      collection do
+        get :in_progress_orders
+      end
+    end
+    resources :order_routes do
+      member do
+        get :picked
+        get :loaded
+        get :sent
+        get :finished
+      end
     end
   end
 end

@@ -19,6 +19,13 @@ class Mobile::TransportTasksController < ApplicationController
 		@routes = OrderRoute.where(id: TaskOrderRelation.where(task_id: @task.id).map(&:order_route_id))
 	end
 
+	def in_progress_orders
+		@task = TransportTask.where(status: "in_progress").where("driver_ids @> ?", [current_user.id].to_json).first
+		if @task.present?
+			@routes = OrderRoute.where(id: TaskOrderRelation.where(task_id: @task.id).map(&:order_route_id))
+		end
+	end
+
 	def start
 		@task = TransportTask.find(params[:id])
 		if TransportTask.where(status: "in_progress").where("driver_ids @> ?", [current_user.id].to_json).count > 0
@@ -30,7 +37,7 @@ class Mobile::TransportTasksController < ApplicationController
 		@task.status = "in_progress"
 		@task.save!
 		flash[:success] = "Start Successful"
-		redirect_to mobile_transport_task_path(@task)
+		redirect_to in_progress_orders_mobile_transport_tasks_path
 	end
 
 	def finish
@@ -43,6 +50,6 @@ class Mobile::TransportTasksController < ApplicationController
 		@task.status = "finished"
 		@task.save!
 		flash[:success] = "Finish Successful"
-		redirect_to mobile_transport_task_path(@task)
+		redirect_to mobile_transport_tasks_path
 	end
 end

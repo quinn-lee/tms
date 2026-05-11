@@ -1,0 +1,57 @@
+<% content_for :o_active do %>
+  <%="active"%>
+<% end %>
+
+<div id="orderListPage" class="page">
+  <%@routes&.each do |route|%>
+  <div class="mobile-list-item">
+    <div class="route-card" style="box-shadow: none;">
+      <div class="card-content" style="padding: 0px;">
+        <div class="route-info" style="gap: 6px;">
+          <div class="location">
+            <div class="icon start-icon">
+              <i class="fas fa-map-marker-alt"></i>
+            </div>
+            <div class="location-info">
+              <p style="line-height: 2.5; margin-bottom: 0px;"><%=route.first_location%></p>
+            </div>
+          </div>
+          
+          <div class="location">
+            <div class="icon end-icon">
+              <i class="fas fa-flag-checkered"></i>
+            </div>
+            <div class="location-info">
+              <p style="line-height: 2.5; margin-bottom: 0px;"><%=route.end_location%></p>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div>
+    </div>
+    <div class="mobile-list-header">
+      <div class="mobile-list-title"><%=route.order.order_no%></div>
+      <div class="mobile-list-badge"><%=route.status%></div>
+    </div>
+    <div class="mobile-list-detail"><i class="fas fa-box"></i> <%=route.order.goods_name%> - 3QTY</div>
+    <div class="mobile-list-detail"><i class="fas fa-user"></i><%=route.order.shipper_name%>--<%=route.order.shipper_phone%> </div>
+    <div class="mobile-list-detail"><i class="fas fa-map-marker-alt"></i> <%=route.order.start_address%> / LAT-<%=route.order.start_latitude%> / LON-<%=route.order.start_longitude%> </div>
+    <div class="mobile-list-detail"><i class="fas fa-user"></i><%=route.order.consignee_name%>--<%=route.order.consignee_phone%> </div>
+    <div class="mobile-list-detail"><i class="fas fa-flag-checkered"></i> <%=route.order.end_address%> / LAT-<%=route.order.end_latitude%> / LON-<%=route.order.end_longitude%> </div>
+
+    <div style="display: flex; justify-content: flex-end; gap: 1rem;">
+      <% if route.status=="scheduled"%>
+      <a href="<%=picked_mobile_order_route_path(route)%>" class="btn btn-success" id="completeBtn">Picked</a>
+      <% elsif route.status=="picked"%>
+      <a href="<%=loaded_mobile_order_route_path(route)%>" class="btn btn-success" id="completeBtn">Loaded</a>
+      <% elsif route.status=="loaded"%>
+      <a href="<%=sent_mobile_order_route_path(route)%>" class="btn btn-success" id="completeBtn">Sent</a>
+      <% elsif route.status=="sent"%>
+      <a href="<%=finished_mobile_order_route_path(route)%>" class="btn btn-success" id="completeBtn">Finished</a>
+      <% end %>
+    </div>
+  </div>
+  <% end %>
+  
+</div>
