@@ -80,7 +80,7 @@ document.addEventListener('turbo:load', function() {
     
   $('.datepicker').datepicker({
     format: 'yyyy/mm/dd',
-    startDate: '+1d',
+    startDate: '+0d',
     autoclose: true
   });
 

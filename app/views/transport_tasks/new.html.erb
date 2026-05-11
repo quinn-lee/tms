@@ -1,0 +1,36 @@
+<div id="userForm" class="card-new" style="margin-bottom: 2rem;">
+  <div class="card-header">
+      <div class="card-title">New Task</div>
+  </div>
+  <div class="card-body">
+    <%= form_with(model: @task, url: transport_tasks_path) do |f|%>
+      <% unless f.object.errors.empty? %>
+        <ul class="list-group">
+          <li class="list-group-item active">Task Created Failed</li>
+          <% f.object.errors.full_messages.each do |msg| %>
+            <li class="list-group-item list-group-item-danger"><%= msg %></li>
+          <% end -%>
+        </ul>
+      <% end -%>
+      <% @ids.each do |route_id| %>
+        <%=hidden_field_tag "ids[]", route_id%>
+      <% end %>
+      <div class="form-section" style="margin-bottom: 2rem;    margin-top: 2.5rem;">
+        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+          <div class="form-group">
+              <label class="form-label">Truck*</label>
+              <%= f.select :truck_id, Truck.where(truck_status: "operation").map{|t| [t.truck_plate, t.id]}, {required: true}, {class: 'form-select'} %>
+          </div>
+          <div class="form-group">
+              <label class="form-label">Task Date*</label>
+              <%= f.text_field :task_date, class: "datepicker form-input", placeholder: "", required: true %>
+          </div>
+        </div>
+      </div>
+      
+      <div style="display: flex; justify-content: flex-start; gap: 1rem;">
+          <button type="submit" class="btn btn-primary">Create Task</button>
+      </div>
+    <% end %>
+  </div>
+</div>

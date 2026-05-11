@@ -8,7 +8,7 @@
 # Add your global options below. They will be applied globally.
 # For example:
 #
-Pagy::OPTIONS[:limit] = 1                 # Limit the items per page
+Pagy::OPTIONS[:limit] = 20                 # Limit the items per page
 # Pagy.options[:client_max_limit] = 100   # The client can request a limit up to 100
 # Pagy.options[:max_pages] = 200          # Allow only 200 pages
 # Pagy.options[:jsonapi] = true           # Use JSON:API compliant URLs

@@ -1,0 +1,41 @@
+class TransportTasksController < ApplicationController
+
+	def new
+		begin
+			raise "Please Select Routes to Create Tasks" if params[:ids].blank?
+			@ids = params[:ids]
+			@task = TransportTask.new
+		rescue=>e
+			flash[:error] = e.message
+			redirect_to order_routes_path
+		end
+	end
+
+	def create
+		@ids = params[:ids]
+		if @ids.blank?
+      flash[:error] = "Please Select Routes to Create Tasks"
+      redirect_to order_routes_path and return
+    end
+		@task = TransportTask.new(params.require(:transport_task)
+      .permit(:truck_id, :task_date))
+    ActiveRecord::Base.transaction do
+      begin
+	      @task.order_quantity = @ids.count
+        @task.save!
+	      @ids.each do |route_id| 
+	      	route = OrderRoute.find(route_id)
+	      	route.task_id=@task.id
+	      	route.status="scheduled"
+	      	route.save!
+	      end
+        flash[:success] = "Task Created Successful"
+        redirect_to order_routes_path
+      rescue => e
+      	logger.info e.backtrace
+        render :new, status: :unprocessable_entity
+        raise ActiveRecord::Rollback,"rollback!"
+      end
+    end
+	end
+end

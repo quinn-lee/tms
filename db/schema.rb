@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_05_11_052414) do
+ActiveRecord::Schema[8.0].define(version: 2026_05_11_091145) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -44,6 +44,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_05_11_052414) do
     t.string "remark"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "task_id"
     t.index ["order_id"], name: "index_order_routes_on_order_id"
   end
 
@@ -76,6 +77,39 @@ ActiveRecord::Schema[8.0].define(version: 2026_05_11_052414) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["order_no"], name: "index_transport_orders_on_order_no", unique: true
+  end
+
+  create_table "transport_tasks", force: :cascade do |t|
+    t.string "task_no"
+    t.integer "sequence_no"
+    t.integer "order_quantity"
+    t.jsonb "driver_ids"
+    t.date "task_date"
+    t.jsonb "route_plan"
+    t.integer "start_branch_id"
+    t.integer "end_branch_id"
+    t.integer "truck_id"
+    t.string "truck_delivery_status"
+    t.datetime "truck_delivery_time"
+    t.datetime "truck_recovery_time"
+    t.datetime "expected_departure_time"
+    t.datetime "expected_arrival_time"
+    t.datetime "actual_departure_time"
+    t.datetime "actual_arrival_time"
+    t.decimal "loading_weight"
+    t.decimal "loading_volumn"
+    t.decimal "transport_mileage"
+    t.integer "transport_duration"
+    t.decimal "transport_fee"
+    t.decimal "oil_cost"
+    t.decimal "toll_fee"
+    t.decimal "other_cost"
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["driver_ids"], name: "index_transport_tasks_on_driver_ids"
+    t.index ["task_no"], name: "index_transport_tasks_on_task_no"
+    t.index ["truck_id"], name: "index_transport_tasks_on_truck_id"
   end
 
   create_table "trucks", force: :cascade do |t|

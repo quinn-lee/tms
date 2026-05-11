@@ -1,4 +1,9 @@
 class OrderRoutesController < ApplicationController
+  def index
+    @all_routes = OrderRoute.all
+    @pagy, @routes = pagy(:offset, @all_routes.order("id desc"))
+  end
+
 	def destroy
     @order_route = OrderRoute.find(params[:id])
     @order = @order_route.order

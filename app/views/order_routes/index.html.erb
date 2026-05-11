@@ -1,0 +1,56 @@
+<div class="vehicle-list" style="margin-bottom: 2rem;">
+  <div class="list-header">
+    <div class="list-title">Order Routes</div>
+  </div>
+  <%= form_with(url: new_transport_task_path, method: "get") do |f|%>
+  <table>
+    <thead>
+      <tr>
+        <th><%= check_box_tag 'selectFlag', '', false, onclick:'checkAll(this)' %></th>
+        <th>From</th>
+        <th>To</th>
+        <th>Mileage(KM)</th>
+        <th>Duration(min)</th>
+        <th>ETD</th>
+        <th>ETA</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @routes.order("id asc").each_with_index do |route, index|%>
+      <tr>
+        <td><input type="checkbox" name="ids[]" value="<%=route.id%>"></td>
+        <td><%=route.first_location%></td>
+        <td><%=route.end_location%></td>
+        <td><%=route.planned_mileage%></td>
+        <td><%=route.planned_duration%></td>
+        <td><%=route.expected_departure_time%></td>
+        <td><%=route.expected_arrival_time%></td>
+        <td><%=route.status%></td>
+        <td>
+            
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <div style="display: flex; justify-content: flex-start; gap: 1rem;     margin-top: 1rem; margin-left: 1rem; margin-bottom: 1rem;">
+      <button type="submit" class="btn btn-primary">Create Task</button>
+  </div>
+  <% end %>
+  <%== @pagy.series_nav(:bootstrap) if @pagy.pages > 1%>
+</div>
+<script type="text/javascript">
+  function checkAll(object)
+  {
+     var order_id = document.getElementsByName("ids[]");
+     var length = order_id.length;
+     var checked = object.checked;
+     //alert(checked)
+     for (var i = 0; i < length; i++)
+     {
+       order_id[i].checked=checked;
+     }
+  }
+</script>

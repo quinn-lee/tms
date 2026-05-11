@@ -1,5 +1,6 @@
 class Truck < ApplicationRecord
 	belongs_to :branch, :class_name => 'Branch', :foreign_key => :branch_id
+  has_many :tasks, :class_name => 'TransportOrder', :dependent => :destroy, :foreign_key => :truck_id
 
 	validates_presence_of :truck_plate, message: "Can't be blank"
   validates :truck_plate, uniqueness: true
