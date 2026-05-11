@@ -1,4 +1,6 @@
 class TransportOrdersController < ApplicationController
+  before_action :auth_customer, only: [:index, :new, :create], expect: [:show]
+  before_action :auth_staff, expect: [:show]
 
   def index
     @all_orders = TransportOrder.where(user_id: current_user.id)

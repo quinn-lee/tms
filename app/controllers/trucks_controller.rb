@@ -1,4 +1,6 @@
 class TrucksController < ApplicationController
+  before_action :auth_staff
+  
   def index
     @all_trucks = Truck.all
     @pagy, @trucks = pagy(:offset, @all_trucks.order("id desc"))

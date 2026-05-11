@@ -1,4 +1,6 @@
 class BranchesController < ApplicationController
+  before_action :auth_staff
+  
   def index
     @all_branches = Branch.all
     @pagy, @branches = pagy(:offset, @all_branches.order("id desc"))

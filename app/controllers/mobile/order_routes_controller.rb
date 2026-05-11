@@ -1,4 +1,6 @@
 class Mobile::OrderRoutesController < ApplicationController
+	before_action :auth_driver
+
 	def picked
 		@route = OrderRoute.find(params[:id])
 		@route.status = "picked"

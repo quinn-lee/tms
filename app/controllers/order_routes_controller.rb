@@ -1,4 +1,6 @@
 class OrderRoutesController < ApplicationController
+  before_action :auth_staff
+  
   def index
     @all_routes = OrderRoute.all
     @pagy, @routes = pagy(:offset, @all_routes.order("id desc"))

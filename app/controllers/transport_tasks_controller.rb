@@ -1,4 +1,6 @@
 class TransportTasksController < ApplicationController
+	before_action :auth_staff
+	
 	def index
 		@all_tasks = TransportTask.all
     @pagy, @tasks = pagy(:offset, @all_tasks.order("id desc"))

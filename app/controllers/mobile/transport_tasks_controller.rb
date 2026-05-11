@@ -1,4 +1,5 @@
 class Mobile::TransportTasksController < ApplicationController
+	before_action :auth_driver
 	def index
 		@trucks = Truck.where("driver_ids @> ?", [current_user.id].to_json)
     @pending_tasks = []

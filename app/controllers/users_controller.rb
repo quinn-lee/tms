@@ -1,4 +1,7 @@
 class UsersController < ApplicationController
+  before_action :auth_admin, only: [:new, :create]
+  before_action :auth_staff
+
   def index
     @all_staffs = User.where(staff_grade: ['dispatcher', 'appeal_handler'])
     @pagy, @users = pagy(:offset, @all_staffs.order("id desc"))
