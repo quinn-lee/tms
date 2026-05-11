@@ -90,7 +90,11 @@
     </div>
 
     <div style="display: flex; justify-content: flex-end; gap: 1rem;margin-bottom: 1rem;margin-right: 1rem;">
-      <a type="button" href="<%=transport_orders_path%>" class="btn" style="background: var(--gray-200); color: var(--gray-600);">Return</a>
+      <% if current_user.is_customer? %>
+        <a type="button" href="<%=transport_orders_path%>" class="btn" style="background: var(--gray-200); color: var(--gray-600);">Return</a>
+      <% else %>
+        <a type="button" href="<%=staff_views_transport_orders_path%>" class="btn" style="background: var(--gray-200); color: var(--gray-600);">Return</a>
+      <% end %>
     </div>
   </div>
 </div>

@@ -1,4 +1,19 @@
 class UsersController < ApplicationController
+  def index
+    @all_staffs = User.where(staff_grade: ['dispatcher', 'appeal_handler'])
+    @pagy, @users = pagy(:offset, @all_staffs.order("id desc"))
+  end
+
+  def customers
+    @all_customers = User.where(staff_grade: ['customer'])
+    @pagy, @users = pagy(:offset, @all_customers.order("id desc"))
+  end
+
+  def drivers
+    @all_drivers = User.where(staff_grade: ['driver'])
+    @pagy, @users = pagy(:offset, @all_drivers.order("id desc"))
+  end
+
 	def new
 		@user = User.new
 	end

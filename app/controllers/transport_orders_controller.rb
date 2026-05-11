@@ -5,6 +5,11 @@ class TransportOrdersController < ApplicationController
     @pagy, @orders = pagy(:offset, @all_orders.order("id desc"))
   end
 
+  def staff_views
+    @all_orders = TransportOrder.all
+    @pagy, @orders = pagy(:offset, @all_orders.order("id desc"))
+  end
+
   def show
     @order = TransportOrder.find(params[:id])
   end

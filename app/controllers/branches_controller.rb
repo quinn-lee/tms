@@ -1,4 +1,9 @@
 class BranchesController < ApplicationController
+  def index
+    @all_branches = Branch.all
+    @pagy, @branches = pagy(:offset, @all_branches.order("id desc"))
+  end
+
 	def new
 		@branch = Branch.new
 	end

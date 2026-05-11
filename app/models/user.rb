@@ -24,12 +24,6 @@ class User < ApplicationRecord
   validates_inclusion_of :status, :in => %w[out_of_service in_service on_vacation resigned]
   before_validation :setup, :on => :create
 
-  private
-  def need_validate_password
-    self.new_record? ||
-      (!self.password.nil? or !self.password_confirmation.nil?)
-  end
-
   def is_customer?
     staff_grade == "customer"
   end
@@ -38,8 +32,18 @@ class User < ApplicationRecord
     staff_grade != "customer" && staff_grade != "driver"
   end
 
+  def is_admin?
+    staff_grade == "administrator"
+  end
+
   def is_driver?
     staff_grade == "driver"
+  end
+
+  private
+  def need_validate_password
+    self.new_record? ||
+      (!self.password.nil? or !self.password_confirmation.nil?)
   end
 
   def setup

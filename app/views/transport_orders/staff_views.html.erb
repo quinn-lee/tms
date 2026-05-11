@@ -7,6 +7,7 @@
     <thead>
         <tr>
             <th>Order NO</th>
+            <th>Customer</th>
             <th>Goods Type</th>
             <th>Weight (kg)</th>
             <th>Volume (m³)</th>
@@ -19,6 +20,7 @@
       <% @orders.each do |order|%>
       <tr>
         <td><%=order.order_no%></td>
+        <td><%=order.user.customer_code%></td>
         <td><%=order.goods_type%></td>
         <td><%=order.goods_weight%></td>
         <td><%=order.goods_volume%></td>
@@ -26,6 +28,7 @@
         <td><span class="status on-route"><%=order.order_status%></span></td>
         <td>
           <a title="Show" class="btn-icon" href="<%=transport_order_path(order)%>"><i class="fas fa-circle-info"></i></a>
+          <a title="Route Plan" class="btn-icon" href="<%=route_plan_transport_order_path(order)%>"><i class="fas fa-route"></i></a>
         </td>
       </tr>
       <% end %>

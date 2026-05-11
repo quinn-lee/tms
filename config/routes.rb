@@ -20,6 +20,9 @@ Rails.application.routes.draw do
   end
 
   resources :transport_orders do
+    collection do
+      get :staff_views
+    end
     member do
       get :route_plan
       post :route_planed
