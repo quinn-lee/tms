@@ -1,0 +1,37 @@
+<!-- 订单列表 -->
+<div class="vehicle-list" style="margin-bottom: 2rem;">
+  <div class="list-header">
+    <div class="list-title">Task List</div>
+  </div>
+  <table>
+    <thead>
+        <tr>
+            <th>Task NO</th>
+            <th>Order QTY</th>
+            <th>Task Date</th>
+            <th>Truck</th>
+            <th>Loaded Volume (m³)</th>
+            <th>Loaded Weight(kg)</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+      <% @tasks.each do |task|%>
+      <tr>
+        <td><%=task.task_no%></td>
+        <td><%=task.order_quantity%></td>
+        <td><%=task.task_date&.strftime("%F")%></td>
+        <td><%=task.truck.truck_plate%></td>
+        <td><%=task.loading_volumn%></td>
+        <td><%=task.loading_weight%></td>
+        <td><span class="status on-route"><%=task.status%></span></td>
+        <td>
+          
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%== @pagy.series_nav(:bootstrap) if @pagy.pages > 1%>
+</div>

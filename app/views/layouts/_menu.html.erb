@@ -80,7 +80,6 @@
       <a href="#" class="nav-link">
           <i class="fas fa-truck"></i>
           <span>Truck</span>
-          <span class="notification-badge">3</span>
           <i class="fas fa-chevron-down submenu-icon"></i>
       </a>
       <div class="submenu">
@@ -94,11 +93,6 @@
           </a>
       </div>
     </div>
-    
-    <a href="#" class="nav-link">
-      <i class="fas fa-map-marked-alt"></i>
-      <span>Transport Tasks</span>
-    </a>
     
     <div class="nav-group">
       <a href="#" class="nav-link">
@@ -118,17 +112,40 @@
           </a>
       </div>
     </div>
-    
-    <a href="#" class="nav-link">
-      <i class="fas fa-route"></i>
-      <span>Route Planning</span>
-    </a>
-    
+
+    <div class="nav-group">
+      <a href="#" class="nav-link">
+          <i class="fas fa-route"></i>
+          <span>Route Planning</span>
+          <i class="fas fa-chevron-down submenu-icon"></i>
+      </a>
+      <div class="submenu">
+          <a href="<%=order_routes_path%>" class="submenu-link">
+              <i class="fas fa-list"></i>
+              <span>Route List</span>
+          </a>
+      </div>
+    </div>
+
+    <div class="nav-group">
+      <a href="#" class="nav-link">
+          <i class="fas fa-map-marked-alt"></i>
+          <span>Tasks</span>
+          <i class="fas fa-chevron-down submenu-icon"></i>
+      </a>
+      <div class="submenu">
+          <a href="<%=transport_tasks_path%>" class="submenu-link">
+              <i class="fas fa-list"></i>
+              <span>Task List</span>
+          </a>
+      </div>
+    </div>
+    <!--
     <a href="#" class="nav-link">
       <i class="fas fa-chart-line"></i>
       <span>Data Analysis</span>
     </a>
-    
+    -->
     
     
     

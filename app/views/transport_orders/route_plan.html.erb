@@ -33,103 +33,114 @@
   </div>
 </div>
 <div class="vehicle-list" style="margin-bottom: 2rem;">
-        <div class="list-header">
-          <div class="list-title">Planed Routes</div>
-        </div>
-        <table>
-          <thead>
-            <tr>
-              <th>From</th>
-              <th>To</th>
-              <th>Planed Mileage(KM)</th>
-              <th>Planed Duration(min)</th>
-              <th>ETD</th>
-              <th>ETA</th>
-              <th>Remark</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @order.order_routes.order("node_order asc").each_with_index do |route, index|%>
-            <tr>
-              <td><%=route.first_location%></td>
-              <td><%=route.end_location%></td>
-              <td><%=route.planned_mileage%></td>
-              <td><%=route.planned_duration%></td>
-              <td><%=route.expected_departure_time%></td>
-              <td><%=route.expected_arrival_time%></td>
-              <td><%=route.remark%></td>
-              <td>
-                  <% if index == @order.order_routes.count - 1%>
-                  <a class="btn-icon" title="Delete This Plan" data-turbo-method="delete" data-turbo-confirm="Are you sure?" href="<%=order_routes_path%>/<%=route.id%>"><i class="fas fa-trash"></i></a>
-                  <% end %>
-              </td>
-            </tr>
+  <div class="list-header">
+    <div class="list-title">Planed Routes</div>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>From</th>
+        <th>To</th>
+        <th>Planed Mileage(KM)</th>
+        <th>Planed Duration(min)</th>
+        <th>ETD</th>
+        <th>ETA</th>
+        <th>Remark</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @order.order_routes.order("node_order asc").each_with_index do |route, index|%>
+      <tr>
+        <td><%=route.first_location%></td>
+        <td><%=route.end_location%></td>
+        <td><%=route.planned_mileage%></td>
+        <td><%=route.planned_duration%></td>
+        <td><%=route.expected_departure_time%></td>
+        <td><%=route.expected_arrival_time%></td>
+        <td><%=route.remark%></td>
+        <td>
+            <% if index == @order.order_routes.count - 1%>
+            <a class="btn-icon" title="Delete This Plan" data-turbo-method="delete" data-turbo-confirm="Are you sure?" href="<%=order_routes_path%>/<%=route.id%>"><i class="fas fa-trash"></i></a>
             <% end %>
-          </tbody>
-        </table>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
 
-      </div>
+</div>
 
-      <div id="userForm" class="card-new" style="margin-bottom: 2rem;">
-        <div class="card-header">
-            <div class="card-title">Plan New Route</div>
-        </div>
-        <div class="card-body">
-          <%= form_with(model: @order_route, url: route_planed_transport_order_path(@order), method: "post") do |f|%>
-            <% unless f.object.errors.empty? %>
-              <ul class="list-group">
-                <li class="list-group-item active">Order Created Failed</li>
-                <% f.object.errors.full_messages.each do |msg| %>
-                  <li class="list-group-item list-group-item-danger"><%= msg %></li>
-                <% end -%>
-              </ul>
-            <% end -%>
-            <div class="form-section" style="margin-bottom: 2rem;    margin-top: 2.5rem;">
-              <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
-                <div class="form-group">
-                    <label class="form-label">First Location*</label>
-                    <%= f.text_field :first_location, class: "form-input", placeholder: "", required: false, readonly: true %>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">End Location*</label>
-                    <%= f.select :end_location, Branch.where(status: "in_service").map{|branch| "#{branch.branch_code}/#{branch.city},#{branch.address}"}.unshift("#{@order.end_address}"), {required: true}, {class: 'form-select'} %>
-                </div>
-              </div>
-            </div>
-            <div class="form-section" style="margin-bottom: 2rem;    margin-top: 2.5rem;">
-              <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
-                <div class="form-group">
-                  <label class="form-label">Planed Mileage(KM)</label>
-                  <%= f.text_field :planned_mileage, class: "form-input", placeholder: "", required: false %>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Planed Duration(min)</label>
-                  <%= f.text_field :planned_duration, class: "form-input", placeholder: "", required: false %>
-                </div>
-              </div>
-            </div>
-            <div class="form-section" style="margin-bottom: 2rem;    margin-top: 2.5rem;">
-              <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
-                <div class="form-group">
-                  <label class="form-label">Expected Departure Time</label>
-                  <%= f.text_field :expected_departure_time, class: "form-input flatpickr-datetime", placeholder: "", required: false %>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Expected Arrive Time</label>
-                  <%= f.text_field :expected_arrival_time, class: "form-input flatpickr-datetime", placeholder: "", required: false %>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Remark</label>
-                  <%= f.text_field :remark, class: "form-input", placeholder: "", required: false %>
-                </div>
-              </div>
-            </div>
-
-            <div style="display: flex; justify-content: flex-start; gap: 1rem;">
-                <button type="submit" class="btn btn-primary">Plan</button>
-                <a type="button" href="<%=transport_orders_path%>" class="btn" style="background: var(--gray-200); color: var(--gray-600);">Return</a>
-            </div>
-          <% end %>
+<div id="userForm" class="card-new" style="margin-bottom: 2rem;">
+  <div class="card-header">
+      <div class="card-title">Plan New Route</div>
+  </div>
+  <div class="card-body">
+    <%= form_with(model: @order_route, url: route_planed_transport_order_path(@order), method: "post") do |f|%>
+      <% unless f.object.errors.empty? %>
+        <ul class="list-group">
+          <li class="list-group-item active">Order Created Failed</li>
+          <% f.object.errors.full_messages.each do |msg| %>
+            <li class="list-group-item list-group-item-danger"><%= msg %></li>
+          <% end -%>
+        </ul>
+      <% end -%>
+      <div class="form-section" style="margin-bottom: 2rem;    margin-top: 2.5rem;">
+        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+          <div class="form-group">
+              <label class="form-label">First Location*</label>
+              <%= f.text_field :first_location, class: "form-input", placeholder: "", required: false, readonly: true %>
+          </div>
+          <div class="form-group">
+              <label class="form-label">End Location*</label>
+              <%= f.select :end_location, Branch.where(status: "in_service").map{|branch| "#{branch.branch_code}/#{branch.city},#{branch.address}"}.unshift("#{@order.end_address}"), {required: true}, {class: 'form-select'} %>
+          </div>
         </div>
       </div>
+      <div class="form-section" style="margin-bottom: 2rem;    margin-top: 2.5rem;">
+        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+          <div class="form-group">
+            <label class="form-label">Planed Mileage(KM)</label>
+            <%= f.text_field :planned_mileage, class: "form-input", placeholder: "", required: false %>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Planed Duration(min)</label>
+            <%= f.text_field :planned_duration, class: "form-input", placeholder: "", required: false %>
+          </div>
+        </div>
+      </div>
+      <div class="form-section" style="margin-bottom: 2rem;    margin-top: 2.5rem;">
+        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+          <div class="form-group">
+            <label class="form-label">Expected Departure Time</label>
+            <%= f.text_field :expected_departure_time, class: "form-input flatpickr-datetime", placeholder: "", required: false %>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Expected Arrive Time</label>
+            <%= f.text_field :expected_arrival_time, class: "form-input flatpickr-datetime", placeholder: "", required: false %>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Remark</label>
+            <%= f.text_field :remark, class: "form-input", placeholder: "", required: false %>
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: flex-start; gap: 1rem;">
+          <button type="submit" class="btn btn-primary">Plan</button>
+          <a type="button" href="<%=transport_orders_path%>" class="btn" style="background: var(--gray-200); color: var(--gray-600);">Return</a>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<script type="text/javascript">
+  flatpickr(".flatpickr-datetime", {
+    enableTime: true,        // 启用时间选择
+    dateFormat: "Y/m/d H:i", // 设置所需的日期时间格式
+    time_24hr: true,
+    minTime: "09:00",
+    maxTime: "18:00",
+    minDate: "today"
+  });
+</script>

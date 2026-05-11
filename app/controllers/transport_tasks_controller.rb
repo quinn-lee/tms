@@ -1,4 +1,8 @@
 class TransportTasksController < ApplicationController
+	def index
+		@all_tasks = TransportTask.all
+    @pagy, @tasks = pagy(:offset, @all_tasks.order("id desc"))
+	end
 
 	def new
 		begin
