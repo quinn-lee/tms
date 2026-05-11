@@ -1,8 +1,9 @@
 class TransportOrder < ApplicationRecord
 
   belongs_to :user, :class_name => 'User', :foreign_key => :user_id
-
-	validates_presence_of :goods_name, :goods_type, :goods_weight, :goods_volume, \
+  has_many :order_routes, :class_name => 'OrderRoute', :dependent => :destroy, :foreign_key => :order_id
+	
+  validates_presence_of :goods_name, :goods_type, :goods_weight, :goods_volume, \
 		:goods_quantity, :start_address, :shipper_name, :shipper_phone, :end_address, \
 		:consignee_name, :consignee_phone
 

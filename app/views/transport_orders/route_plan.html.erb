@@ -1,0 +1,132 @@
+<div class="cards-container">
+  <!-- 卡片1 -->
+  <div class="route-card">
+    <div class="card-header1">
+        <h2>Order Route Plan</h2>
+        <div class="status"><%=@order.order_no%></div>
+    </div>
+    <div class="card-content">
+      <div class="route-info">
+        <div class="location">
+          <div class="icon start-icon">
+            <i class="fas fa-map-marker-alt"></i>
+          </div>
+          <div class="location-info">
+            <h3>FROM</h3>
+            <p><%=@order.start_address%> / LON-<%=@order.start_longitude%> / LAT-<%=@order.start_latitude%></p>
+          </div>
+        </div>
+        
+        <div class="location">
+          <div class="icon end-icon">
+            <i class="fas fa-flag-checkered"></i>
+          </div>
+          <div class="location-info">
+            <h3>TO</h3>
+            <p><%=@order.end_address%> / LON-<%=@order.end_longitude%> / LAT-<%=@order.end_latitude%></p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="vehicle-list" style="margin-bottom: 2rem;">
+        <div class="list-header">
+          <div class="list-title">Planed Routes</div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>First Location</th>
+              <th>End Location</th>
+              <th>Planed Mileage(KM)</th>
+              <th>Planed Duration(min)</th>
+              <th>Expected Departure Time</th>
+              <th>Expected Arrive Time</th>
+              <th>Remark</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @order.order_routes.order("node_order asc").each do |route|%>
+            <tr>
+              <td><%=route.first_location%></td>
+              <td><%=route.end_location%></td>
+              <td><%=route.planned_mileage%></td>
+              <td><%=route.planned_duration%></td>
+              <td><%=route.expected_departure_time%></td>
+              <td><%=route.expected_arrival_time%></td>
+              <td><%=route.remark%></td>
+              <td>
+                  
+              </td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+
+      </div>
+
+      <div id="userForm" class="card-new" style="margin-bottom: 2rem;">
+        <div class="card-header">
+            <div class="card-title">Plan New Route</div>
+        </div>
+        <div class="card-body">
+          <%= form_with(model: @order_route, url: route_planed_transport_order_path(@order), method: "post") do |f|%>
+            <% unless f.object.errors.empty? %>
+              <ul class="list-group">
+                <li class="list-group-item active">Order Created Failed</li>
+                <% f.object.errors.full_messages.each do |msg| %>
+                  <li class="list-group-item list-group-item-danger"><%= msg %></li>
+                <% end -%>
+              </ul>
+            <% end -%>
+            <div class="form-section" style="margin-bottom: 2rem;    margin-top: 2.5rem;">
+              <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                <div class="form-group">
+                    <label class="form-label">First Location*</label>
+                    <%= f.text_field :first_location, class: "form-input", placeholder: "", required: false, readonly: true %>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">End Location*</label>
+                    <%= f.select :end_location, Branch.where(status: "in_service").map{|branch| "#{branch.branch_code}/#{branch.city},#{branch.address}"}.unshift("#{@order.end_address}"), {required: true}, {class: 'form-select'} %>
+                </div>
+              </div>
+            </div>
+            <div class="form-section" style="margin-bottom: 2rem;    margin-top: 2.5rem;">
+              <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                <div class="form-group">
+                  <label class="form-label">Planed Mileage(KM)</label>
+                  <%= f.text_field :planned_mileage, class: "form-input", placeholder: "", required: false %>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Planed Duration(min)</label>
+                  <%= f.text_field :planned_duration, class: "form-input", placeholder: "", required: false %>
+                </div>
+              </div>
+            </div>
+            <div class="form-section" style="margin-bottom: 2rem;    margin-top: 2.5rem;">
+              <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                <div class="form-group">
+                  <label class="form-label">Expected Departure Time</label>
+                  <%= f.text_field :expected_departure_time, class: "form-input flatpickr-datetime", placeholder: "", required: false %>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Expected Arrive Time</label>
+                  <%= f.text_field :expected_arrival_time, class: "form-input flatpickr-datetime", placeholder: "", required: false %>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Remark</label>
+                  <%= f.text_field :remark, class: "form-input", placeholder: "", required: false %>
+                </div>
+              </div>
+            </div>
+
+            <div style="display: flex; justify-content: flex-start; gap: 1rem;">
+                <button type="submit" class="btn btn-primary">Plan</button>
+                <a type="button" href="<%=transport_orders_path%>" class="btn" style="background: var(--gray-200); color: var(--gray-600);">Return</a>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
