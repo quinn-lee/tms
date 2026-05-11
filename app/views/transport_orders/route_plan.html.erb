@@ -28,25 +28,29 @@
         </div>
       </div>
       
-      <div class="vehicle-list" style="margin-bottom: 2rem;">
+      
+    </div>
+  </div>
+</div>
+<div class="vehicle-list" style="margin-bottom: 2rem;">
         <div class="list-header">
           <div class="list-title">Planed Routes</div>
         </div>
         <table>
           <thead>
             <tr>
-              <th>First Location</th>
-              <th>End Location</th>
+              <th>From</th>
+              <th>To</th>
               <th>Planed Mileage(KM)</th>
               <th>Planed Duration(min)</th>
-              <th>Expected Departure Time</th>
-              <th>Expected Arrive Time</th>
+              <th>ETD</th>
+              <th>ETA</th>
               <th>Remark</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            <% @order.order_routes.order("node_order asc").each do |route|%>
+            <% @order.order_routes.order("node_order asc").each_with_index do |route, index|%>
             <tr>
               <td><%=route.first_location%></td>
               <td><%=route.end_location%></td>
@@ -56,7 +60,9 @@
               <td><%=route.expected_arrival_time%></td>
               <td><%=route.remark%></td>
               <td>
-                  
+                  <% if index == @order.order_routes.count - 1%>
+                  <a class="btn-icon" title="Delete This Plan" data-turbo-method="delete" data-turbo-confirm="Are you sure?" href="<%=order_routes_path%>/<%=route.id%>"><i class="fas fa-trash"></i></a>
+                  <% end %>
               </td>
             </tr>
             <% end %>
@@ -127,6 +133,3 @@
           <% end %>
         </div>
       </div>
-    </div>
-  </div>
-</div>

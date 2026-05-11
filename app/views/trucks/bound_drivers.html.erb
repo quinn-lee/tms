@@ -23,7 +23,7 @@
         <td><%=driver.license_type%></td>
         <td><%=driver.license_expire_date&.strftime('%F')%></td>
         <td>
-            <a class="btn-icon" title="Unbound This Driver" href="<%=unbind_driver_truck_path(@truck, driver_id: driver.id)%>"><i class="fas fa-link-slash"></i></a>
+            <a class="btn-icon" title="Unbound This Driver" data-turbo-confirm="Are you sure?" href="<%=unbind_driver_truck_path(@truck, driver_id: driver.id)%>"><i class="fas fa-link-slash"></i></a>
         </td>
       </tr>
       <% end %>

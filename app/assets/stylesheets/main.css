@@ -406,7 +406,7 @@ body {
     background: white;
     border-radius: var(--border-radius);
     box-shadow: var(--shadow);
-    overflow: hidden;
+    overflow: auto;
 }
 
 .list-header {
@@ -520,12 +520,13 @@ th {
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     position: relative;
+    margin-bottom: 1rem;
 }
-
+/*
 .route-card:hover {
     transform: translateY(-10px);
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
-}
+}*/
 
 .card-header1 {
     background: #3498db;
