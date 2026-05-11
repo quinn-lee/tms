@@ -1,0 +1,2 @@
+class TaskOrderRelation < ApplicationRecord
+end

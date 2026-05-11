@@ -1,5 +1,4 @@
 class TransportTask < ApplicationRecord
-	has_many :order_routes, :class_name => 'OrderRoute', :dependent => :destroy, :foreign_key => :task_id
 	belongs_to :truck, :class_name => 'Truck', :foreign_key => :truck_id
 
 	validates_presence_of :task_date, :truck_id
@@ -10,6 +9,7 @@ class TransportTask < ApplicationRecord
 	def setup
     self.task_no ||= gen_task_no
     self.status ||= "pending"
+    self.driver_ids ||= []
   end
 
   def gen_task_no

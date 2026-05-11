@@ -25,8 +25,8 @@
         <td><%=route.end_location%></td>
         <td><%=route.planned_mileage%></td>
         <td><%=route.planned_duration%></td>
-        <td><%=route.expected_departure_time%></td>
-        <td><%=route.expected_arrival_time%></td>
+        <td><%=route.expected_departure_time&.strftime("%F %T")%></td>
+        <td><%=route.expected_arrival_time&.strftime("%F %T")%></td>
         <td><%=route.status%></td>
         <td>
             

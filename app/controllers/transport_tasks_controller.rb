@@ -29,7 +29,12 @@ class TransportTasksController < ApplicationController
         @task.save!
 	      @ids.each do |route_id| 
 	      	route = OrderRoute.find(route_id)
-	      	route.task_id=@task.id
+	      	@tor = TaskOrderRelation.new(
+	      		task_id: @task.id,
+	      		order_route_id: route.id,
+	      		status: "init"
+	      		)
+	      	@tor.save!
 	      	route.status="scheduled"
 	      	route.save!
 	      end

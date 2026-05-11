@@ -1,12 +1,12 @@
 <!-- Tab Bar -->
 <div class="mobile-tab-bar">
-    <a href="#home" class="mobile-tab-item <%= yield :h_active %>" data-page="homePage">
+    <a href="<%=mobile_transport_tasks_path%>" class="mobile-tab-item <%= yield :t_active %>" data-page="homePage">
         <i class="fas fa-home"></i>
-        <span id="homeTab">Home</span>
+        <span id="homeTab">Task</span>
     </a>
-    <a href="#record" class="mobile-tab-item <%= yield :r_active %>" data-page="recordPage">
+    <a href="#record" class="mobile-tab-item <%= yield :o_active %>" data-page="recordPage">
         <i class="fas fa-history"></i>
-        <span id="recordTab">Records</span>
+        <span id="recordTab">Order</span>
     </a>
     <a href="<%=mobile_pages_profile_path%>" class="mobile-tab-item <%= yield :p_active %>" data-page="profilePage">
         <i class="fas fa-user"></i>

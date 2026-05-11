@@ -57,5 +57,11 @@ Rails.application.routes.draw do
 
   namespace :mobile do
     get "pages/profile"
+    resources :transport_tasks do
+      member do
+        get :start
+        get :finish
+      end
+    end
   end
 end

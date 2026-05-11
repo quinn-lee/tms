@@ -1,0 +1,47 @@
+<% content_for :t_active do %>
+  <%="active"%>
+<% end %>
+
+<div id="recordPage" class="page">
+  <h1 class="mobile-card-title" id="recordTitle">In_progress Tasks</h1>
+  
+  <div class="mobile-timeline">
+    <% @processing_tasks.each do |task|%>
+    <div class="mobile-timeline-item">
+        <div class="mobile-timeline-dot"></div>
+        <div class="mobile-timeline-content">
+            <div class="mobile-list-title"><%=task.truck.truck_plate%></div>
+            <div class="mobile-list-detail">Task Date: <%=task.task_date&.strftime('%F')%></div>
+            <div class="mobile-list-detail">Task No: <%=task.task_no%></div>
+            <div class="mobile-list-detail">Status: <%=task.status%></div>
+            <div class="mobile-list-detail">Order QTY: <%=task.order_quantity%></div>
+            <a href="<%=mobile_transport_task_path(task)%>" class="btn btn-secondary mb-10">Show Orders</a>
+            <a href="<%=finish_mobile_transport_task_path(task)%>" class="btn btn-success" id="completeBtn">Finish Task</a>
+        </div>
+    </div>
+    <% end %>
+    
+  </div>
+</div>
+
+<div id="recordPage" class="page">
+  <h1 class="mobile-card-title" id="recordTitle">Pending Tasks</h1>
+  
+  <div class="mobile-timeline">
+    <% @pending_tasks.each do |task|%>
+    <div class="mobile-timeline-item">
+        <div class="mobile-timeline-dot"></div>
+        <div class="mobile-timeline-content">
+            <div class="mobile-list-title"><%=task.truck.truck_plate%></div>
+            <div class="mobile-list-detail">Task Date: <%=task.task_date&.strftime('%F')%></div>
+            <div class="mobile-list-detail">Task No: <%=task.task_no%></div>
+            <div class="mobile-list-detail">Status: <%=task.status%></div>
+            <div class="mobile-list-detail">Order QTY: <%=task.order_quantity%></div>
+            <a href="<%=mobile_transport_task_path(task)%>" class="btn btn-secondary mb-10">Show Orders</a>
+            <a href="<%=start_mobile_transport_task_path(task)%>" class="btn btn-success" id="completeBtn">Start/Join Task</a>
+        </div>
+    </div>
+    <% end %>
+    
+  </div>
+</div>

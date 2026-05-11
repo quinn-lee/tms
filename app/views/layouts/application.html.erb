@@ -81,6 +81,11 @@
         <%=flash[:notice]%>
       </div>
       <% end %>
+      <% if flash[:success].present? %>
+      <div class="alert alert-success" role="alert">
+        <%=flash[:success]%>
+      </div>
+      <% end %>
       <%= yield %>
     </div>
     <%= render 'layouts/mobile' %>

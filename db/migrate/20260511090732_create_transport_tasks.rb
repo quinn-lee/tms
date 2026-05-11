@@ -4,7 +4,7 @@ class CreateTransportTasks < ActiveRecord::Migration[8.0]
       t.string :task_no
       t.integer :sequence_no
       t.integer :order_quantity
-      t.jsonb :driver_ids
+      t.jsonb :driver_ids, default: []
       t.date :task_date
       t.jsonb :route_plan
       t.integer :start_branch_id
