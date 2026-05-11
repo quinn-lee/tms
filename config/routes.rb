@@ -19,7 +19,12 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :transport_orders
+  resources :transport_orders do
+    member do
+      get :route_plan
+      post :route_planed
+    end
+  end
 
   resources :branches
 

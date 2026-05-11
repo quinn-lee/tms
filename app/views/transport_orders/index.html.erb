@@ -1,68 +1,38 @@
-            <!-- 订单列表 -->
-            <div class="vehicle-list" style="margin-bottom: 2rem;">
-                <div class="list-header">
-                    <div class="list-title">Order List</div>
-                    <button id="newOrderBtn" class="btn btn-primary" style="float: right; margin-left: 1rem;">
-                        <i class="fas fa-plus"></i> New Order
-                    </button>
-                    <div class="search-box" style="float: right;">
-                        <i class="fas fa-search"></i>
-                        <input type="text" placeholder="Search orders...">
-                    </div>
-                </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Order ID</th>
-                            <th>Customer</th>
-                            <th>Goods Type</th>
-                            <th>Weight (ton)</th>
-                            <th>Amount (¥)</th>
-                            <th>Status</th>
-                            <th>Deadline</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>#OD-2023-105</td>
-                            <td>山东物流</td>
-                            <td>电子产品</td>
-                            <td>12.5</td>
-                            <td>8,500</td>
-                            <td><span class="status on-route">Processing</span></td>
-                            <td>2023-08-15</td>
-                            <td>
-                                <button class="btn-icon"><i class="fas fa-eye"></i></button>
-                                <button class="btn-icon"><i class="fas fa-edit"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>#OD-2023-104</td>
-                            <td>青岛贸易</td>
-                            <td>食品</td>
-                            <td>8.2</td>
-                            <td>6,200</td>
-                            <td><span class="status available">Completed</span></td>
-                            <td>2023-08-10</td>
-                            <td>
-                                <button class="btn-icon"><i class="fas fa-eye"></i></button>
-                                <button class="btn-icon"><i class="fas fa-print"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>#OD-2023-103</td>
-                            <td>济南制造</td>
-                            <td>工业设备</td>
-                            <td>22.0</td>
-                            <td>15,000</td>
-                            <td><span class="status on-route">In Transit</span></td>
-                            <td>2023-08-12</td>
-                            <td>
-                                <button class="btn-icon"><i class="fas fa-eye"></i></button>
-                                <button class="btn-icon"><i class="fas fa-map-marker-alt"></i></button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+<!-- 订单列表 -->
+<div class="vehicle-list" style="margin-bottom: 2rem;">
+  <div class="list-header">
+    <div class="list-title">Order List</div>
+  </div>
+  <table>
+    <thead>
+        <tr>
+            <th>Order NO</th>
+            <th>Customer</th>
+            <th>Goods Type</th>
+            <th>Weight (kg)</th>
+            <th>Volume (m³)</th>
+            <th>Quantity</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+      <% @orders.each do |order|%>
+      <tr>
+        <td><%=order.order_no%></td>
+        <td><%=order.user.customer_code%></td>
+        <td><%=order.goods_type%></td>
+        <td><%=order.goods_weight%></td>
+        <td><%=order.goods_volume%></td>
+        <td><%=order.goods_quantity%></td>
+        <td><span class="status on-route"><%=order.order_status%></span></td>
+        <td>
+          <a title="Show" class="btn-icon" href="<%=transport_order_path(order)%>"><i class="fas fa-circle-info"></i></a>
+          <a title="Route Plan" class="btn-icon" href="<%=route_plan_transport_order_path(order)%>"><i class="fas fa-route"></i></a>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%== @pagy.series_nav(:bootstrap) if @pagy.pages > 1%>
+</div>

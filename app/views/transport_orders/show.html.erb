@@ -1,0 +1,79 @@
+<div class="dashboard-cards">
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Cargo Information</div>
+      <div class="card-icon primary">
+        <i class="fas fa-box"></i>
+      </div>
+    </div>
+    <div class="card-body">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+        <div><strong>Goods Name:</strong> <%=@order.goods_name%></div>
+        <div><strong>Goods Type:</strong> <%=@order.goods_type%></div>
+        <div><strong>High Value:</strong> <%={true=>'YES', false=>'NO'}[@order.is_high_value]%></div>
+        <div><strong>Weight:</strong> <%=@order.goods_weight%> kg</div>
+        <div><strong>Volume:</strong> <%=@order.goods_volume%> m³</div>
+        <div><strong>Box Count:</strong> <%=@order.goods_quantity%></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Other</div>
+      <div class="card-icon danger">
+        <i class="fas fa-info-circle"></i>
+      </div>
+    </div>
+    <div class="card-body">
+      <div style="display: grid; grid-template-columns: 1fr; gap: 1rem;">
+        <div><strong>Need Pickup?:</strong> <%={true=>'YES', false=>'NO'}[@order.need_pickup]%></div>
+        <div><strong>Expect Delivery Time:</strong> <%=@order.appointment_time&.strftime('%F %T')%></div>
+        <div><strong>Notes:</strong> <%=@order.remark%></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="dashboard-cards">
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Shipping</div>
+      <div class="card-icon success">
+          <i class="fas fa-map-marker-alt"></i>
+      </div>
+    </div>
+    <div class="card-body">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div><strong>Shipper:</strong> <%=@order.shipper_name%></div>
+          <div><strong>Phone:</strong> <%=@order.shipper_phone%></div>
+          <div><strong>Address:</strong> <%=@order.start_address%></div>
+          <div><strong>Latitude:</strong> <%=@order.start_latitude%></div>
+          <div><strong>Longitude:</strong> <%=@order.start_longitude%></div>
+        </div>
+    </div>
+  </div>
+
+  <div class="card">
+      <div class="card-header">
+        <div class="card-title">Receiving</div>
+        <div class="card-icon warning">
+            <i class="fas fa-truck-loading"></i>
+        </div>
+      </div>
+      <div class="card-body">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div><strong>Receiver:</strong> <%=@order.consignee_name%></div>
+          <div><strong>Phone:</strong> <%=@order.consignee_phone%></div>
+          <div><strong>Address:</strong> <%=@order.end_address%></div>
+          <div><strong>Latitude:</strong> <%=@order.end_latitude%></div>
+          <div><strong>Longitude:</strong> <%=@order.end_longitude%></div>
+        </div>
+      </div>
+  </div>
+  
+</div>
+
+<div style="display: flex; justify-content: flex-end; gap: 1rem;">
+  <a type="button" href="<%=transport_orders_path%>" class="btn" style="background: var(--gray-200); color: var(--gray-600);">Return</a>
+</div>

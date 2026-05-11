@@ -83,4 +83,13 @@ document.addEventListener('turbo:load', function() {
     startDate: '+1d',
     autoclose: true
   });
+
+  flatpickr(".flatpickr-datetime", {
+    enableTime: true,        // 启用时间选择
+    dateFormat: "Y/m/d H:i", // 设置所需的日期时间格式
+    time_24hr: true,
+    minTime: "09:00",
+    maxTime: "18:00",
+    minDate: "today"
+  });
 });

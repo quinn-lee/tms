@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   authenticates_with_sorcery!
 
+  has_many :orders, :class_name => 'TransportOrder', :dependent => :destroy, :foreign_key => :user_id
+
   attr_accessor :password, :password_confirmation
 
   validates_presence_of :nickname, message: "Can't be blank"
@@ -30,6 +32,14 @@ class User < ApplicationRecord
 
   def is_customer?
     staff_grade == "customer"
+  end
+
+  def is_staff?
+    staff_grade != "customer" && staff_grade != "driver"
+  end
+
+  def is_driver?
+    staff_grade == "driver"
   end
 
   def setup

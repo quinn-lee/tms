@@ -1,5 +1,14 @@
 class TransportOrdersController < ApplicationController
 
+  def index
+    @all_orders = TransportOrder.where(user_id: current_user.id)
+    @pagy, @orders = pagy(:offset, @all_orders.order("id desc"))
+  end
+
+  def show
+    @order = TransportOrder.find(params[:id])
+  end
+
 	def new
 		@order = TransportOrder.new
 	end
@@ -10,7 +19,7 @@ class TransportOrdersController < ApplicationController
         :goods_weight, :goods_volume, :shipper_name, :shipper_phone, 
         :start_address, :start_latitude, :start_longitude, :consignee_name,
         :consignee_phone, :end_address, :end_latitude, :end_longitude,
-        :need_pickup, :remark))
+        :need_pickup, :appointment_time, :remark))
 		@order.user_id = current_user.id
 		ActiveRecord::Base.transaction do
       begin
