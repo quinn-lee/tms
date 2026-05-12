@@ -3,7 +3,7 @@
       <div class="card-title">New Task</div>
   </div>
   <div class="card-body">
-    <%= form_with(model: @task, url: transport_tasks_path) do |f|%>
+    <%= form_with(model: @task, url: transport_tasks_path, method: "post") do |f|%>
       <% unless f.object.errors.empty? %>
         <ul class="list-group">
           <li class="list-group-item active">Task Created Failed</li>
@@ -11,6 +11,13 @@
             <li class="list-group-item list-group-item-danger"><%= msg %></li>
           <% end -%>
         </ul>
+      <% else %>
+        <% if @msg.present? %>
+        <ul class="list-group">
+          <li class="list-group-item active">Task Created Failed</li>
+            <li class="list-group-item list-group-item-danger"><%= @msg %></li>
+        </ul>
+        <% end %>
       <% end -%>
       <% @ids.each do |route_id| %>
         <%=hidden_field_tag "ids[]", route_id%>

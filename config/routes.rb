@@ -72,6 +72,7 @@ Rails.application.routes.draw do
         get :loaded
         get :sent
         get :finished
+        get :rearranged
       end
     end
   end

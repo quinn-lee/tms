@@ -42,10 +42,12 @@
 
     <div style="display: flex; justify-content: flex-end; gap: 1rem;">
       <% if route.status=="scheduled"%>
+      <a href="<%=rearranged_mobile_order_route_path(route)%>" class="btn btn-secondary mb-10" id="completeBtn">Picked Failed</a>
       <a href="<%=picked_mobile_order_route_path(route)%>" class="btn btn-success" id="completeBtn">Picked</a>
       <% elsif route.status=="picked"%>
       <a href="<%=loaded_mobile_order_route_path(route)%>" class="btn btn-success" id="completeBtn">Loaded</a>
       <% elsif route.status=="loaded"%>
+      <a href="<%=rearranged_mobile_order_route_path(route)%>" class="btn btn-secondary mb-10" id="completeBtn">Sent Failed</a>
       <a href="<%=sent_mobile_order_route_path(route)%>" class="btn btn-success" id="completeBtn">Sent</a>
       <% elsif route.status=="sent"%>
       <a href="<%=finished_mobile_order_route_path(route)%>" class="btn btn-success" id="completeBtn">Finished</a>

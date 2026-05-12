@@ -31,6 +31,9 @@ class TransportTasksController < ApplicationController
         @task.save!
 	      @ids.each do |route_id| 
 	      	route = OrderRoute.find(route_id)
+	      	if route.status!="init" && route.status!="rearranged"
+	      		raise "Can't arrange this route, status=#{route.status}"
+	      	end
 	      	@tor = TaskOrderRelation.new(
 	      		task_id: @task.id,
 	      		order_route_id: route.id,
@@ -43,7 +46,7 @@ class TransportTasksController < ApplicationController
         flash[:success] = "Task Created Successful"
         redirect_to order_routes_path
       rescue => e
-      	logger.info e.backtrace
+      	@msg = e.message
         render :new, status: :unprocessable_entity
         raise ActiveRecord::Rollback,"rollback!"
       end

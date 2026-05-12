@@ -20,7 +20,7 @@
     <tbody>
       <% @routes.order("id asc").each_with_index do |route, index|%>
       <tr>
-        <td><% if route.status=="init"%><input type="checkbox" name="ids[]" value="<%=route.id%>"><% end %></td>
+        <td><% if route.status=="init" || route.status=="rearranged"%><input type="checkbox" name="ids[]" value="<%=route.id%>"><% end %></td>
         <td><%=route.first_location%></td>
         <td><%=route.end_location%></td>
         <td><%=route.planned_mileage%></td>

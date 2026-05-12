@@ -25,6 +25,14 @@ class Mobile::OrderRoutesController < ApplicationController
 		redirect_to in_progress_orders_mobile_transport_tasks_path
 	end
 
+	def rearranged
+		@route = OrderRoute.find(params[:id])
+		@route.status = "rearranged"
+		@route.save!
+		flash[:success] = "Rearranged Successful"
+		redirect_to in_progress_orders_mobile_transport_tasks_path
+	end
+
 	def finished
 		@route = OrderRoute.find(params[:id])
 		@route.status = "finished"

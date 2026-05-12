@@ -3,7 +3,7 @@
       <div class="card-title">New Customer</div>
   </div>
   <div class="card-body">
-    <%= form_with(model: @user, url: create_customer_users_path) do |f|%>
+    <%= form_with(model: @user, url: create_customer_users_path, method: "post") do |f|%>
       <% unless f.object.errors.empty? %>
         <ul class="list-group">
           <li class="list-group-item active">Customer Created Failed</li>

@@ -3,7 +3,7 @@
       <div class="card-title">New Branch</div>
   </div>
   <div class="card-body">
-    <%= form_with(model: @branch, url: branches_path) do |f|%>
+    <%= form_with(model: @branch, url: branches_path, method: "post") do |f|%>
       <% unless f.object.errors.empty? %>
         <ul class="list-group">
           <li class="list-group-item active">Branch Created Failed</li>
