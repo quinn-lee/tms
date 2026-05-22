@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   resources :transport_orders do
     collection do
       get :staff_views
+      get :new_pickup_order
     end
     member do
       get :route_plan

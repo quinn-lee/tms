@@ -12,8 +12,8 @@
             <i class="fas fa-map-marker-alt"></i>
           </div>
           <div class="location-info">
-            <h3>FROM</h3>
-            <p><%=@order.start_address%> / LON-<%=@order.start_longitude%> / LAT-<%=@order.start_latitude%></p>
+            <h3>FROM<%if @order.need_pickup%>&nbsp;&nbsp;&nbsp;(PickUp Order) <% else %>&nbsp;&nbsp;&nbsp;(Self-Delivery Order)<% end %></h3>
+            <p><%=@order.from_show%></p>
           </div>
         </div>
         
@@ -23,7 +23,7 @@
           </div>
           <div class="location-info">
             <h3>TO</h3>
-            <p><%=@order.end_address%> / LON-<%=@order.end_longitude%> / LAT-<%=@order.end_latitude%></p>
+            <p><%=@order.to_show%></p>
           </div>
         </div>
       </div>
@@ -56,8 +56,8 @@
         <td><%=route.end_location%></td>
         <td><%=route.planned_mileage%></td>
         <td><%=route.planned_duration%></td>
-        <td><%=route.expected_departure_time%></td>
-        <td><%=route.expected_arrival_time%></td>
+        <td><%=route.expected_departure_time&.strftime("%F %T")%></td>
+        <td><%=route.expected_arrival_time&.strftime("%F %T")%></td>
         <td><%=route.remark%></td>
         <td>
             <% if index == @order.order_routes.count - 1%>
@@ -85,16 +85,39 @@
           <% end -%>
         </ul>
       <% end -%>
+      <%= f.hidden_field :node_order%>
       <div class="form-section" style="margin-bottom: 2rem;    margin-top: 2.5rem;">
         <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+          <% if @order_route.node_order == 1 %>
+            <% if @order.need_pickup %>
+            <div class="form-group">
+              <label class="form-label">First Location*</label>
+              <%= f.select :first_location, Branch.where(status: "in_service").map{|branch| "#{branch.branch_code}"}, {required: true}, {class: 'form-select'} %>
+            </div>
+            <div class="form-group">
+              <label class="form-label">End Location*</label>
+              <%= f.text_field :end_location, class: "form-input", value: @order.from_show, required: true, readonly: true %>
+            </div>
+            <% else %>
+            <div class="form-group">
+              <label class="form-label">First Location*</label>
+              <%= f.text_field :first_location, class: "form-input", value: @order.branch_code, required: true, readonly: true %>
+            </div>
+            <div class="form-group">
+              <label class="form-label">End Location*</label>
+              <%= f.select :end_location, Branch.where(status: "in_service").map{|branch| "#{branch.branch_code}"}.unshift("#{@order.to_show}"), {required: true}, {class: 'form-select'} %>
+            </div>
+            <% end %>
+          <% else %>
           <div class="form-group">
               <label class="form-label">First Location*</label>
-              <%= f.text_field :first_location, class: "form-input", placeholder: "", required: false, readonly: true %>
+              <%= f.text_field :first_location, class: "form-input", value: @last_route.end_location, required: false, readonly: true %>
           </div>
           <div class="form-group">
               <label class="form-label">End Location*</label>
-              <%= f.select :end_location, Branch.where(status: "in_service").map{|branch| "#{branch.branch_code}/#{branch.city},#{branch.address}"}.unshift("#{@order.end_address}"), {required: true}, {class: 'form-select'} %>
+              <%= f.select :end_location, Branch.where(status: "in_service").map{|branch| "#{branch.branch_code}"}.unshift("#{@order.to_show}"), {required: true}, {class: 'form-select'} %>
           </div>
+          <% end %>
         </div>
       </div>
       <div class="form-section" style="margin-bottom: 2rem;    margin-top: 2.5rem;">
@@ -112,12 +135,12 @@
       <div class="form-section" style="margin-bottom: 2rem;    margin-top: 2.5rem;">
         <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
           <div class="form-group">
-            <label class="form-label">Expected Departure Time</label>
-            <%= f.text_field :expected_departure_time, class: "form-input flatpickr-datetime", placeholder: "", required: false %>
+            <label class="form-label">Expected Departure Time*</label>
+            <%= f.text_field :expected_departure_time, class: "form-input flatpickr-datetime", required: true %>
           </div>
           <div class="form-group">
-            <label class="form-label">Expected Arrive Time</label>
-            <%= f.text_field :expected_arrival_time, class: "form-input flatpickr-datetime", placeholder: "", required: false %>
+            <label class="form-label">Expected Arrive Time*</label>
+            <%= f.text_field :expected_arrival_time, class: "form-input flatpickr-datetime", required: true %>
           </div>
           <div class="form-group">
             <label class="form-label">Remark</label>

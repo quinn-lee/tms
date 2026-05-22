@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_05_11_155257) do
+ActiveRecord::Schema[8.0].define(version: 2026_05_22_031621) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -44,6 +44,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_05_11_155257) do
     t.string "remark"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.jsonb "first_detail"
+    t.jsonb "last_detail"
     t.index ["order_id"], name: "index_order_routes_on_order_id"
   end
 
@@ -89,6 +91,17 @@ ActiveRecord::Schema[8.0].define(version: 2026_05_11_155257) do
     t.integer "allocator_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "shipper_city"
+    t.string "shipper_street"
+    t.string "shipper_streetnum"
+    t.string "shipper_housenum"
+    t.string "shipper_postcode"
+    t.string "consignee_city"
+    t.string "consignee_street"
+    t.string "consignee_streetnum"
+    t.string "consignee_housenum"
+    t.string "consignee_postcode"
+    t.integer "branch_id"
     t.index ["order_no"], name: "index_transport_orders_on_order_no", unique: true
   end
 
