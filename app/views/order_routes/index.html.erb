@@ -14,13 +14,32 @@
         <th>ETD</th>
         <th>ETA</th>
         <th>Status</th>
-        <th>Actions</th>
+        <!--<th>Actions</th>-->
       </tr>
     </thead>
     <tbody>
-      <% @routes.order("id asc").each_with_index do |route, index|%>
+      <% @c_routes.each do |routes| %>
+        <% routes.each_with_index do |route, index| %>
+        <tr>
+          <% if index == 0 %>
+          <td rowspan="2"><input type="checkbox" name="ids[]" value="<%=routes[0].id%>,,,<%=routes[1].id%>"></td>
+          <% end %>
+          <td><%=route.first_location%></td>
+          <td><%=route.end_location%></td>
+          <td><%=route.planned_mileage%></td>
+          <td><%=route.planned_duration%></td>
+          <td><%=route.expected_departure_time&.strftime("%F %T")%></td>
+          <td><%=route.expected_arrival_time&.strftime("%F %T")%></td>
+          <td><%=route.status%></td>
+          <!--<td>
+              
+          </td>-->
+        </tr>
+        <% end %>
+      <% end %>
+      <% @routes.each_with_index do |route, index|%>
       <tr>
-        <td><% if route.status=="init" || route.status=="rearranged"%><input type="checkbox" name="ids[]" value="<%=route.id%>"><% end %></td>
+        <td><input type="checkbox" name="ids[]" value="<%=route.id%>"></td>
         <td><%=route.first_location%></td>
         <td><%=route.end_location%></td>
         <td><%=route.planned_mileage%></td>
@@ -28,9 +47,9 @@
         <td><%=route.expected_departure_time&.strftime("%F %T")%></td>
         <td><%=route.expected_arrival_time&.strftime("%F %T")%></td>
         <td><%=route.status%></td>
-        <td>
+        <!--<td>
             
-        </td>
+        </td>-->
       </tr>
       <% end %>
     </tbody>
@@ -39,7 +58,7 @@
       <button type="submit" class="btn btn-primary">Create Task</button>
   </div>
   <% end %>
-  <%== @pagy.series_nav(:bootstrap) if @pagy.pages > 1%>
+  
 </div>
 <script type="text/javascript">
   function checkAll(object)
