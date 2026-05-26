@@ -4,12 +4,14 @@ class TransportOrder < ApplicationRecord
   has_many :order_routes, :class_name => 'OrderRoute', :dependent => :destroy, :foreign_key => :order_id
 	
   validates_presence_of :goods_name, :goods_type, :goods_weight, :goods_volume, \
-    :goods_quantity, :consignee_city, :consignee_street, :consignee_postcode, \
-		:consignee_name, :consignee_phone
+    :goods_quantity
+
+  validates_presence_of :consignee_city, :consignee_street, :consignee_postcode, \
+    :consignee_name, :consignee_phone, unless: :is_return?
 
   validates_presence_of :appointment_time, :shipper_name, :shipper_phone, :shipper_city, :shipper_street, \
     :shipper_postcode, if: :need_pickup?
-  validates_presence_of :branch_id, unless: :need_pickup?
+  validates_presence_of :branch_id, if: :need_branch?
 
 
 	before_validation :setup, :on => :create
@@ -32,6 +34,14 @@ class TransportOrder < ApplicationRecord
 
   def need_pickup?
     need_pickup
+  end
+
+  def is_return?
+    is_return
+  end
+
+  def need_branch?
+    !need_pickup || is_return
   end
 
   def can_plan?
@@ -62,6 +72,10 @@ class TransportOrder < ApplicationRecord
     else
       []
     end
+  end
+
+  def parent
+    parent_id.present? ? TransportOrder.find_by(id: parent_id) : nil
   end
 
 	private

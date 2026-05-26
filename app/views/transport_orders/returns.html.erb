@@ -1,17 +1,15 @@
 <!-- 订单列表 -->
 <div class="vehicle-list" style="margin-bottom: 2rem;">
   <div class="list-header">
-    <div class="list-title">Order List</div>
+    <div class="list-title">Return Order List</div>
   </div>
   <table>
     <thead>
         <tr>
             <th>Order NO</th>
-            <th>Goods Type</th>
-            <th>Weight (kg)</th>
-            <th>Volume (m³)</th>
-            <th>Quantity</th>
+            <th>Parent Order</th>
             <th>PickUp?</th>
+            <th>Dest</th>
             <th>Status</th>
             <th>Actions</th>
         </tr>
@@ -20,10 +18,7 @@
       <% @orders.each do |order|%>
       <tr>
         <td><%=order.order_no%></td>
-        <td><%=order.goods_type%></td>
-        <td><%=order.goods_weight%></td>
-        <td><%=order.goods_volume%></td>
-        <td><%=order.goods_quantity%></td>
+        <td><%=order.parent&.order_no%></td>
         <td><%={true=>'YES', false=>'NO'}[order.need_pickup]%>
           <% if order.need_pickup %>
             <a title="PickUp Note" class="btn-icon" data-bs-toggle="modal" data-bs-target="#pickup<%=order.id%>"><i class="fa-solid fa-truck-arrow-right"></i></a>
@@ -35,10 +30,10 @@
             <% end %>
           <% end %>
         </td>
+        <td><%=order.branch_code%></td>
         <td><span class="status on-route"><%=order.order_status%></span></td>
         <td>
           <a title="Show" class="btn-icon" href="<%=transport_order_path(order)%>"><i class="fas fa-circle-info"></i></a>
-          <a title="Return Cargo" class="btn-icon" href="<%=new_return_transport_order_path(order)%>"><i class="fa-solid fa-circle-left"></i></a>
         </td>
         <!-- Modal -->
         <div class="modal fade" id="pickup<%=order.id%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

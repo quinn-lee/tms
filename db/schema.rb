@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_05_26_025412) do
+ActiveRecord::Schema[8.0].define(version: 2026_05_26_081239) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -103,6 +103,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_05_26_025412) do
     t.string "consignee_postcode"
     t.integer "branch_id"
     t.datetime "arrival_time"
+    t.boolean "is_return", default: false
+    t.integer "parent_id"
     t.index ["order_no"], name: "index_transport_orders_on_order_no", unique: true
   end
 

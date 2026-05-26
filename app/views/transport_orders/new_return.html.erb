@@ -1,0 +1,61 @@
+<div id="orderForm" class="card-new" style="margin-bottom: 2rem;">
+  <div class="card-header">
+      <div class="card-title">New Return Order</div>
+  </div>
+  <div class="card-body">
+    <%= form_with(model: @order, url: create_return_transport_orders_path, method: "post") do |f|%>
+      <% unless f.object.errors.empty? %>
+        <ul class="list-group">
+          <li class="list-group-item active">Order Created Failed</li>
+          <% f.object.errors.full_messages.each do |msg| %>
+            <li class="list-group-item list-group-item-danger"><%= msg %></li>
+          <% end -%>
+        </ul>
+      <% end -%>
+      <%= f.hidden_field :need_pickup %>
+      <%= f.hidden_field :parent_id %>
+      <div class="form-section" style="margin-bottom: 2rem;    margin-top: 2.5rem;">
+        <div class="form-title">
+            <i class="fas fa-location-dot" style="margin-right: 0.5rem;"></i>Return To:
+        </div>
+        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+          <div class="form-group">
+              <label class="form-label">Return Warehouse*</label>
+              <%= f.select :branch_id, Branch.where(status: "in_service").map{|branch| [branch.branch_code, branch.id]}, {required: true}, {class: 'form-select'} %>
+          </div>
+        </div>
+      
+      </div>
+
+      <div class="form-section" style="margin-bottom: 2rem;    margin-top: 2.5rem;">
+        <div class="form-title">
+            <i class="fas fa-sticky-note" style="margin-right: 0.5rem;"></i>Other Information
+        </div>
+        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+          <div class="form-group">
+              <label class="form-label">Expected PickUp Time*</label>
+              <%= f.text_field :appointment_time, class: "form-input flatpickr-datetime", placeholder: "", required: true %>
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom: 1.5rem;">
+          <label class="form-label">Remark</label>
+          <%= f.text_area :remark, class: "form-input", placeholder: "", rows: 2%>
+        </div>
+      </div>
+      <div style="display: flex; justify-content: flex-end; gap: 1rem;">
+          <button type="submit" class="btn btn-primary">Submit</button>
+          <a type="button" href="<%=transport_orders_path%>" class="btn" style="background: var(--gray-200); color: var(--gray-600);">Return</a>
+      </div>
+    <% end %>
+  </div>
+</div>
+<script type="text/javascript">
+  flatpickr(".flatpickr-datetime", {
+    enableTime: true,        // 启用时间选择
+    dateFormat: "Y/m/d H:i", // 设置所需的日期时间格式
+    time_24hr: true,
+    minTime: "09:00",
+    maxTime: "18:00",
+    minDate: "today"
+  });
+</script>

@@ -25,7 +25,7 @@
           </div>
           <div class="location-info">
             <h3>TO</h3>
-            <p><%=@order.to_show%></p>
+            <p><% if @order.is_return %><%=@order.branch_code%><% else %><%=@order.to_show%><% end %></p>
           </div>
         </div>
       </div>
@@ -93,7 +93,11 @@
 
     <div style="display: flex; justify-content: flex-end; gap: 1rem;margin-bottom: 1rem;margin-right: 1rem;">
       <% if current_user.is_customer? %>
-        <a type="button" href="<%=transport_orders_path%>" class="btn" style="background: var(--gray-200); color: var(--gray-600);">Return</a>
+        <% if @order.is_return %>
+          <a type="button" href="<%=returns_transport_orders_path%>" class="btn" style="background: var(--gray-200); color: var(--gray-600);">Return</a>
+        <% else %>
+          <a type="button" href="<%=transport_orders_path%>" class="btn" style="background: var(--gray-200); color: var(--gray-600);">Return</a>
+        <% end %>
       <% else %>
         <a type="button" href="<%=staff_views_transport_orders_path%>" class="btn" style="background: var(--gray-200); color: var(--gray-600);">Return</a>
       <% end %>

@@ -13,6 +13,7 @@
             <th>Volume (m³)</th>
             <th>Quantity</th>
             <th>PickUp?</th>
+            <th>IsReturn?</th>
             <th>Status</th>
             <th>Actions</th>
         </tr>
@@ -37,6 +38,7 @@
             <% end %>
           <% end %>
         </td>
+        <td><%={true=>'YES', false=>'NO'}[order.is_return]%></td>
         <td><span class="status on-route"><%=order.order_status%></span></td>
         <td>
           <a title="Show" class="btn-icon" href="<%=transport_order_path(order)%>"><i class="fas fa-circle-info"></i></a>

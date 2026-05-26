@@ -12,7 +12,7 @@
             <i class="fas fa-map-marker-alt"></i>
           </div>
           <div class="location-info">
-            <h3>FROM<%if @order.need_pickup%>&nbsp;&nbsp;&nbsp;(PickUp Order) <% else %>&nbsp;&nbsp;&nbsp;(Self-Delivery Order)<% end %></h3>
+            <h3>FROM<% if @order.is_return%>&nbsp;&nbsp;&nbsp;(Return Order) <% else %><%if @order.need_pickup%>&nbsp;&nbsp;&nbsp;(PickUp Order) <% else %>&nbsp;&nbsp;&nbsp;(Self-Delivery Order)<% end %><% end %></h3>
             <p><%=@order.from_show%></p>
           </div>
         </div>
@@ -23,7 +23,7 @@
           </div>
           <div class="location-info">
             <h3>TO</h3>
-            <p><%=@order.to_show%></p>
+            <p><% if @order.is_return %><%=@order.branch_code%><% else %><%=@order.to_show%><% end %></p>
           </div>
         </div>
       </div>
@@ -71,6 +71,7 @@
 
 </div>
 
+<% if @order.can_plan? %>
 <div id="userForm" class="card-new" style="margin-bottom: 2rem;">
   <div class="card-header">
       <div class="card-title">Plan New Route</div>
@@ -105,7 +106,11 @@
             </div>
             <div class="form-group">
               <label class="form-label">End Location*</label>
-              <%= f.select :end_location, Branch.where(status: "in_service").map{|branch| "#{branch.branch_code}"}.unshift("#{@order.to_show}"), {required: true}, {class: 'form-select'} %>
+              <% if @order.is_return %>
+                <%= f.select :end_location, Branch.where(status: "in_service").map{|branch| "#{branch.branch_code}"}, {required: true}, {class: 'form-select'} %>
+              <% else %>
+                <%= f.select :end_location, Branch.where(status: "in_service").map{|branch| "#{branch.branch_code}"}.unshift("#{@order.to_show}"), {required: true}, {class: 'form-select'} %>
+              <% end %>
             </div>
             <% end %>
           <% else %>
@@ -115,7 +120,11 @@
           </div>
           <div class="form-group">
               <label class="form-label">End Location*</label>
-              <%= f.select :end_location, Branch.where(status: "in_service").map{|branch| "#{branch.branch_code}"}.unshift("#{@order.to_show}"), {required: true}, {class: 'form-select'} %>
+              <% if @order.is_return %>
+                <%= f.select :end_location, Branch.where(status: "in_service").map{|branch| "#{branch.branch_code}"}, {required: true}, {class: 'form-select'} %>
+              <% else %>
+                <%= f.select :end_location, Branch.where(status: "in_service").map{|branch| "#{branch.branch_code}"}.unshift("#{@order.to_show}"), {required: true}, {class: 'form-select'} %>
+              <% end %>
           </div>
           <% end %>
         </div>
@@ -151,11 +160,16 @@
 
       <div style="display: flex; justify-content: flex-start; gap: 1rem;">
           <button type="submit" class="btn btn-primary">Plan</button>
-          <a type="button" href="<%=transport_orders_path%>" class="btn" style="background: var(--gray-200); color: var(--gray-600);">Return</a>
+          <a type="button" href="<%=staff_views_transport_orders_path%>" class="btn" style="background: var(--gray-200); color: var(--gray-600);">Return</a>
       </div>
     <% end %>
   </div>
 </div>
+<% else %>
+<div style="display: flex; justify-content: flex-start; gap: 1rem;">
+    <a type="button" href="<%=staff_views_transport_orders_path%>" class="btn" style="background: var(--gray-200); color: var(--gray-600);">Return</a>
+</div>
+<% end %>
 
 <script type="text/javascript">
   flatpickr(".flatpickr-datetime", {

@@ -23,12 +23,16 @@ Rails.application.routes.draw do
     collection do
       get :staff_views
       get :new_pickup_order
+      post :create_return
+      get :returns
     end
     member do
       get :route_plan
       post :route_planed
 
       get :arrived
+
+      get :new_return
     end
   end
 
