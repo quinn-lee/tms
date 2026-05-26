@@ -27,6 +27,8 @@ Rails.application.routes.draw do
     member do
       get :route_plan
       post :route_planed
+
+      get :arrived
     end
   end
 

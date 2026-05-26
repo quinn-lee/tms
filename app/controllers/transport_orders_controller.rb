@@ -56,7 +56,7 @@ class TransportOrdersController < ApplicationController
       @order_route = OrderRoute.new(node_order: @last_route.present? ? @last_route.node_order + 1 : 1)
     rescue => e
       flash[:error] = e.message
-      redirect_to transport_orders_path
+      redirect_to staff_views_transport_orders_path
     end
   end
 
@@ -87,6 +87,18 @@ class TransportOrdersController < ApplicationController
         render :route_plan, status: :unprocessable_entity
         raise ActiveRecord::Rollback,"rollback!"
       end
+    end
+  end
+
+  def arrived
+    begin
+      @order = TransportOrder.find(params[:id])
+      @order.update!(arrival_time: Time.now)
+      flash[:success] = "Order-#{@order.order_no}'s cargo has arrived at the warehouse!"
+      redirect_to staff_views_transport_orders_path
+    rescue => e
+      flash[:error] = e.message
+      redirect_to staff_views_transport_orders_path
     end
   end
 end

@@ -26,14 +26,56 @@
         <td><%=order.goods_weight%></td>
         <td><%=order.goods_volume%></td>
         <td><%=order.goods_quantity%></td>
-        <td><%={true=>'YES', false=>'NO'}[order.need_pickup]%></td>
+        <td><%={true=>'YES', false=>'NO'}[order.need_pickup]%>
+          <% if order.need_pickup %>
+            <a title="PickUp Note" class="btn-icon" data-bs-toggle="modal" data-bs-target="#pickup<%=order.id%>"><i class="fa-solid fa-truck-arrow-right"></i></a>
+          <% else %>
+            <% if order.arrival_time.present? %>
+            <a title="Arrival" class="btn-icon" data-bs-toggle="modal" data-bs-target="#pickup<%=order.id%>"><i class="fa-regular fa-calendar-check"></i></a>
+            <% else %>
+            <a title="Non-arrival" class="btn-icon" data-bs-toggle="modal" data-bs-target="#pickup<%=order.id%>"><i class="fa-regular fa-calendar-xmark"></i></a>
+            <% end %>
+          <% end %>
+        </td>
         <td><span class="status on-route"><%=order.order_status%></span></td>
         <td>
           <a title="Show" class="btn-icon" href="<%=transport_order_path(order)%>"><i class="fas fa-circle-info"></i></a>
           <% if order.can_plan?%>
           <a title="Route Plan" class="btn-icon" href="<%=route_plan_transport_order_path(order)%>"><i class="fas fa-route"></i></a>
           <% end %>
+          <% unless order.need_pickup %>
+            <% unless order.arrival_time.present? %>
+              <%= link_to arrived_transport_order_path(order), data: {turbo_method: :get, turbo_confirm: 'Has the cargo of this order arrived at the warehouse?'}, title: "Arrived To Warehouse", class: "btn-icon" do %>
+                <i class="fa-solid fa-truck-droplet"></i>
+              <% end %>
+            <% end %>
+          <% end %>
         </td>
+        <!-- Modal -->
+        <div class="modal fade" id="pickup<%=order.id%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><%if order.need_pickup%>PickUp Note<%else%>Delivery Note<% end %></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <%if order.need_pickup%>
+                  <h6><span style="font-weight: bold;">Estimated Pickup Time:</span> <span style="color: #842029;"><%=order.estimated_pickup_time&.strftime("%F %T")%></span></h6>
+                  <% if order.pickup_drivers.present? %>
+                  <h6><span style="font-weight: bold;">PickUp Driver:</span> <span style="color: #842029;"><%=order.pickup_drivers[0].user_name%></span></h6>
+                  <h6><span style="font-weight: bold;">PickUp Driver Phone:</span> <span style="color: #842029;"><%=order.pickup_drivers[0].user_phone%></span></h6>
+                  <% end %>
+                <%else%>
+                  <h6><span style="font-weight: bold;">Reached Depot?:</span> <span style="color: #842029;"><%=order.arrival_time.present? ? "YES" : "NO"%></span></h6>
+                  <% if order.arrival_time.present? %>
+                  <h6><span style="font-weight: bold;">Reached Depot Time:</span> <span style="color: #842029;"><%=order.arrival_time&.strftime("%F %T")%></span></h6>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
       </tr>
       <% end %>
     </tbody>

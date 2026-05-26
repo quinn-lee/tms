@@ -35,7 +35,33 @@ class TransportOrder < ApplicationRecord
   end
 
   def can_plan?
-    order_status == "pending" || order_status == "planning"
+    (order_status == "pending" || order_status == "planning") && (need_pickup || (!need_pickup && arrival_time.present?))
+  end
+
+  def estimated_pickup_time
+    if need_pickup
+      order_routes.find_by(node_order: 1)&.expected_arrival_time
+    end
+  end
+
+  def pickup_drivers
+    if need_pickup
+      if route = order_routes.find_by(node_order: 1)
+        if tor = TaskOrderRelation.find_by(order_route_id: route.id)
+          if tt = TransportTask.find_by(id: tor.task_id)
+            User.where(id: tt.driver_ids)
+          else
+            []
+          end
+        else
+          []
+        end
+      else
+        []
+      end
+    else
+      []
+    end
   end
 
 	private
