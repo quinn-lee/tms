@@ -153,7 +153,7 @@ GEM
     jbuilder (2.14.1)
       actionview (>= 7.0.0)
       activesupport (>= 7.0.0)
-    json (2.19.4)
+    json (2.19.5)
     jwt (3.1.2)
       base64
     kamal (2.11.0)
@@ -235,7 +235,7 @@ GEM
       snaky_hash (~> 2.0, >= 2.0.3)
       version_gem (~> 1.1, >= 1.1.9)
     ostruct (0.6.3)
-    pagy (43.5.3)
+    pagy (43.5.5)
       json
       uri
       yaml
@@ -436,7 +436,7 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   kamal
-  pagy (~> 43.5, >= 43.5.3)
+  pagy (~> 43.5)
   pg (~> 1.1)
   propshaft
   puma (>= 5.0)

@@ -65,6 +65,6 @@ end
 # 用户管理
 gem 'sorcery', '~> 0.17.0'
 # 分页
-gem 'pagy', '~> 43.5', '>= 43.5.3'
+gem 'pagy', '~> 43.5'
 # 附件
 gem 'carrierwave', '~> 3.1', '>= 3.1.3'
