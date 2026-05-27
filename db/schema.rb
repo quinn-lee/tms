@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_05_26_081239) do
+ActiveRecord::Schema[8.0].define(version: 2026_05_27_214430) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -61,6 +61,23 @@ ActiveRecord::Schema[8.0].define(version: 2026_05_26_081239) do
     t.string "cost_remark"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "order_id"
+    t.datetime "actual_loaded_time"
+  end
+
+  create_table "tracking_infos", force: :cascade do |t|
+    t.integer "order_id"
+    t.string "location"
+    t.string "event"
+    t.string "description"
+    t.datetime "event_time"
+    t.integer "driver_id"
+    t.integer "seq"
+    t.jsonb "images"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "loading_scan"
+    t.index ["order_id"], name: "index_tracking_infos_on_order_id"
   end
 
   create_table "transport_orders", force: :cascade do |t|

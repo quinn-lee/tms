@@ -9,6 +9,8 @@
         <th><%= check_box_tag 'selectFlag', '', false, onclick:'checkAll(this)' %></th>
         <th>From</th>
         <th>To</th>
+        <th>Order NO.</th>
+        <th>Customer</th>
         <th>Mileage(KM)</th>
         <th>Duration(min)</th>
         <th>ETD</th>
@@ -26,10 +28,14 @@
           <% end %>
           <td><%=route.first_location%></td>
           <td><%=route.end_location%></td>
+          <td><%=route.order.order_no%></td>
+          <td><%=route.order.user.user_name || route.order.user.nickname%></td>
           <td><%=route.planned_mileage%></td>
           <td><%=route.planned_duration%></td>
-          <td><%=route.expected_departure_time&.strftime("%F %T")%></td>
-          <td><%=route.expected_arrival_time&.strftime("%F %T")%></td>
+          <td><%=route.expected_departure_time&.strftime("%F")%><br/>
+          <%=route.expected_departure_time&.strftime("%T")%></td>
+          <td><%=route.expected_arrival_time&.strftime("%F")%><br/>
+          <%=route.expected_arrival_time&.strftime("%T")%></td>
           <td><%=route.status%></td>
           <!--<td>
               
@@ -42,10 +48,15 @@
         <td><input type="checkbox" name="ids[]" value="<%=route.id%>"></td>
         <td><%=route.first_location%></td>
         <td><%=route.end_location%></td>
+        <td><%=route.order.order_no%></td>
+        <td><%=route.order.user.user_name || route.order.user.nickname%></td>
         <td><%=route.planned_mileage%></td>
         <td><%=route.planned_duration%></td>
-        <td><%=route.expected_departure_time&.strftime("%F %T")%></td>
-        <td><%=route.expected_arrival_time&.strftime("%F %T")%></td>
+        <td><%=route.expected_departure_time&.strftime("%F")%><br/>
+          <%=route.expected_departure_time&.strftime("%T")%>
+        </td>
+        <td><%=route.expected_arrival_time&.strftime("%F")%><br/>
+          <%=route.expected_arrival_time&.strftime("%T")%></td>
         <td><%=route.status%></td>
         <!--<td>
             

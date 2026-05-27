@@ -4,6 +4,7 @@
 
 <div id="orderListPage" class="page">
   <%@routes.each do |route|%>
+  <% @tor = TaskOrderRelation.find_by(task_id: @task.id, order_route_id: route.id)%>
   <div class="mobile-list-item">
     <div class="route-card" style="box-shadow: none;">
       <div class="card-content" style="padding: 0px;">
@@ -32,19 +33,19 @@
     </div>
     <div class="mobile-list-header">
       <div class="mobile-list-title"><%=route.order.order_no%></div>
-      <div class="mobile-list-badge"><%=route.status%></div>
+      <div class="mobile-list-badge"><%=@tor.status%></div>
     </div>
     <div class="mobile-list-detail"><i class="fas fa-box"></i> <%=route.order.goods_name%> - 3QTY</div>
     <div class="mobile-list-detail"><i class="fas fa-user"></i><%=route.order.shipper_name%>--<%=route.order.shipper_phone%> </div>
-    <div class="mobile-list-detail"><i class="fas fa-map-marker-alt"></i> <%=route.order.start_address%> / LAT-<%=route.order.start_latitude%> / LON-<%=route.order.start_longitude%> </div>
+    <div class="mobile-list-detail"><i class="fas fa-map-marker-alt"></i> <%=route.order.from_show%> / LAT-<%=route.order.start_latitude%> / LON-<%=route.order.start_longitude%> </div>
     <div class="mobile-list-detail"><i class="fas fa-user"></i><%=route.order.consignee_name%>--<%=route.order.consignee_phone%> </div>
-    <div class="mobile-list-detail"><i class="fas fa-flag-checkered"></i> <%=route.order.end_address%> / LAT-<%=route.order.end_latitude%> / LON-<%=route.order.end_longitude%> </div>
+    <div class="mobile-list-detail"><i class="fas fa-flag-checkered"></i> <%=route.order.to_show %> / LAT-<%=route.order.end_latitude%> / LON-<%=route.order.end_longitude%> </div>
   </div>
   <% end %>
   <a href="<%=mobile_transport_tasks_path%>" class="btn btn-secondary mb-10">Return</a>
   <% if @task.driver_ids.include? current_user.id%>
-  <a href="<%=finish_mobile_transport_task_path(@task)%>" class="btn btn-success" id="completeBtn">Finish Task</a>
+  <%= link_to finish_mobile_transport_task_path(@task), data: {turbo_method: :post, turbo_confirm: 'Are you sure?'}, class: "btn btn-success" do %>Finish Task<% end %>
   <% else %>
-  <a href="<%=start_mobile_transport_task_path(@task)%>" class="btn btn-success" id="completeBtn">Start/Join Task</a>
+  <%= link_to start_mobile_transport_task_path(@task), data: {turbo_method: :post, turbo_confirm: 'Are you sure?'}, class: "btn btn-success" do %>Start/Join Task<% end %>
   <% end %>
 </div>

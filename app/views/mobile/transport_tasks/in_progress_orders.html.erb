@@ -4,6 +4,7 @@
 
 <div id="orderListPage" class="page">
   <%@routes&.each do |route|%>
+  <% @tor = TaskOrderRelation.find_by(task_id: @task.id, order_route_id: route.id)%>
   <div class="mobile-list-item">
     <div class="route-card" style="box-shadow: none;">
       <div class="card-content" style="padding: 0px;">
@@ -32,26 +33,87 @@
     </div>
     <div class="mobile-list-header">
       <div class="mobile-list-title"><%=route.order.order_no%></div>
-      <div class="mobile-list-badge"><%=route.status%></div>
+      <div class="mobile-list-badge"><%=@tor.status%></div>
     </div>
     <div class="mobile-list-detail"><i class="fas fa-box"></i> <%=route.order.goods_name%> - 3QTY</div>
     <div class="mobile-list-detail"><i class="fas fa-user"></i><%=route.order.shipper_name%>--<%=route.order.shipper_phone%> </div>
-    <div class="mobile-list-detail"><i class="fas fa-map-marker-alt"></i> <%=route.order.start_address%> / LAT-<%=route.order.start_latitude%> / LON-<%=route.order.start_longitude%> </div>
+    <div class="mobile-list-detail"><i class="fas fa-map-marker-alt"></i> <%=route.order.from_show%> / LAT-<%=route.order.start_latitude%> / LON-<%=route.order.start_longitude%> </div>
     <div class="mobile-list-detail"><i class="fas fa-user"></i><%=route.order.consignee_name%>--<%=route.order.consignee_phone%> </div>
-    <div class="mobile-list-detail"><i class="fas fa-flag-checkered"></i> <%=route.order.end_address%> / LAT-<%=route.order.end_latitude%> / LON-<%=route.order.end_longitude%> </div>
+    <div class="mobile-list-detail"><i class="fas fa-flag-checkered"></i> <%=route.order.to_show%> / LAT-<%=route.order.end_latitude%> / LON-<%=route.order.end_longitude%> </div>
 
     <div style="display: flex; justify-content: flex-end; gap: 1rem;">
-      <% if route.status=="scheduled"%>
-      <a href="<%=rearranged_mobile_order_route_path(route)%>" class="btn btn-secondary mb-10" id="completeBtn">Picked Failed</a>
-      <a href="<%=picked_mobile_order_route_path(route)%>" class="btn btn-success" id="completeBtn">Picked</a>
-      <% elsif route.status=="picked"%>
-      <a href="<%=loaded_mobile_order_route_path(route)%>" class="btn btn-success" id="completeBtn">Loaded</a>
-      <% elsif route.status=="loaded"%>
-      <a href="<%=rearranged_mobile_order_route_path(route)%>" class="btn btn-secondary mb-10" id="completeBtn">Sent Failed</a>
-      <a href="<%=sent_mobile_order_route_path(route)%>" class="btn btn-success" id="completeBtn">Sent</a>
-      <% elsif route.status=="sent"%>
-      <a href="<%=finished_mobile_order_route_path(route)%>" class="btn btn-success" id="completeBtn">Finished</a>
+      <% if @tor.status=="scheduled"%>
+        <%= link_to rearranged_mobile_order_route_path(route, task_id: @task.id, from: "pickup"), data: {turbo_method: :post, turbo_confirm: 'Are you sure?'}, class: "btn btn-secondary mb-10" do %>Picked Failed<% end %>
+        <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#picking<%=route.id%>">Picked</a>
+      <% elsif @tor.status=="picked"%>
+        <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#loading<%=route.id%>">Loaded</a>
+      <% elsif @tor.status=="loaded"%>
+        <%= link_to rearranged_mobile_order_route_path(route, task_id: @task.id, from: "sent"), data: {turbo_method: :post, turbo_confirm: 'Are you sure?'}, class: "btn btn-secondary mb-10" do %>Sent Failed<% end %>
+        <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#sending<%=route.id%>">Sent</a>
+      <% elsif @tor.status=="sent"%>
+        <%= link_to finished_mobile_order_route_path(route, task_id: @task.id), data: {turbo_method: :post}, class: "btn btn-success" do %>Finished<% end %>
       <% end %>
+    </div>
+  </div>
+  <!-- Modal -->
+  <div class="modal fade" id="picking<%=route.id%>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Picking Images</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <%= form_with(model: TrackingInfo.new, url: picked_mobile_order_route_path(route, task_id: @task.id), method: "post") do |f|%>
+            <%= f.file_field :images, class: "form-control", style: "margin-bottom: 20px;", capture:"camera" , accept:"image/*" , multiple: true %>
+            <button type="submit" class="btn btn-success" style="width: 100%">Submit</button>
+          <% end %>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="sending<%=route.id%>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Sign for Images</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <%= form_with(model: TrackingInfo.new, url: sent_mobile_order_route_path(route, task_id: @task.id), method: "post") do |f|%>
+            <%= f.file_field :images, class: "form-control", style: "margin-bottom: 20px;", capture:"camera" , accept:"image/*" , multiple: true %>
+            <button type="submit" class="btn btn-success" style="width: 100%">Submit</button>
+          <% end %>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="loading<%=route.id%>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Loading Scan</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <%= form_with(model: TrackingInfo.new, url: loaded_mobile_order_route_path(route, task_id: @task.id), method: "post") do |f|%>
+            <div class="input-group" style="margin-bottom: 20px;">
+              <div class="input-group-text"><i class="fa-solid fa-barcode"></i></div>
+              <%= f.text_field :loading_scan, class: "form-control"%>
+            </div>
+            <button type="submit" class="btn btn-success" style="width: 100%">Submit</button>
+          <% end %>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
     </div>
   </div>
   <% end %>

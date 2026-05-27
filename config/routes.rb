@@ -66,8 +66,8 @@ Rails.application.routes.draw do
     get "pages/profile"
     resources :transport_tasks do
       member do
-        get :start
-        get :finish
+        post :start
+        post :finish
       end
       collection do
         get :in_progress_orders
@@ -75,11 +75,11 @@ Rails.application.routes.draw do
     end
     resources :order_routes do
       member do
-        get :picked
-        get :loaded
-        get :sent
-        get :finished
-        get :rearranged
+        post :picked
+        post :loaded
+        post :sent
+        post :finished
+        post :rearranged
       end
     end
   end

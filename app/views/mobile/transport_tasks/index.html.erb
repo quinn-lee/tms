@@ -16,7 +16,7 @@
             <div class="mobile-list-detail">Status: <%=task.status%></div>
             <div class="mobile-list-detail">Order QTY: <%=task.order_quantity%></div>
             <a href="<%=mobile_transport_task_path(task)%>" class="btn btn-secondary mb-10">Show Orders</a>
-            <a href="<%=finish_mobile_transport_task_path(task)%>" class="btn btn-success" id="completeBtn">Finish Task</a>
+            <%= link_to finish_mobile_transport_task_path(task), data: {turbo_method: :post, turbo_confirm: 'Are you sure?'}, class: "btn btn-success" do %>Finish Task<% end %>
         </div>
     </div>
     <% end %>
@@ -38,7 +38,7 @@
             <div class="mobile-list-detail">Status: <%=task.status%></div>
             <div class="mobile-list-detail">Order QTY: <%=task.order_quantity%></div>
             <a href="<%=mobile_transport_task_path(task)%>" class="btn btn-secondary mb-10">Show Orders</a>
-            <a href="<%=start_mobile_transport_task_path(task)%>" class="btn btn-success" id="completeBtn">Start/Join Task</a>
+            <%= link_to start_mobile_transport_task_path(task), data: {turbo_method: :post, turbo_confirm: 'Are you sure?'}, class: "btn btn-success" do %>Start/Join Task<% end %>
         </div>
     </div>
     <% end %>

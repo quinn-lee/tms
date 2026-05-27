@@ -52,6 +52,7 @@ class TransportTasksController < ApplicationController
 			      	@tor = TaskOrderRelation.new(
 			      		task_id: @task.id,
 			      		order_route_id: route.id,
+			      		order_id: route.order_id,
 			      		status: "init"
 			      		)
 			      	@tor.save!
