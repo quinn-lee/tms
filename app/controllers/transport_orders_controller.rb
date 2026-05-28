@@ -56,6 +56,9 @@ class TransportOrdersController < ApplicationController
         @order.goods_volume = @parent.goods_volume
         @order.goods_quantity = @parent.goods_quantity
         @order.save!
+
+        @parent.order_status = "returning"
+        @parent.save!
         flash[:success] = "Created Return Order Successful"
         redirect_to transport_orders_path
       rescue => e

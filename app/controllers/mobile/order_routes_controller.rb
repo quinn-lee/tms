@@ -72,13 +72,17 @@ class Mobile::OrderRoutesController < ApplicationController
 				seq = TrackingInfo.where(order_id: @route.order_id).count + 1
 				ti = TrackingInfo.new(params.require(:tracking_info).permit(images: []))
 				ti.order_id = @route.order_id
-				ti.location = @route.first_location
+				ti.location = @route.end_location
 				ti.event = "send"
 				if next_route.present?
 					ti.description = "Cargo Sent Successful, Next Destination-#{next_route.end_location}"
 				else
 					ti.description = "Cargo Sent Successful"
 					@route.order.update!(order_status: "sent")
+					if @route.order.is_return?
+						parent = TransportOrder.find(@route.order.parent_id)
+						parent.update!(order_status: "returned")
+					end
 				end
 				ti.event_time = Time.now
 				ti.driver_id = current_user.id

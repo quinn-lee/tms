@@ -38,7 +38,10 @@
         <td><span class="status on-route"><%=order.order_status%></span></td>
         <td>
           <a title="Show" class="btn-icon" href="<%=transport_order_path(order)%>"><i class="fas fa-circle-info"></i></a>
+          <% if order.order_status == "sent"%>
           <a title="Return Cargo" class="btn-icon" href="<%=new_return_transport_order_path(order)%>"><i class="fa-solid fa-circle-left"></i></a>
+          <% end %>
+          <a title="Tracking Info" class="btn-icon" data-bs-toggle="modal" data-bs-target="#tracking<%=order.id%>"><i class="fa-solid fa-magnifying-glass-location"></i></a>
         </td>
         <!-- Modal -->
         <div class="modal fade" id="pickup<%=order.id%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -65,9 +68,109 @@
             </div>
           </div>
         </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="tracking<%=order.id%>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Tracking Infos</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div class="timeline">
+                  <% TrackingInfo.where(order_id: order.id).order("seq asc").each do |ti|%>
+                  <div class="timeline-item">
+                      <div class="timeline-dot"></div>
+                      <div class="timeline-content">
+                          <div class="timeline-time"><%=ti.event_time&.strftime('%F %T')%>,&nbsp;<%=ti.location%></div>
+                          <div class="list-title"><%=ti.description%></div>
+                          <div class="list-detail">
+                            <% ti.images&.each do |image| %>
+                            <%= link_to(image_tag(image.url, alt: 'Image', size: "60x60"), image.url, target: '_blank')%>
+                            <% end %>
+                          </div>
+                      </div>
+                  </div>
+                  <% end %>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
       </tr>
       <% end %>
     </tbody>
   </table>
   <%== @pagy.series_nav(:bootstrap) if @pagy.pages > 1%>
 </div>
+
+<style type="text/css">
+/* Timeline Styles */
+.timeline {
+    position: relative;
+    padding: 20px 0;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 20px;
+    width: 2px;
+    background: #dadce0;
+}
+
+.timeline-item {
+    position: relative;
+    padding-left: 40px;
+    margin-bottom: 20px;
+}
+
+.timeline-dot {
+    position: absolute;
+    left: 12px;
+    top: 5px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #1a73e8;
+    z-index: 1;
+}
+
+.timeline-content {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.timeline-time {
+    font-size: 12px;
+    color: #5f6368;
+    margin-bottom: 4px;
+}
+
+.list-title {
+    font-weight: 600;
+    color: #1a73e8;
+}
+
+.list-detail {
+    color: #5f6368;
+    font-size: 14px;
+    margin: 4px 0;
+    display: flex;
+    align-items: center;
+}
+
+.list-detail i {
+    margin-right: 8px;
+    width: 20px;
+    color: #5f6368;
+}
+</style>
