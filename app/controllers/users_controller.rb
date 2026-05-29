@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  before_action :auth_admin, only: [:new, :create]
-  before_action :auth_staff
+  before_action :auth_admin, only: [:new, :create, :edit, :update]
+  before_action :auth_staff, except: [:edit_password, :change_password]
 
   def index
     @all_staffs = User.where(staff_grade: ['dispatcher', 'appeal_handler'])
@@ -157,5 +157,23 @@ class UsersController < ApplicationController
         raise ActiveRecord::Rollback,"rollback!"
       end
     end
+  end
+
+  def edit_password
+  end
+
+  def change_password
+    if current_user.valid_password?(params[:old_password])
+      current_user.password_confirmation = params[:password_confirmation]
+      current_user.password = params[:password]
+      if current_user.save
+        flash[:success] = "Password Updated Successful"
+      else
+        flash[:error] = current_user.errors.full_messages.join(",")
+      end
+    else
+      flash[:error] = "The Old Password Is Not Right"
+    end
+    redirect_to edit_password_users_path
   end
 end
