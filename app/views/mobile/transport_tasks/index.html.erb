@@ -17,6 +17,8 @@
             <div class="mobile-list-detail">Order QTY: <%=task.order_quantity%></div>
             <a href="<%=mobile_transport_task_path(task)%>" class="btn btn-secondary mb-10">Show Orders</a>
             <%= link_to finish_mobile_transport_task_path(task), data: {turbo_method: :post, turbo_confirm: 'Are you sure?'}, class: "btn btn-success" do %>Finish Task<% end %>
+            <br/>
+            <%= link_to break_down_mobile_transport_task_path(task), data: {turbo_method: :post, turbo_confirm: 'Are you sure?'}, class: "btn btn-danger", style: "margin-top: 20px;" do %>Truck Broke Down<% end %>
         </div>
     </div>
     <% end %>

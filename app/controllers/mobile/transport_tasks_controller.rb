@@ -1,7 +1,7 @@
 class Mobile::TransportTasksController < ApplicationController
 	before_action :auth_driver
 	def index
-		@trucks = Truck.where("driver_ids @> ?", [current_user.id].to_json)
+		@trucks = Truck.where("driver_ids @> ?", [current_user.id].to_json).where(truck_status: "operation")
     @pending_tasks = []
     @processing_tasks = []
     @trucks.each do |truck|
@@ -92,5 +92,42 @@ class Mobile::TransportTasksController < ApplicationController
 		@task.save!
 		flash[:success] = "Finish Successful"
 		redirect_to mobile_transport_tasks_path
+	end
+
+	def break_down
+		ActiveRecord::Base.transaction do
+      begin
+				@task = TransportTask.find(params[:id])
+				@task.status = "suspend"
+				@task.save!
+				
+				TaskOrderRelation.where(task_id: @task.id).each do |tor|
+					tor.update!(status: "finished")
+					route = OrderRoute.find(tor.order_route_id)
+					route.status = "rearranged"
+					route.save!
+				end
+				@task.truck.update!(truck_status: "maintenance")
+
+				TransportTask.where(status: "pending", truck_id: @task.truck_id).each do |task|
+					task.status = "suspend"
+					task.save!
+				
+					TaskOrderRelation.where(task_id: task.id).each do |tor|
+						tor.update!(status: "finished")
+						route = OrderRoute.find(tor.order_route_id)
+						route.status = "rearranged"
+						route.save!
+					end
+				end
+
+				flash[:success] = "Truck Breakdown Registration Successful"
+				redirect_to mobile_transport_tasks_path
+			rescue => e
+				flash[:error] = e.message
+				redirect_to mobile_transport_tasks_path
+        raise ActiveRecord::Rollback,"rollback!"
+      end
+    end
 	end
 end

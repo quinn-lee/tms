@@ -69,6 +69,7 @@ Rails.application.routes.draw do
       member do
         post :start
         post :finish
+        post :break_down
       end
       collection do
         get :in_progress_orders
