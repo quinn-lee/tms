@@ -29,7 +29,7 @@
         <td><%=branch.contact_phone%></td>
         <td><span class="status <%={'out_of_service'=>'on-route', 'in_service'=>'available'}[branch.status]%>"><%=branch.status%></td>
         <td>
-          
+          <a title="Edit Branch" class="btn-icon" href="<%=edit_branch_path(branch)%>"><i class="fa-solid fa-pen-to-square"></i></a>
         </td>
       </tr>
       <% end %>

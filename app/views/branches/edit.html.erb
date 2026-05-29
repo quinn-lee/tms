@@ -1,0 +1,80 @@
+<div id="userForm" class="card-new" style="margin-bottom: 2rem;">
+  <div class="card-header">
+      <div class="card-title">Edit Branch</div>
+  </div>
+  <div class="card-body">
+    <%= form_with(model: @branch, method: "put") do |f|%>
+      <% unless f.object.errors.empty? %>
+        <ul class="list-group">
+          <li class="list-group-item active">Branch Updated Failed</li>
+          <% f.object.errors.full_messages.each do |msg| %>
+            <li class="list-group-item list-group-item-danger"><%= msg %></li>
+          <% end -%>
+        </ul>
+      <% end -%>
+      <div class="form-section" style="margin-bottom: 2rem;    margin-top: 2.5rem;">
+        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+          <div class="form-group">
+              <label class="form-label">Branch Code*</label>
+              <%= f.text_field :branch_code, class: "form-input", placeholder: "", required: true %>
+          </div>
+          <div class="form-group">
+              <label class="form-label">Branch Name*</label>
+              <%= f.text_field :branch_name, class: "form-input", placeholder: "", required: true %>
+          </div>
+          <div class="form-group">
+              <label class="form-label">Branch Status*</label>
+              <%= f.select :status, ['in_service','out_of_service'], {required: true}, {class: 'form-select'} %>
+          </div>
+        </div>
+      </div>
+      <div class="form-section" style="margin-bottom: 2rem;    margin-top: 2.5rem;">
+        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+          <div class="form-group">
+              <label class="form-label">Province</label>
+              <%= f.text_field :province, class: "form-input", placeholder: "", required: false %>
+          </div>
+          <div class="form-group">
+              <label class="form-label">City*</label>
+              <%= f.text_field :city, class: "form-input", placeholder: "", required: true %>
+          </div>
+          <div class="form-group">
+              <label class="form-label">Address*</label>
+              <%= f.text_field :address, class: "form-input", placeholder: "", required: true %>
+          </div>
+        </div>
+      </div>
+      <div class="form-section" style="margin-bottom: 2rem;    margin-top: 2.5rem;">
+        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+          <div class="form-group">
+              <label class="form-label">Postcode*</label>
+              <%= f.text_field :postcode, class: "form-input", placeholder: "", required: true %>
+          </div>
+          <div class="form-group">
+              <label class="form-label">Latitude</label>
+              <%= f.number_field :latitude, class: "form-input", placeholder: "e.g. 35.4737", step: '0.0001' %>
+          </div>
+          <div class="form-group">
+              <label class="form-label">Longitude</label>
+              <%= f.number_field :longitude, class: "form-input", placeholder: "e.g. 121.4737", step: '0.0001' %>
+          </div>
+        </div>
+      </div>
+      <div class="form-section" style="margin-bottom: 2rem;    margin-top: 2.5rem;">
+        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+          <div class="form-group">
+              <label class="form-label">Contact Person</label>
+              <%= f.text_field :contact_person, class: "form-input", placeholder: "", required: false %>
+          </div>
+          <div class="form-group">
+              <label class="form-label">Contact Phone</label>
+              <%= f.text_field :contact_phone, class: "form-input", placeholder: "", required: false %>
+          </div>
+        </div>
+      </div>
+      <div style="display: flex; justify-content: flex-end; gap: 1rem;">
+          <button type="submit" class="btn btn-primary">Update Branch</button>
+      </div>
+    <% end %>
+  </div>
+</div>

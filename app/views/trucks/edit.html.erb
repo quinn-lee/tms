@@ -6,7 +6,7 @@
     <%= form_with(model: @truck, method: "put") do |f|%>
       <% unless f.object.errors.empty? %>
         <ul class="list-group">
-          <li class="list-group-item active">Truck Update Failed</li>
+          <li class="list-group-item active">Truck Updated Failed</li>
           <% f.object.errors.full_messages.each do |msg| %>
             <li class="list-group-item list-group-item-danger"><%= msg %></li>
           <% end -%>
@@ -64,7 +64,7 @@
         <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
           <div class="form-group">
               <label class="form-label">Truck Status*</label>
-              <%= f.select :truck_status, ['','suspension','operation','maintenance'], {required: true}, {class: 'form-select'} %>
+              <%= f.select :truck_status, ['suspension','operation','maintenance'], {required: true}, {class: 'form-select'} %>
           </div>
         </div>
       </div>

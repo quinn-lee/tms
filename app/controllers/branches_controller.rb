@@ -25,4 +25,24 @@ class BranchesController < ApplicationController
       end
     end
 	end
+
+  def edit
+    @branch = Branch.find(params[:id])
+  end
+
+  def update
+    @branch = Branch.find(params[:id])
+    ActiveRecord::Base.transaction do
+      begin
+        @branch.update!(params.require(:branch).permit(:branch_code, 
+          :branch_name, :province, :city, :address, :postcode, :latitude, 
+          :longitude, :contact_person, :contact_phone, :status))
+        flash[:success] = "Branch Updated Successful"
+        redirect_to branches_path
+      rescue => e
+        render :edit, status: :unprocessable_entity
+        raise ActiveRecord::Rollback,"rollback!"
+      end
+    end
+  end
 end
