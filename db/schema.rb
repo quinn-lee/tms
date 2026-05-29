@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_05_27_214430) do
+ActiveRecord::Schema[8.0].define(version: 2026_05_28_014656) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -29,6 +29,30 @@ ActiveRecord::Schema[8.0].define(version: 2026_05_27_214430) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["branch_code"], name: "index_branches_on_branch_code", unique: true
+  end
+
+  create_table "driver_checkins", force: :cascade do |t|
+    t.integer "driver_id"
+    t.string "checkin_type"
+    t.datetime "checkin_time"
+    t.string "checkin_address"
+    t.decimal "checkin_lng"
+    t.decimal "checkin_lat"
+    t.jsonb "checkin_photos"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["driver_id"], name: "index_driver_checkins_on_driver_id"
+  end
+
+  create_table "loading_scan_records", force: :cascade do |t|
+    t.integer "order_id"
+    t.integer "driver_id"
+    t.datetime "scan_time"
+    t.string "remark"
+    t.string "scan_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_loading_scan_records_on_order_id"
   end
 
   create_table "order_routes", force: :cascade do |t|
@@ -203,5 +227,22 @@ ActiveRecord::Schema[8.0].define(version: 2026_05_27_214430) do
     t.datetime "remember_me_token_expires_at"
     t.index ["nickname"], name: "index_users_on_nickname", unique: true
     t.index ["remember_me_token"], name: "index_users_on_remember_me_token"
+  end
+
+  create_table "violation_appeals", force: :cascade do |t|
+    t.string "appeal_no"
+    t.integer "driver_id"
+    t.integer "order_id"
+    t.string "violation_type"
+    t.datetime "violation_time"
+    t.string "appeal_content"
+    t.jsonb "appeal_attachments"
+    t.string "appeal_status"
+    t.integer "reviewer_id"
+    t.string "review_opinion"
+    t.datetime "review_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_violation_appeals_on_order_id"
   end
 end

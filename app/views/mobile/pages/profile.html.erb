@@ -22,8 +22,55 @@
       <div class="mobile-info-value"><%=current_user.license_expire_date&.strftime('%F')%></div>
     </div>
   </div>
-    
+  <div class="mobile-timeline-content" style="margin-bottom: 20px;">
+    <a class="btn btn-success mb-10" data-bs-toggle="modal" data-bs-target="#signin">Clock In</a>
+    <a class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#signout">Clock Out</a>
+  </div>
   <%= link_to logout_path, data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'}, class: "mobile-btn btn-secondary", style: "text-decoration: none;" do %>
     Logout
   <% end %>
+
+  <!-- Modal -->
+  <div class="modal fade" id="signin" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Clock In</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <%= form_with(model: DriverCheckin.new, url: mobile_pages_checkin_path, method: "post") do |f|%>
+            <%= f.hidden_field :checkin_type, value: "clock-in"%>
+            <%= f.file_field :checkin_photos, class: "form-control", style: "margin-bottom: 20px;", capture:"camera" , accept:"image/*" , multiple: true %>
+            <button type="submit" class="btn btn-success" style="width: 100%">Submit</button>
+          <% end %>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="signout" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Clock Out</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <%= form_with(model: DriverCheckin.new, url: mobile_pages_checkin_path, method: "post") do |f|%>
+            <%= f.hidden_field :checkin_type, value: "clock-out"%>
+            <%= f.file_field :checkin_photos, class: "form-control", style: "margin-bottom: 20px;", capture:"camera" , accept:"image/*" , multiple: true %>
+            <button type="submit" class="btn btn-success" style="width: 100%">Submit</button>
+          <% end %>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

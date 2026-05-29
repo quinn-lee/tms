@@ -64,6 +64,7 @@ Rails.application.routes.draw do
 
   namespace :mobile do
     get "pages/profile"
+    post "pages/checkin"
     resources :transport_tasks do
       member do
         post :start

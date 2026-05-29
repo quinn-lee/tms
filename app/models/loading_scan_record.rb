@@ -1,0 +1,2 @@
+class LoadingScanRecord < ApplicationRecord
+end
