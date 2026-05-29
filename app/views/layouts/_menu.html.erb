@@ -31,6 +31,23 @@
           </a>
       </div>
     </div>
+    <div class="nav-group">
+      <a href="#" class="nav-link">
+          <i class="fas fa-clipboard-list"></i>
+          <span>Violation Appeals</span>
+          <i class="fas fa-chevron-down submenu-icon"></i>
+      </a>
+      <div class="submenu">
+          <a href="<%=violation_appeals_path%>" class="submenu-link">
+              <i class="fas fa-list"></i>
+              <span>Appeals List</span>
+          </a>
+          <a href="<%=new_violation_appeal_path%>" class="submenu-link">
+              <i class="fas fa-plus"></i>
+              <span>Create Appeals</span>
+          </a>
+      </div>
+    </div>
     <% else %>
     <% if current_user.is_admin? %>
     <div class="nav-group">
