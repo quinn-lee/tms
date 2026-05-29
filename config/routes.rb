@@ -17,6 +17,14 @@ Rails.application.routes.draw do
       get :customers
       post :create_customer
     end
+
+    member do
+      get :edit_driver
+      post :update_driver
+
+      get :edit_customer
+      post :update_customer
+    end
   end
 
   resources :transport_orders do

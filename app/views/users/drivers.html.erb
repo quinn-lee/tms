@@ -29,7 +29,7 @@
         <td><%=user.license_expire_date&.strftime("%F")%></td>
         <td><span class="status <%={'out_of_service'=>'on-route', 'in_service'=>'available', 'on_vacation' => 'on-route', 'resigned'=>'maintenance'}[user.status]%>"><%=user.status%></td>
         <td>
-          
+          <a title="Edit Driver" class="btn-icon" href="<%=edit_driver_user_path(user)%>"><i class="fa-solid fa-pen-to-square"></i></a>
         </td>
       </tr>
       <% end %>

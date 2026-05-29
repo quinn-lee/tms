@@ -37,6 +37,31 @@ class UsersController < ApplicationController
     end
 	end
 
+  def edit
+    @user = User.find(params[:id])
+  end
+
+  def update
+    @user = User.find(params[:id])
+    ActiveRecord::Base.transaction do
+      begin
+        if params[:user][:password].present? or params[:user][:password_confirmation].present?
+          @user.update!(params.require(:user)
+            .permit(:nickname, :password, :password_confirmation, :user_name, 
+            :id_card, :user_phone, :staff_grade, :status))
+        else
+          @user.update!(params.require(:user).permit(:nickname, :user_name, 
+            :id_card, :user_phone, :staff_grade, :status))
+        end
+        flash[:success] = "Staff Updated Successful"
+        redirect_to users_path
+      rescue => e
+        render :edit, status: :unprocessable_entity
+        raise ActiveRecord::Rollback,"rollback!"
+      end
+    end
+  end
+
 	def new_customer
 		@user = User.new
 	end
@@ -59,6 +84,33 @@ class UsersController < ApplicationController
     end
 	end
 
+  def edit_customer
+    @user = User.find(params[:id])
+  end
+
+  def update_customer
+    @user = User.find(params[:id])
+    ActiveRecord::Base.transaction do
+      begin
+        if params[:user][:password].present? or params[:user][:password_confirmation].present?
+          @user.update!(params.require(:user)
+            .permit(:nickname, :password, :password_confirmation, :customer_code, 
+              :customer_name, :customer_type, :contact_person, :contact_phone, 
+              :contact_address, :credit_level, :status))
+        else
+          @user.update!(params.require(:user).permit(:nickname, :customer_code, 
+              :customer_name, :customer_type, :contact_person, :contact_phone, 
+              :contact_address, :credit_level, :status))
+        end
+        flash[:success] = "Customer Updated Successful"
+        redirect_to customers_users_path
+      rescue => e
+        render :edit_customer, status: :unprocessable_entity
+        raise ActiveRecord::Rollback,"rollback!"
+      end
+    end
+  end
+
 	def new_driver
 		@user = User.new
 	end
@@ -79,4 +131,31 @@ class UsersController < ApplicationController
       end
     end
 	end
+
+  def edit_driver
+    @user = User.find(params[:id])
+  end
+
+  def update_driver
+    @user = User.find(params[:id])
+    
+    ActiveRecord::Base.transaction do
+      begin
+        if params[:user][:password].present? or params[:user][:password_confirmation].present?
+          @user.update!(params.require(:user)
+            .permit(:nickname, :password, :password_confirmation, :user_name, :status,
+            :id_card, :user_phone, :driver_license, :license_type, :license_expire_date))
+        else
+          @user.update!(params.require(:user).permit(:nickname, :user_name, :status,
+            :id_card, :user_phone, :driver_license, :license_type, :license_expire_date))
+        end
+    
+        flash[:success] = "Driver Update Successful"
+        redirect_to drivers_users_path
+      rescue => e
+        render :edit_driver, status: :unprocessable_entity
+        raise ActiveRecord::Rollback,"rollback!"
+      end
+    end
+  end
 end

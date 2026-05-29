@@ -29,7 +29,7 @@
         <td><span class="status <%={'out_of_service'=>'on-route', 'in_service'=>'available', 'on_vacation' => 'on-route', 'resigned'=>'maintenance'}[user.status]%>"><%=user.status%></td>
         <td><%=user.credit_level%></td>
         <td>
-          
+          <a title="Edit Customer" class="btn-icon" href="<%=edit_customer_user_path(user)%>"><i class="fa-solid fa-pen-to-square"></i></a>
         </td>
       </tr>
       <% end %>

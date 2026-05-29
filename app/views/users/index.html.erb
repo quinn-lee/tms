@@ -21,11 +21,11 @@
         <td><%=user.nickname%></td>
         <td><%=user.user_name%></td>
         <td><%=user.id_card%></td>
-        <td><%=user.contact_phone%></td>
+        <td><%=user.user_phone%></td>
         <td><span class="status <%={'out_of_service'=>'on-route', 'in_service'=>'available', 'on_vacation' => 'on-route', 'resigned'=>'maintenance'}[user.status]%>"><%=user.status%></td>
         <td><%=user.staff_grade%></td>
         <td>
-          
+          <a title="Edit Staff" class="btn-icon" href="<%=edit_user_path(user)%>"><i class="fa-solid fa-pen-to-square"></i></a>
         </td>
       </tr>
       <% end %>
