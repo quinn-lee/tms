@@ -50,6 +50,12 @@ class Mobile::OrderRoutesController < ApplicationController
 				ti.driver_id = current_user.id
 				ti.seq = seq
 				ti.save!
+				lsr = LoadingScanRecord.new(order_id: @route.order_id, 
+					driver_id: current_user.id, 
+					scan_time: Time.now, 
+					remark: ti.loading_scan, 
+					scan_type: "load")
+				lsr.save!
 				flash[:success] = "Loaded Successful"
 				redirect_to in_progress_orders_mobile_transport_tasks_path
 			rescue => e
@@ -70,7 +76,7 @@ class Mobile::OrderRoutesController < ApplicationController
 				@tor.save!
 				next_route = OrderRoute.find_by(order_id: @route.order_id, node_order: (@route.node_order + 1))
 				seq = TrackingInfo.where(order_id: @route.order_id).count + 1
-				ti = TrackingInfo.new(params.require(:tracking_info).permit(images: []))
+				ti = TrackingInfo.new(params.require(:tracking_info).permit(:loading_scan, images: []))
 				ti.order_id = @route.order_id
 				ti.location = @route.end_location
 				ti.event = "send"
@@ -88,6 +94,12 @@ class Mobile::OrderRoutesController < ApplicationController
 				ti.driver_id = current_user.id
 				ti.seq = seq
 				ti.save!
+				lsr = LoadingScanRecord.new(order_id: @route.order_id, 
+					driver_id: current_user.id, 
+					scan_time: Time.now, 
+					remark: ti.loading_scan, 
+					scan_type: "unload")
+				lsr.save!
 				flash[:success] = "Sent Successful"
 				redirect_to in_progress_orders_mobile_transport_tasks_path
 			rescue => e

@@ -85,6 +85,10 @@
         <div class="modal-body">
           <%= form_with(model: TrackingInfo.new, url: sent_mobile_order_route_path(route, task_id: @task.id), method: "post") do |f|%>
             <%= f.file_field :images, class: "form-control", style: "margin-bottom: 20px;", capture:"camera" , accept:"image/*" , multiple: true %>
+            <div class="input-group" style="margin-bottom: 20px;">
+              <div class="input-group-text"><i class="fa-solid fa-barcode"></i></div>
+              <%= f.text_field :loading_scan, class: "form-control"%>
+            </div>
             <button type="submit" class="btn btn-success" style="width: 100%">Submit</button>
           <% end %>
         </div>
