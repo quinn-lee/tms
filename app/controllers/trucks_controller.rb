@@ -26,6 +26,26 @@ class TrucksController < ApplicationController
     end
 	end
 
+  def edit
+    @truck = Truck.find(params[:id])
+  end
+
+  def update
+    @truck = Truck.find(params[:id])
+    ActiveRecord::Base.transaction do
+      begin
+        @truck.update!((params.require(:truck).permit(:truck_plate, 
+          :branch_id, :truck_type, :truck_model, :max_load, :max_volume, 
+          :gps_device_id, :gps_status, :total_mileage, :truck_status)))
+        flash[:success] = "Truck Updated Successful"
+        redirect_to trucks_path
+      rescue => e
+        render :edit, status: :unprocessable_entity
+        raise ActiveRecord::Rollback,"rollback!"
+      end
+    end
+  end
+
   def bound_drivers
     begin
       @truck = Truck.find(params[:id])

@@ -1,0 +1,76 @@
+<div id="userForm" class="card-new" style="margin-bottom: 2rem;">
+  <div class="card-header">
+      <div class="card-title">Edit Truck</div>
+  </div>
+  <div class="card-body">
+    <%= form_with(model: @truck, method: "put") do |f|%>
+      <% unless f.object.errors.empty? %>
+        <ul class="list-group">
+          <li class="list-group-item active">Truck Update Failed</li>
+          <% f.object.errors.full_messages.each do |msg| %>
+            <li class="list-group-item list-group-item-danger"><%= msg %></li>
+          <% end -%>
+        </ul>
+      <% end -%>
+      <div class="form-section" style="margin-bottom: 2rem;    margin-top: 2.5rem;">
+        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+          <div class="form-group">
+              <label class="form-label">Truck Plate*</label>
+              <%= f.text_field :truck_plate, class: "form-input", placeholder: "", required: true %>
+          </div>
+          <div class="form-group">
+              <label class="form-label">Branch*</label>
+              <%= f.select :branch_id, Branch.all.map{|branch| [branch.branch_code, branch.id]}, {required: true}, {class: 'form-select'} %>
+          </div>
+          <div class="form-group">
+              <label class="form-label">Truck Type*</label>
+              <%= f.select :truck_type, ['3.5t','12t','18t'], {required: true}, {class: 'form-select'} %>
+          </div>
+        </div>
+      </div>
+      <div class="form-section" style="margin-bottom: 2rem;    margin-top: 2.5rem;">
+        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+          <div class="form-group">
+              <label class="form-label">Truck Model</label>
+              <%= f.text_field :truck_model, class: "form-input", placeholder: "", required: false %>
+          </div>
+          <div class="form-group">
+              <label class="form-label">Max Load(t)*</label>
+              <%= f.text_field :max_load, class: "form-input", placeholder: "", required: true %>
+          </div>
+          <div class="form-group">
+              <label class="form-label">Max Volume(m³)*</label>
+              <%= f.text_field :max_volume, class: "form-input", placeholder: "", required: true %>
+          </div>
+        </div>
+      </div>
+      <div class="form-section" style="margin-bottom: 2rem;    margin-top: 2.5rem;">
+        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+          <div class="form-group">
+              <label class="form-label">Gps Device Id</label>
+              <%= f.text_field :gps_device_id, class: "form-input", placeholder: "", required: false %>
+          </div>
+          <div class="form-group">
+              <label class="form-label">Gps Status</label>
+              <%= f.select :gps_status, ['','offline','online'], {required: false}, {class: 'form-select'} %>
+          </div>
+          <div class="form-group">
+              <label class="form-label">Total Mileage</label>
+              <%= f.number_field :total_mileage, class: "form-input", placeholder: "", required: false %>
+          </div>
+        </div>
+      </div>
+      <div class="form-section" style="margin-bottom: 2rem;    margin-top: 2.5rem;">
+        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+          <div class="form-group">
+              <label class="form-label">Truck Status*</label>
+              <%= f.select :truck_status, ['','suspension','operation','maintenance'], {required: true}, {class: 'form-select'} %>
+          </div>
+        </div>
+      </div>
+      <div style="display: flex; justify-content: flex-end; gap: 1rem;">
+          <button type="submit" class="btn btn-primary">Update Truck</button>
+      </div>
+    <% end %>
+  </div>
+</div>

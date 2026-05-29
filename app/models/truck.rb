@@ -11,6 +11,9 @@ class Truck < ApplicationRecord
 
 	before_validation :setup, :on => :create
 
+  def drivers
+    User.where(staff_grade: "driver").where(id: driver_ids).map{|user| user.nickname}.join(",")
+  end
 
 	private
 	def setup

@@ -6,13 +6,14 @@
   <table>
     <thead>
       <tr>
-        <th>Truck Plate</th>
+        <th>Truck<br/>Plate</th>
         <th>Branch</th>
-        <th>Truck Type</th>
-        <th>Truck Model</th>
-        <th>Max Load(t)</th>
-        <th>Max Volume(m³)</th>
-        <th>Truck Status</th>
+        <th>Truck<br/>Type</th>
+        <th>Truck<br/>Model</th>
+        <th>Max<br/>Load(t)</th>
+        <th>Max<br/>Volume(m³)</th>
+        <th>Truck<br/>Status</th>
+        <th>Bound<br/>Drivers</th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -26,8 +27,10 @@
         <td><%=truck.max_load%></td>
         <td><%=truck.max_volume%></td>
         <td><span class="status <%={'suspension'=>'on-route', 'operation'=>'available', 'maintenance'=>'maintenance'}[truck.truck_status]%>"><%=truck.truck_status%></td>
+        <td><div title="<%=truck.drivers%>" style="width: 50px;text-overflow: ellipsis;overflow: hidden;"><%=truck.drivers%></div></td>
         <td>
           <a title="Bound Drivers" class="btn-icon" href="<%=bound_drivers_truck_path(truck)%>"><i class="fas fa-users"></i></a>
+          <a title="Edit Truck" class="btn-icon" href="<%=edit_truck_path(truck)%>"><i class="fa-solid fa-pen-to-square"></i></a>
         </td>
       </tr>
       <% end %>
