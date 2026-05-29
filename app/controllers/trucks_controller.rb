@@ -6,6 +6,11 @@ class TrucksController < ApplicationController
     @pagy, @trucks = pagy(:offset, @all_trucks.order("id desc"))
   end
 
+  def scheduling
+    @trucks = Truck.where(truck_status: "operation")
+    @dates = (0..9).each.map{|i| (Time.now + i.days).strftime("%F")}
+  end
+
 	def new
 		@truck = Truck.new
 	end

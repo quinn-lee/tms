@@ -52,6 +52,10 @@ Rails.application.routes.draw do
       post :binding_driver
       get :unbind_driver
     end
+
+    collection do
+      get :scheduling
+    end
   end
 
   resources :order_routes

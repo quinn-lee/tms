@@ -1,0 +1,26 @@
+<!-- 列表 -->
+<div class="vehicle-list" style="margin-bottom: 2rem;">
+  <div class="list-header">
+    <div class="list-title">Truck Scheduling</div>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Truck</th>
+        <%@dates.each do |sdate|%>
+        <th><%=sdate%></th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% @trucks.each do |truck|%>
+      <tr>
+        <td>#<%=truck.truck_plate%></td>
+        <%@dates.each do |sdate|%>
+        <td style="text-align: center;"><% if TransportTask.where(truck_id: truck.id, task_date: sdate).where.not(status: ["finished","suspend"]).any?%><i class="fa-solid fa-check"></i><% else %><i class="fa-solid fa-xmark"></i></i><% end %></td>
+        <%end%>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
