@@ -31,6 +31,7 @@ class UsersController < ApplicationController
         flash[:success] = "Staff Created Successful"
         redirect_to users_path
       rescue => e
+        logger.info e.backtrace
         render :new, status: :unprocessable_entity
         raise ActiveRecord::Rollback,"rollback!"
       end
@@ -56,6 +57,7 @@ class UsersController < ApplicationController
         flash[:success] = "Staff Updated Successful"
         redirect_to users_path
       rescue => e
+        logger.info e.backtrace
         render :edit, status: :unprocessable_entity
         raise ActiveRecord::Rollback,"rollback!"
       end
@@ -78,6 +80,7 @@ class UsersController < ApplicationController
         flash[:success] = "Customer Created Successful"
         redirect_to customers_users_path
       rescue => e
+        logger.info e.backtrace
         render :new_customer, status: :unprocessable_entity
         raise ActiveRecord::Rollback,"rollback!"
       end
@@ -105,6 +108,7 @@ class UsersController < ApplicationController
         flash[:success] = "Customer Updated Successful"
         redirect_to customers_users_path
       rescue => e
+        logger.info e.backtrace
         render :edit_customer, status: :unprocessable_entity
         raise ActiveRecord::Rollback,"rollback!"
       end
@@ -126,6 +130,7 @@ class UsersController < ApplicationController
         flash[:success] = "Driver Created Successful"
         redirect_to drivers_users_path
       rescue => e
+        logger.info e.backtrace
         render :new_driver, status: :unprocessable_entity
         raise ActiveRecord::Rollback,"rollback!"
       end
@@ -153,6 +158,7 @@ class UsersController < ApplicationController
         flash[:success] = "Driver Update Successful"
         redirect_to drivers_users_path
       rescue => e
+        logger.info e.backtrace
         render :edit_driver, status: :unprocessable_entity
         raise ActiveRecord::Rollback,"rollback!"
       end

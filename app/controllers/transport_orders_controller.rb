@@ -62,6 +62,7 @@ class TransportOrdersController < ApplicationController
         flash[:success] = "Created Return Order Successful"
         redirect_to transport_orders_path
       rescue => e
+        logger.info e.backtrace
         render :new_return, status: :unprocessable_entity
         raise ActiveRecord::Rollback,"rollback!"
       end
@@ -83,6 +84,7 @@ class TransportOrdersController < ApplicationController
         flash[:success] = "Created Successful"
         redirect_to transport_orders_path
       rescue => e
+        logger.info e.backtrace
         if @order.need_pickup
           render :new_pickup_order, status: :unprocessable_entity
         else
@@ -99,6 +101,7 @@ class TransportOrdersController < ApplicationController
       @last_route = @order.order_routes.order("node_order desc").first
       @order_route = OrderRoute.new(node_order: @last_route.present? ? @last_route.node_order + 1 : 1)
     rescue => e
+      logger.info e.backtrace
       flash[:error] = e.message
       redirect_to staff_views_transport_orders_path
     end
@@ -134,6 +137,7 @@ class TransportOrdersController < ApplicationController
         flash[:success] = "Plan New Route Successful"
         redirect_to route_plan_transport_order_path(@order)
       rescue => e
+        logger.info e.backtrace
         render :route_plan, status: :unprocessable_entity
         raise ActiveRecord::Rollback,"rollback!"
       end
@@ -147,6 +151,7 @@ class TransportOrdersController < ApplicationController
       flash[:success] = "Order-#{@order.order_no}'s cargo has arrived at the warehouse!"
       redirect_to staff_views_transport_orders_path
     rescue => e
+      logger.info e.backtrace
       flash[:error] = e.message
       redirect_to staff_views_transport_orders_path
     end

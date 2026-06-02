@@ -1,0 +1,29 @@
+<!-- 列表 -->
+<div class="vehicle-list" style="margin-bottom: 2rem;">
+  <div class="list-header">
+    <div class="list-title">Loading Scan List</div>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Order No</th>
+        <th>Driver</th>
+        <th>Scan Time</th>
+        <th>Remark</th>
+        <th>Scan Type</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @lsrs.each do |lsr|%>
+      <tr>
+        <td><%=lsr.order.order_no%></td>
+        <td><%=lsr.driver.nickname%></td>
+        <td><%=lsr.scan_time&.strftime("%F %T")%></td>
+        <td><%=lsr.remark%></td>
+        <td><%=lsr.scan_type%></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%== @pagy.series_nav(:bootstrap) if @pagy.pages > 1%>
+</div>

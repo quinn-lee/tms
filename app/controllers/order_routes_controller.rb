@@ -41,6 +41,7 @@ class OrderRoutesController < ApplicationController
         flash[:success] = "Plan Delete Successful"
         redirect_to route_plan_transport_order_path(@order)
       rescue => e
+        logger.info e.backtrace
         flash[:error] = e.message
         redirect_to route_plan_transport_order_path(@order)
       end

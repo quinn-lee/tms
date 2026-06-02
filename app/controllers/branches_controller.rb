@@ -20,6 +20,7 @@ class BranchesController < ApplicationController
         flash[:success] = "Branch Created Successful"
         redirect_to branches_path
       rescue => e
+        logger.info e.backtrace
         render :new, status: :unprocessable_entity
         raise ActiveRecord::Rollback,"rollback!"
       end
@@ -40,6 +41,7 @@ class BranchesController < ApplicationController
         flash[:success] = "Branch Updated Successful"
         redirect_to branches_path
       rescue => e
+        logger.info e.backtrace
         render :edit, status: :unprocessable_entity
         raise ActiveRecord::Rollback,"rollback!"
       end

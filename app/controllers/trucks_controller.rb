@@ -25,6 +25,7 @@ class TrucksController < ApplicationController
         flash[:success] = "Truck Created Successful"
         redirect_to trucks_path
       rescue => e
+        logger.info e.backtrace
         render :new, status: :unprocessable_entity
         raise ActiveRecord::Rollback,"rollback!"
       end
@@ -45,6 +46,7 @@ class TrucksController < ApplicationController
         flash[:success] = "Truck Updated Successful"
         redirect_to trucks_path
       rescue => e
+        logger.info e.backtrace
         render :edit, status: :unprocessable_entity
         raise ActiveRecord::Rollback,"rollback!"
       end
@@ -57,6 +59,7 @@ class TrucksController < ApplicationController
       @bound_drivers = User.where(staff_grade: "driver").where(id: @truck.driver_ids)
       @new_drivers = User.where(staff_grade: "driver").where.not(id: @truck.driver_ids)
     rescue => e
+      logger.info e.backtrace
       flash[:error] = e.message
       redirect_to trucks_path
     end
@@ -74,6 +77,7 @@ class TrucksController < ApplicationController
         flash[:success] = "Assign New Driver Successful"
         redirect_to bound_drivers_truck_path(@truck)
       rescue => e
+        logger.info e.backtrace
         flash[:error] = e.message
         redirect_to bound_drivers_truck_path(@truck)
         raise ActiveRecord::Rollback,"rollback!"
@@ -93,6 +97,7 @@ class TrucksController < ApplicationController
         flash[:success] = "Unbind Driver Successful"
         redirect_to bound_drivers_truck_path(@truck)
       rescue => e
+        logger.info e.backtrace
         flash[:error] = e.message
         redirect_to bound_drivers_truck_path(@truck)
         raise ActiveRecord::Rollback,"rollback!"

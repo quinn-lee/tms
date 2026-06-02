@@ -1,0 +1,33 @@
+<!-- 列表 -->
+<div class="vehicle-list" style="margin-bottom: 2rem;">
+  <div class="list-header">
+    <div class="list-title">Loading Scan List</div>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Driver</th>
+        <th>Checkin Time</th>
+        <th>Checkin Type</th>
+        <th>Address</th>
+        <th>Photos</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @dcis.each do |dci|%>
+      <tr>
+        <td><%=dci.driver.nickname%></td>
+        <td><%=dci.checkin_time&.strftime("%F %T")%></td>
+        <td><%=dci.checkin_type%></td>
+        <td><%=dci.checkin_address%></td>
+        <td>
+          <% dci.checkin_photos&.each do |image| %>
+            <%= link_to(image_tag(image.url, alt: 'Image', size: "60x60"), image.url, target: '_blank')%>
+          <% end %>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%== @pagy.series_nav(:bootstrap) if @pagy.pages > 1%>
+</div>

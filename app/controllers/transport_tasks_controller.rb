@@ -21,6 +21,7 @@ class TransportTasksController < ApplicationController
 			end
 			@task = TransportTask.new
 		rescue=>e
+			logger.info e.backtrace
 			flash[:error] = e.message
 			redirect_to order_routes_path
 		end
@@ -64,6 +65,7 @@ class TransportTasksController < ApplicationController
         flash[:success] = "Task Created Successful"
         redirect_to order_routes_path
       rescue => e
+      	logger.info e.backtrace
       	@msg = e.message
         render :new, status: :unprocessable_entity
         raise ActiveRecord::Rollback,"rollback!"

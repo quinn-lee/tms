@@ -73,6 +73,7 @@ class Mobile::TransportTasksController < ApplicationController
 				flash[:success] = "Start Successful"
 				redirect_to in_progress_orders_mobile_transport_tasks_path
 			rescue => e
+				logger.info e.backtrace
 				flash[:error] = e.message
 				redirect_to mobile_transport_tasks_path
         raise ActiveRecord::Rollback,"rollback!"
@@ -124,6 +125,7 @@ class Mobile::TransportTasksController < ApplicationController
 				flash[:success] = "Truck Breakdown Registration Successful"
 				redirect_to mobile_transport_tasks_path
 			rescue => e
+				logger.info e.backtrace
 				flash[:error] = e.message
 				redirect_to mobile_transport_tasks_path
         raise ActiveRecord::Rollback,"rollback!"

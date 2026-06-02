@@ -63,6 +63,10 @@ Rails.application.routes.draw do
   resources :transport_tasks
 
   resources :violation_appeals
+
+  resources :loading_scan_records
+
+  resources :driver_checkins
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

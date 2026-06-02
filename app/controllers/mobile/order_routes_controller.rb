@@ -25,6 +25,7 @@ class Mobile::OrderRoutesController < ApplicationController
 				flash[:success] = "Picked Successful"
 				redirect_to in_progress_orders_mobile_transport_tasks_path
 			rescue => e
+				logger.info e.backtrace
 				flash[:error] = e.message
 				redirect_to in_progress_orders_mobile_transport_tasks_path
         raise ActiveRecord::Rollback,"rollback!"
@@ -59,6 +60,7 @@ class Mobile::OrderRoutesController < ApplicationController
 				flash[:success] = "Loaded Successful"
 				redirect_to in_progress_orders_mobile_transport_tasks_path
 			rescue => e
+				logger.info e.backtrace
 				flash[:error] = e.message
 				redirect_to in_progress_orders_mobile_transport_tasks_path
         raise ActiveRecord::Rollback,"rollback!"
@@ -103,6 +105,7 @@ class Mobile::OrderRoutesController < ApplicationController
 				flash[:success] = "Sent Successful"
 				redirect_to in_progress_orders_mobile_transport_tasks_path
 			rescue => e
+				logger.info e.backtrace
 				flash[:error] = e.message
 				redirect_to in_progress_orders_mobile_transport_tasks_path
         raise ActiveRecord::Rollback,"rollback!"
@@ -138,6 +141,7 @@ class Mobile::OrderRoutesController < ApplicationController
 				flash[:success] = "#{{"pickup"=>"PickUp Failed", "sent"=>"Sent Failed"}[params[:from]]}, Rearranged Successful"
 				redirect_to in_progress_orders_mobile_transport_tasks_path
 			rescue => e
+				logger.info e.backtrace
 				flash[:error] = e.message
 				redirect_to in_progress_orders_mobile_transport_tasks_path
         raise ActiveRecord::Rollback,"rollback!"
@@ -155,6 +159,7 @@ class Mobile::OrderRoutesController < ApplicationController
 				flash[:success] = "Finished Successful"
 				redirect_to in_progress_orders_mobile_transport_tasks_path
 			rescue => e
+				logger.info e.backtrace
 				flash[:error] = e.message
 				redirect_to in_progress_orders_mobile_transport_tasks_path
         raise ActiveRecord::Rollback,"rollback!"

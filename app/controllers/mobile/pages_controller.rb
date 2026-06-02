@@ -13,6 +13,7 @@ class Mobile::PagesController < ApplicationController
         flash[:success] = "#{dc.checkin_type&.capitalize} Successful"
         redirect_to mobile_pages_profile_path
       rescue => e
+        logger.info e.backtrace
         flash[:error] = e.message
         redirect_to mobile_pages_profile_path
         raise ActiveRecord::Rollback,"rollback!"
