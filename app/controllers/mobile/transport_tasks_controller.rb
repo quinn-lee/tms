@@ -59,9 +59,9 @@ class Mobile::TransportTasksController < ApplicationController
 							if pre_route.status != "scheduled"
 								raise "There are tasks that have not ended in the previous route. Cannot start."
 							end
-							if TaskOrderRelation.where(task_id: @task.id, order_route_id: pre_route.id).where.not(status: "finished").any?
-								raise "There are tasks that have not ended in the previous route. Cannot start."
-							end
+							#if TaskOrderRelation.where(task_id: @task.id, order_route_id: pre_route.id).where.not(status: "finished").any?
+							#	raise "There are tasks that have not ended in the previous route. Cannot start."
+							#end
 						end
 					end
 				else # 后面的司机只需要加入
