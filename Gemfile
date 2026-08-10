@@ -68,3 +68,5 @@ gem 'sorcery', '~> 0.17.0'
 gem 'pagy', '~> 43.5', '>= 43.5.3'
 # 附件
 gem 'carrierwave', '~> 3.1', '>= 3.1.3'
+# 读取excel
+gem 'roo', '>= 3.0'

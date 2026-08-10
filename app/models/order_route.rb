@@ -1,10 +1,14 @@
 class OrderRoute < ApplicationRecord
 	belongs_to :order, :class_name => 'TransportOrder', :foreign_key => :order_id
 
-	validates_presence_of :first_location, :end_location, \
-	:expected_departure_time, :expected_arrival_time
+	validates_presence_of :first_location, :end_location
+	validates_presence_of :expected_departure_time, :expected_arrival_time, unless: :is_zero?
 
 	after_create :set_detail
+
+	def is_zero?
+    node_order == 0
+  end
 
 	private
 	def set_detail

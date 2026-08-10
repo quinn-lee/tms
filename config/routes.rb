@@ -33,6 +33,9 @@ Rails.application.routes.draw do
       get :new_pickup_order
       post :create_return
       get :returns
+      get :new_batch
+      post :uploaded
+      get :template
     end
     member do
       get :route_plan

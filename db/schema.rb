@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_08_10_020942) do
+ActiveRecord::Schema[8.0].define(version: 2026_08_10_165258) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -94,6 +94,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_08_10_020942) do
     t.datetime "updated_at", null: false
     t.jsonb "first_detail"
     t.jsonb "last_detail"
+    t.integer "task_order"
     t.index ["order_id"], name: "index_order_routes_on_order_id"
   end
 
@@ -170,6 +171,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_08_10_020942) do
     t.datetime "arrival_time"
     t.boolean "is_return", default: false
     t.integer "parent_id"
+    t.string "tracking_num"
     t.index ["order_no"], name: "index_transport_orders_on_order_no", unique: true
   end
 

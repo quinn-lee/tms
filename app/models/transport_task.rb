@@ -1,7 +1,7 @@
 class TransportTask < ApplicationRecord
-	belongs_to :truck, :class_name => 'Truck', :foreign_key => :truck_id
+	belongs_to :truck, :class_name => 'Truck', :foreign_key => :truck_id, optional: true
 
-	validates_presence_of :task_date, :truck_id
+	#validates_presence_of :task_date, :truck_id
 	before_validation :setup, :on => :create
 
 

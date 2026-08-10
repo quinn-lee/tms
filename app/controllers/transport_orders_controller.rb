@@ -156,4 +156,120 @@ class TransportOrdersController < ApplicationController
       redirect_to staff_views_transport_orders_path
     end
   end
+
+  def template
+    send_file("public/templates/orders_upload.xlsx")
+  end
+
+  def uploaded
+    ActiveRecord::Base.transaction do
+      @errors = []
+      begin
+        raise "Warehouse Must Selected!" if params[:branch_id].blank?
+        raise "File Not Exists!" if params[:file].blank?
+        xlsx = Roo::Spreadsheet.open(params[:file])
+        @orders = []
+        @sheet = xlsx.sheet(0)
+        raise "File Can't Be Blank!" if @sheet.last_row < 2
+        (2..@sheet.last_row).each do |i|
+          row = @sheet.row(i)
+          if row[0].blank? or row[1].blank? or row[2].blank? or row[3].blank? or row[4].blank? or row[7].blank? or row[8].blank? or row[9].blank?
+            @errors << "Line #{i}, Content is incomplete"
+            next
+          end
+          @order = TransportOrder.new(
+            goods_name: "unknown",
+            goods_type: "general",
+            goods_weight: row[8],
+            goods_volume: row[9],
+            goods_quantity: 1,
+            branch_id: params[:branch_id],
+            user_id: current_user.id,
+            tracking_num: row[0].is_a?(Float) ? row[0].to_i.to_s : row[0].to_s,
+            consignee_name: row[1].to_s,
+            consignee_phone: row[2].to_s,
+            consignee_city: row[3].to_s,
+            consignee_street: row[4].to_s,
+            consignee_streetnum: row[5].to_s,
+            consignee_housenum: row[6].to_s,
+            consignee_postcode: row[7].is_a?(Float) ? row[7].to_i.to_s : row[7].to_s,
+            order_status: "processing",
+            need_pickup: false,
+            arrival_time: Time.now
+            )
+          @order.save!
+          @orders << @order
+          # 创建route
+          @order_route = OrderRoute.new(
+            first_location: @order.branch_code, 
+            end_location: @order.to_show, 
+            node_order: 0,
+            task_order: 0,
+            status: "init",
+            order_id: @order.id)
+          @order_route.save!
+        end
+        # 创建任务
+        DeliveryArea.where(status: "normal").each do |area|
+          @task = TransportTask.create!
+          @orders.each do |order|
+            if DeliveryAreaPostcode.where(area_id: area.id, post_code: order.consignee_postcode).any?
+              route = order.order_routes.first
+              @tor = TaskOrderRelation.new(
+                task_id: @task.id,
+                order_route_id: route.id,
+                order_id: order.id,
+                status: "init"
+                )
+              @tor.save!
+              route.status="scheduled"
+              route.save!
+            end
+          end
+          # 没有该区域的订单，删除该任务
+          order_quantity = TaskOrderRelation.where(task_id: @task.id).count
+          if order_quantity > 0
+            @task.update!(order_quantity: order_quantity)
+          else
+            @task.destroy!
+          end
+        end
+        # 未分配区域单独创建一个任务
+        @task = TransportTask.create!
+        @orders.each do |order|
+          unless TaskOrderRelation.where(order_id: order.id).any?
+            route = order.order_routes.first
+            @tor = TaskOrderRelation.new(
+              task_id: @task.id,
+              order_route_id: route.id,
+              order_id: order.id,
+              status: "init"
+              )
+            @tor.save!
+            route.status="scheduled"
+            route.save!
+          end
+        end
+        # 没有该区域的订单，删除该任务
+        order_quantity = TaskOrderRelation.where(task_id: @task.id).count
+        if order_quantity > 0
+          @task.update!(order_quantity: order_quantity)
+        else
+          @task.destroy!
+        end
+        if @errors.present?
+          #render :new_batch, status: :unprocessable_entity
+          raise ActiveRecord::Rollback,"rollback!"
+        else
+          flash[:success] = "Delivery Orders Uploaded Successful"
+          redirect_to staff_views_transport_orders_path
+        end
+      rescue => e
+        logger.info e.backtrace
+        @errors << e.message if e.message != "rollback!"
+        render :new_batch, status: :unprocessable_entity
+        raise ActiveRecord::Rollback,"rollback!"
+      end
+    end
+  end
 end
