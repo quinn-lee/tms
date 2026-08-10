@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_05_28_014656) do
+ActiveRecord::Schema[8.0].define(version: 2026_08_10_020942) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -29,6 +29,30 @@ ActiveRecord::Schema[8.0].define(version: 2026_05_28_014656) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["branch_code"], name: "index_branches_on_branch_code", unique: true
+  end
+
+  create_table "delivery_area_postcodes", force: :cascade do |t|
+    t.integer "area_id"
+    t.string "post_code"
+    t.string "city"
+    t.string "district"
+    t.boolean "is_exclude"
+    t.string "zone_restriction"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "delivery_areas", force: :cascade do |t|
+    t.string "area_code"
+    t.string "area_name"
+    t.string "dispatch_frequency"
+    t.integer "min_order_num"
+    t.decimal "truck_max_volume"
+    t.decimal "truck_max_weight_t"
+    t.boolean "enable_merge"
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "driver_checkins", force: :cascade do |t|

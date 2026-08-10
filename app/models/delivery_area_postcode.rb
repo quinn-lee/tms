@@ -1,0 +1,2 @@
+class DeliveryAreaPostcode < ApplicationRecord
+end
