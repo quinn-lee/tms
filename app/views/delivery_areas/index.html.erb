@@ -1,0 +1,39 @@
+<!-- 列表 -->
+<div class="vehicle-list" style="margin-bottom: 2rem;">
+  <div class="list-header">
+    <div class="list-title">Area List</div>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Branch</th>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Dispatch Frequency</th>
+        <th>Min Order Num</th>
+        <th>Max Volume</th>
+        <th>Max Weight</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @areas.each do |area|%>
+      <tr>
+        <td><%=area.branch.branch_code%></td>
+        <td><%=area.area_code%></td>
+        <td><%=area.area_name%></td>
+        <td><%=area.dispatch_frequency%></td>
+        <td><%=area.min_order_num%></td>
+        <td><%=area.truck_max_volume%></td>
+        <td><%=area.truck_max_weight_t%></td>
+        <td><span class="status <%={'out_of_service'=>'on-route', 'normal'=>'available'}[area.status]%>"><%=area.status%></td>
+        <td>
+          <a title="Edit Area" class="btn-icon" href="<%=edit_delivery_area_path(area)%>"><i class="fa-solid fa-pen-to-square"></i></a>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%== @pagy.series_nav(:bootstrap) if @pagy.pages > 1%>
+</div>

@@ -84,6 +84,14 @@ class TransportTasksController < ApplicationController
 				@task.truck_id = params[:truck_id]
 				@task.task_date = params[:task_date]
 				@task.save!
+				begin
+					@task.sort_orders
+				rescue=>e
+					logger.info e.backtrace
+					OrderRoute.where(id: TaskOrderRelation.where(task_id: @task.id).map(&:order_route_id)).order("id asc").each_with_index do |route, indx|
+						route.update!(task_order: indx)
+					end
+				end
 				flash[:success] = "Task Assign Truck Successful"
         redirect_to transport_tasks_path
 			rescue => e

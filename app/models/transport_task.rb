@@ -28,8 +28,15 @@ class TransportTask < ApplicationRecord
       optimizeWaypointOrder: "true"
     }
     request.body=params.to_json
-    response=http.request(request)
-    res = JSON.parse(response.body)
+    response=nil
+    Timeout::timeout(20){
+      response=http.request(request)
+    }
+    res = JSON.parse(response&.body)
+    optimized_index = res['routes'][0]['optimizedIntermediateWaypointIndex']
+    OrderRoute.where(id: TaskOrderRelation.where(task_id: self.id).map(&:order_route_id)).order("id asc").each_with_index do |route, index|
+      route.update!(task_order: optimized_index[index])
+    end
   end
 
 	private

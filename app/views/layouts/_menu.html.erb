@@ -146,6 +146,24 @@
 
     <div class="nav-group">
       <a href="#" class="nav-link">
+          <i class="fas fa-network-wired"></i>
+          <span>Delivery Area</span>
+          <i class="fas fa-chevron-down submenu-icon"></i>
+      </a>
+      <div class="submenu">
+          <a href="<%=delivery_areas_path%>" class="submenu-link">
+              <i class="fas fa-list"></i>
+              <span>Area List</span>
+          </a>
+          <a href="<%=new_delivery_area_path%>" class="submenu-link">
+              <i class="fas fa-plus"></i>
+              <span>Add Area</span>
+          </a>
+      </div>
+    </div>
+
+    <div class="nav-group">
+      <a href="#" class="nav-link">
           <i class="fas fa-clipboard-list"></i>
           <span>Order</span>
           <span class="notification-badge">5</span>

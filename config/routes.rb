@@ -76,6 +76,8 @@ Rails.application.routes.draw do
   resources :loading_scan_records
 
   resources :driver_checkins
+
+  resources :delivery_areas
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
