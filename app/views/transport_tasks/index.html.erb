@@ -27,7 +27,9 @@
         <td><%=task.loading_weight%></td>
         <td><span class="status on-route"><%=task.status%></span></td>
         <td>
-          
+          <% if task.truck.blank? %>
+            <%=link_to set_truck_transport_task_path(task), class: "btn-icon", style: "text-decoration: none;" do %>Assign<% end %>
+          <% end %>
         </td>
       </tr>
       <% end %>

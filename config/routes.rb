@@ -63,7 +63,13 @@ Rails.application.routes.draw do
 
   resources :order_routes
 
-  resources :transport_tasks
+  resources :transport_tasks do
+    member do
+      get :sort_orders
+      get :set_truck
+      post :seted_truck
+    end
+  end
 
   resources :violation_appeals
 

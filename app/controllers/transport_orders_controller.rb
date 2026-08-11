@@ -211,7 +211,7 @@ class TransportOrdersController < ApplicationController
         end
         # 创建任务
         DeliveryArea.where(status: "normal").each do |area|
-          @task = TransportTask.create!
+          @task = TransportTask.create!(branch_id: params[:branch_id])
           @orders.each do |order|
             if DeliveryAreaPostcode.where(area_id: area.id, post_code: order.consignee_postcode).any?
               route = order.order_routes.first
@@ -235,7 +235,7 @@ class TransportOrdersController < ApplicationController
           end
         end
         # 未分配区域单独创建一个任务
-        @task = TransportTask.create!
+        @task = TransportTask.create!(branch_id: params[:branch_id])
         @orders.each do |order|
           unless TaskOrderRelation.where(order_id: order.id).any?
             route = order.order_routes.first

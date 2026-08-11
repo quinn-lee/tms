@@ -32,11 +32,13 @@
       </div>
     </div>
     <div class="mobile-list-header">
-      <div class="mobile-list-title"><%=route.order.order_no%></div>
+      <div class="mobile-list-title"><%=route.order.order_no%><% if route.order.tracking_num.present? %>&nbsp;/&nbsp;<%=route.order.tracking_num%><% end %></div>
       <div class="mobile-list-badge"><%=@tor.status%></div>
     </div>
+    <% unless route.order.tracking_num.present? %>
     <div class="mobile-list-detail"><i class="fas fa-box"></i> <%=route.order.goods_name%> - 3QTY</div>
     <div class="mobile-list-detail"><i class="fas fa-user"></i><%=route.order.shipper_name%>--<%=route.order.shipper_phone%> </div>
+    <% end %>
     <div class="mobile-list-detail"><i class="fas fa-map-marker-alt"></i> <%=route.order.from_show%> / LAT-<%=route.order.start_latitude%> / LON-<%=route.order.start_longitude%> </div>
     <div class="mobile-list-detail"><i class="fas fa-user"></i><%=route.order.consignee_name%>--<%=route.order.consignee_phone%> </div>
     <div class="mobile-list-detail"><i class="fas fa-flag-checkered"></i> <%=route.order.to_show%> / LAT-<%=route.order.end_latitude%> / LON-<%=route.order.end_longitude%> </div>

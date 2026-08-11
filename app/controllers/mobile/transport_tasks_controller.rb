@@ -23,7 +23,7 @@ class Mobile::TransportTasksController < ApplicationController
 	def in_progress_orders
 		@task = TransportTask.where(status: "in_progress").where("driver_ids @> ?", [current_user.id].to_json).first
 		if @task.present?
-			@routes = OrderRoute.where(id: TaskOrderRelation.where.not(status: ["rearranged","finished"]).where(task_id: @task.id).map(&:order_route_id))
+			@routes = OrderRoute.where(id: TaskOrderRelation.where.not(status: ["rearranged","finished"]).where(task_id: @task.id).map(&:order_route_id)).order("task_order asc")
 		end
 	end
 

@@ -72,4 +72,26 @@ class TransportTasksController < ApplicationController
       end
     end
 	end
+
+	def set_truck
+		@task = TransportTask.find(params[:id])
+	end
+
+	def seted_truck
+		ActiveRecord::Base.transaction do
+      begin
+				@task = TransportTask.find(params[:id])
+				@task.truck_id = params[:truck_id]
+				@task.task_date = params[:task_date]
+				@task.save!
+				flash[:success] = "Task Assign Truck Successful"
+        redirect_to transport_tasks_path
+			rescue => e
+      	logger.info e.backtrace
+      	@msg = e.message
+        render :set_truck, status: :unprocessable_entity
+        raise ActiveRecord::Rollback,"rollback!"
+      end
+    end
+	end
 end
