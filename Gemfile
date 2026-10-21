@@ -63,7 +63,7 @@ group :test do
 end
 
 # 用户管理
-gem 'sorcery', '~> 0.17.0'
+gem 'sorcery', '~> 0.18.0'
 # 分页
 gem 'pagy', '~> 43.5', '>= 43.5.3'
 # 附件
