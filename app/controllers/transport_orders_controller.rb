@@ -14,6 +14,18 @@ class TransportOrdersController < ApplicationController
 
   def staff_views
     @all_orders = TransportOrder.all
+    if params[:order_no].present?
+      @all_orders = @all_orders.where("order_no ilike '%#{params[:order_no]}%'")
+    end
+    if params[:user_id].present?
+      @all_orders = @all_orders.where(user_id: params[:user_id])
+    end
+    if params[:need_pickup].present?
+      @all_orders = @all_orders.where(need_pickup: params[:need_pickup])
+    end
+    if params[:order_status].present?
+      @all_orders = @all_orders.where(order_status: params[:order_status])
+    end
     @pagy, @orders = pagy(:offset, @all_orders.order("id desc"))
   end
 
@@ -166,6 +178,7 @@ class TransportOrdersController < ApplicationController
       @errors = []
       begin
         raise "Warehouse Must Selected!" if params[:branch_id].blank?
+        raise "Customer Must Selected!" if params[:user_id].blank?
         raise "File Not Exists!" if params[:file].blank?
         xlsx = Roo::Spreadsheet.open(params[:file])
         @orders = []
@@ -184,7 +197,7 @@ class TransportOrdersController < ApplicationController
             goods_volume: row[9],
             goods_quantity: 1,
             branch_id: params[:branch_id],
-            user_id: current_user.id,
+            user_id: params[:user_id],
             tracking_num: row[0].is_a?(Float) ? row[0].to_i.to_s : row[0].to_s,
             consignee_name: row[1].to_s,
             consignee_phone: row[2].to_s,
@@ -209,6 +222,7 @@ class TransportOrdersController < ApplicationController
             order_id: @order.id)
           @order_route.save!
         end
+=begin #不自动创建任务，由仓库去分配
         # 创建任务
         DeliveryArea.where(status: "normal").each do |area|
           @task = TransportTask.create!(branch_id: params[:branch_id])
@@ -257,6 +271,7 @@ class TransportOrdersController < ApplicationController
         else
           @task.destroy!
         end
+=end
         if @errors.present?
           #render :new_batch, status: :unprocessable_entity
           raise ActiveRecord::Rollback,"rollback!"

@@ -32,6 +32,10 @@
               <%= f.select :branch_id, Branch.where(status: "in_service").map{|branch| [branch.branch_code, branch.id]}, {required: true}, {class: 'form-select'} %>
           </div>
           <div class="form-group">
+              <label class="form-label">Customer*</label>
+              <%= f.select :user_id, User.where(staff_grade: "customer").map{|user| [user.nickname, user.id]}, {required: true}, {class: 'form-select'} %>
+            </div>
+          <div class="form-group">
               <label class="form-label">File*</label>
               <%= f.file_field :file, class: "form-control", style: "line-height: 2.2; margin-bottom: 20px;", required: true%>
           </div>

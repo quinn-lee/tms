@@ -1,6 +1,33 @@
 <div class="vehicle-list" style="margin-bottom: 2rem;">
   <div class="list-header">
     <div class="list-title">Order Routes</div>
+    <div class="card-body">
+      <%= form_with(method: "get") do |f|%>
+        <div class="form-section" style="margin-bottom: 2rem;    margin-top: 2.5rem;">
+          <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+            <div class="form-group">
+                <label class="form-label">Customer</label>
+                <%= f.select :user_id, options_for_select(User.where(staff_grade: "customer").map{|user| [user.nickname, user.id]}.unshift(['','']), params[:user_id]), {}, {class: 'form-select'} %>
+            </div>
+            <div class="form-group">
+              <label class="form-label">ETA</label>
+              <%= f.text_field :expected_arrival_time, value: params[:expected_arrival_time], class: "form-input flatpickr-date" %>
+            </div>
+            <div class="form-group">
+              <label class="form-label">City</label>
+              <%= f.text_field :city, value: params[:city], class: "form-input" %>
+            </div>
+            <div class="form-group">
+              <label class="form-label">PostCode</label>
+              <%= f.text_field :postcode, value: params[:postcode], class: "form-input" %>
+            </div>
+            <div class="form-group" style="text-align: left;">
+              <button type="submit" class="btn btn-primary" style="margin-top: 33px;height: 50px;">Search</button>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
   </div>
   <%= form_with(url: new_transport_task_path, method: "get") do |f|%>
   <table>
@@ -71,6 +98,13 @@
   <% end %>
   
 </div>
+<script type="text/javascript">
+  flatpickr(".flatpickr-date", {
+    enableTime: false,        // 启用时间选择
+    dateFormat: "Y/m/d", // 设置所需的日期时间格式
+    minDate: "today"
+  });
+</script>
 <script type="text/javascript">
   function checkAll(object)
   {

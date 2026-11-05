@@ -3,6 +3,12 @@ class OrderRoutesController < ApplicationController
   
   def index
     @all_routes = OrderRoute.where(status: ["init", "rearranged"])
+    @all_routes = @all_routes.joins(:order).where("transport_orders.user_id = ?", params[:user_id]) if params[:user_id].present?
+    if params[:expected_arrival_time].present?
+      @all_routes = @all_routes.where("expected_arrival_time >= '#{params[:expected_arrival_time]} 00:00:00' and expected_arrival_time <= '#{params[:expected_arrival_time]} 23:59:59'")
+    end
+    @all_routes = @all_routes.where("last_detail->>'city' ilike '%#{params[:city]}%'") if params[:city].present?
+    @all_routes = @all_routes.where("last_detail->>'postcode' ilike '%#{params[:postcode]}%'") if params[:postcode].present?
     # 上门取货的订单，创建任务时第1、2条线路需要合并在一起
     @routes = [] # 单个线路
     @c_routes = [] # 合并线路
