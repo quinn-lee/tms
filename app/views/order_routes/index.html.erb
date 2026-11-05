@@ -29,7 +29,7 @@
       <% end %>
     </div>
   </div>
-  <%= form_with(url: new_transport_task_path, method: "get") do |f|%>
+  <%= form_with(url: add_to_cart_order_routes_path, method: "post") do |f|%>
   <table>
     <thead>
       <tr>
@@ -93,10 +93,14 @@
     </tbody>
   </table>
   <div style="display: flex; justify-content: flex-start; gap: 1rem;     margin-top: 1rem; margin-left: 1rem; margin-bottom: 1rem;">
-      <button type="submit" class="btn btn-primary">Create Task</button>
+      <button type="submit" class="btn btn-primary">Add To Task List</button>
   </div>
   <% end %>
-  
+  <form action="<%=new_transport_task_path%>" method="get">
+    <div class="action-btns" style="float: left;margin-bottom: 0px;">
+      <button title="Click To Create Task" class="button-print" style="border: none;border-radius: 50%;width: 50px;height: 50px;position: fixed;bottom: 70px;right: 70px;background: #6A5ACD;font-size: 24px;" type="submit"><i class="fa-solid fa-list" style="color: #fff;"><span style="    position: absolute;top: 32%;right: 14px;transform: translateY(-50%);background-color: var(--notification-badge);color: white;border-radius: 10px;padding: 2px 6px;font-size: 0.7rem;font-weight: bold;line-height: 1;min-width: 18px;text-align: center;"><%=Cart.where(user_id: current_user.id).count%></span></i></button>
+    </div>
+  </form>
 </div>
 <script type="text/javascript">
   flatpickr(".flatpickr-date", {

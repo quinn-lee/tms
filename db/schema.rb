@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_08_11_025234) do
+ActiveRecord::Schema[8.0].define(version: 2026_11_05_075559) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -29,6 +29,13 @@ ActiveRecord::Schema[8.0].define(version: 2026_08_11_025234) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["branch_code"], name: "index_branches_on_branch_code", unique: true
+  end
+
+  create_table "carts", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "route_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "delivery_area_postcodes", force: :cascade do |t|

@@ -19,9 +19,6 @@
         </ul>
         <% end %>
       <% end -%>
-      <% @ids.each do |route_id| %>
-        <%=hidden_field_tag "ids[]", route_id%>
-      <% end %>
       <div class="form-section" style="margin-bottom: 2rem;    margin-top: 2.5rem;">
         <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
           <div class="form-group">
@@ -32,13 +29,59 @@
               <label class="form-label">Task Date*</label>
               <%= f.text_field :task_date, class: "datepicker form-input", placeholder: "", required: true %>
           </div>
+          <div class="form-group" style="text-align: left;">
+              <button type="submit" class="btn btn-primary" style="margin-top: 33px;height: 50px;">Create Task</button>
+            </div>
         </div>
       </div>
-      
-      <div style="display: flex; justify-content: flex-start; gap: 1rem;">
-          <button type="submit" class="btn btn-primary">Create Task</button>
-      </div>
+
     <% end %>
+
+    <div class="list-header">
+        <div class="list-title">Selected Routes</div>
+        <table>
+          <thead>
+            <tr>
+              <th>From</th>
+              <th>To</th>
+              <th>Order NO.</th>
+              <th>Customer</th>
+              <th>Mileage(KM)</th>
+              <th>Duration(min)</th>
+              <th>ETD</th>
+              <th>ETA</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @routes.each_with_index do |route, index|%>
+            <tr>
+              <td><%=route.first_location%></td>
+              <td><%=route.end_location%></td>
+              <td><%=route.order.order_no%></td>
+              <td><%=route.order.user.user_name || route.order.user.nickname%></td>
+              <td><%=route.planned_mileage%></td>
+              <td><%=route.planned_duration%></td>
+              <td><%=route.expected_departure_time&.strftime("%F")%><br/>
+                <%=route.expected_departure_time&.strftime("%T")%>
+              </td>
+              <td><%=route.expected_arrival_time&.strftime("%F")%><br/>
+                <%=route.expected_arrival_time&.strftime("%T")%></td>
+              <td><%=route.status%></td>
+              <td>
+                <%=link_to "delete", delete_cart_order_routes_path(route_id: route.id)%>
+              </td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <%= form_with(url: clear_cart_order_routes_path, method: "post") do |f|%>
+          <div style="display: flex; justify-content: flex-start; gap: 1rem;     margin-top: 1rem; margin-left: 1rem; margin-bottom: 1rem;">
+            <button type="submit" class="btn btn-secondary">Clear Task List</button>
+          </div>
+        <% end %>
+    </div>
   </div>
 </div>
 <script type="text/javascript">

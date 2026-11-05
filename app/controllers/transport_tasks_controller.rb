@@ -8,17 +8,9 @@ class TransportTasksController < ApplicationController
 
 	def new
 		begin
-			raise "Please Select Routes to Create Tasks" if params[:ids].blank?
-			@ids = []
-			params[:ids].each do |ids|
-				if ids.include? ",,,"
-					ids.split(",,,").each do |sid|
-						@ids << sid
-					end
-				else
-					@ids << ids
-				end
-			end
+			@ids = Cart.where(user_id: current_user.id).map(&:route_id)
+			raise "Please Select Routes to Create Tasks" if @ids.blank?
+			@routes = OrderRoute.where(id: @ids)
 			@task = TransportTask.new
 		rescue=>e
 			logger.info e.backtrace
@@ -28,7 +20,7 @@ class TransportTasksController < ApplicationController
 	end
 
 	def create
-		@ids = params[:ids]
+		@ids = Cart.where(user_id: current_user.id).map(&:route_id)
 		if @ids.blank?
       flash[:error] = "Please Select Routes to Create Tasks"
       redirect_to order_routes_path and return
@@ -62,8 +54,9 @@ class TransportTasksController < ApplicationController
 			      end
 			    end
 		    end
+		    Cart.where(user_id: current_user.id).delete_all
         flash[:success] = "Task Created Successful"
-        redirect_to order_routes_path
+        redirect_to transport_tasks_path
       rescue => e
       	logger.info e.backtrace
       	@msg = e.message

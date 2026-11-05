@@ -61,7 +61,13 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :order_routes
+  resources :order_routes do
+    collection do
+      post :add_to_cart
+      post :clear_cart
+      get :delete_cart
+    end
+  end
 
   resources :transport_tasks do
     member do
