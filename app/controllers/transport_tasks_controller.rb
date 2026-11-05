@@ -19,6 +19,11 @@ class TransportTasksController < ApplicationController
 		end
 	end
 
+	def show
+    @task = TransportTask.find(params[:id])
+    @orders = TransportOrder.where(id: TaskOrderRelation.where(task_id: @task.id).map(&:order_id))
+  end
+
 	def create
 		@ids = Cart.where(user_id: current_user.id).map(&:route_id)
 		if @ids.blank?

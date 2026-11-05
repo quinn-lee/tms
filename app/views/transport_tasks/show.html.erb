@@ -1,0 +1,71 @@
+
+
+<div class="cards-container">
+  <!-- 卡片1 -->
+  <div class="route-card">
+    <div class="card-header1">
+        <h2><%=@task.task_no%></h2>
+        <div class="status"><%=@task.status%></div>
+    </div>
+    <div class="card-content">
+      
+      <div class="route-details" style="grid-template-columns: repeat(5, 1fr);">
+        <div class="detail-item">
+          <span class="label">Order QTY</span>
+          <span class="value"><%=@task.order_quantity%></span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Task Date</span>
+          <span class="value"><%=@task.task_date&.strftime("%F")%></span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Truck</span>
+          <span class="value"><%=@task.truck&.truck_plate%></span>
+        </div>
+
+        <div class="detail-item">
+          <span class="label">Loaded Volume (m³)</span>
+          <span class="value"><%=@task.loading_volumn%></span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Loaded Weight(kg)</span>
+          <span class="value"><%=@task.loading_weight%></span>
+        </div>
+      </div>
+    </div>
+      <table>
+    <thead>
+        <tr>
+            <th>Order NO</th>
+            <th>Customer</th>
+            <th>Goods Type</th>
+            <th>Weight (kg)</th>
+            <th>Volume (m³)</th>
+            <th>Quantity</th>
+            <th>PickUp?</th>
+            <th>IsReturn?</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+      <% @orders.each do |order|%>
+      <tr>
+        <td><%=order.order_no%></td>
+        <td><%=order.user.customer_code%></td>
+        <td><%=order.goods_type%></td>
+        <td><%=order.goods_weight%></td>
+        <td><%=order.goods_volume%></td>
+        <td><%=order.goods_quantity%></td>
+        <td><%={true=>'YES', false=>'NO'}[order.need_pickup]%>
+        </td>
+        <td><%={true=>'YES', false=>'NO'}[order.is_return]%></td>
+        <td><span class="status on-route"><%=order.order_status%></span></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+    <div style="display: flex; justify-content: flex-end; gap: 1rem;margin-bottom: 1rem;margin-right: 1rem;margin-top: 1rem;">
+      <a type="button" href="<%=transport_tasks_path%>" class="btn" style="background: var(--gray-200); color: var(--gray-600);">Return</a>
+    </div>
+  </div>
+</div>
