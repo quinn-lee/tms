@@ -106,7 +106,7 @@ class OrderRoutesController < ApplicationController
   def delete_cart
     ActiveRecord::Base.transaction do
       begin
-        @cart = Cart.where(user_id: current_user.id).find_by(route_id: params[:route_id])
+        @cart = Cart.where(user_id: current_user.id).find_by(route_id: params[:id])
         @cart.destroy
         if Cart.where(user_id: current_user.id).count == 0
           flash[:success] = "Delete Task List Successful"

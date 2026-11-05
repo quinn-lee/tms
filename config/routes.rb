@@ -62,10 +62,12 @@ Rails.application.routes.draw do
   end
 
   resources :order_routes do
+    member do
+      delete :delete_cart
+    end
     collection do
       post :add_to_cart
       post :clear_cart
-      get :delete_cart
     end
   end
 

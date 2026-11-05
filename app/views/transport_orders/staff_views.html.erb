@@ -49,7 +49,7 @@
       <% @orders.each do |order|%>
       <tr>
         <td><%=order.order_no%></td>
-        <td><%if order.tracking_num.present?%><%=order.tracking_num%><% else %><%=order.user.customer_code%><% end %></td>
+        <td><%=order.user.customer_code%></td>
         <td><%=order.goods_type%></td>
         <td><%=order.goods_weight%></td>
         <td><%=order.goods_volume%></td>

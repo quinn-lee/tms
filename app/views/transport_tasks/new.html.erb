@@ -70,7 +70,7 @@
                 <%=route.expected_arrival_time&.strftime("%T")%></td>
               <td><%=route.status%></td>
               <td>
-                <%=link_to "delete", delete_cart_order_routes_path(route_id: route.id)%>
+                <%=link_to "Delete", delete_cart_order_route_path(route), data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'},  class: "btn-icon", style: "text-decoration: none;"%>
               </td>
             </tr>
             <% end %>
