@@ -166,7 +166,7 @@
       <a href="#" class="nav-link">
           <i class="fas fa-clipboard-list"></i>
           <span>Order</span>
-          <span class="notification-badge">5</span>
+          <span class="notification-badge"><%=TransportOrder.where(order_status: ['pending','planning']).count%></span>
           <i class="fas fa-chevron-down submenu-icon"></i>
       </a>
       <div class="submenu">
@@ -178,6 +178,10 @@
               <i class="fas fa-plus"></i>
               <span>Orders Upload</span>
           </a>
+          <a href="<%=pending_orders_transport_orders_path%>" class="submenu-link">
+              <i class="fas fa-clock"></i>
+              <span>Pending Orders</span>
+          </a>
       </div>
     </div>
 
@@ -185,6 +189,7 @@
       <a href="#" class="nav-link">
           <i class="fas fa-route"></i>
           <span>Route Planning</span>
+          <span class="notification-badge"><%=OrderRoute.where(status: ["init", "rearranged"]).where.not(id: Cart.all.map(&:route_id)).count%></span>
           <i class="fas fa-chevron-down submenu-icon"></i>
       </a>
       <div class="submenu">

@@ -1,0 +1,213 @@
+<!-- 订单列表 -->
+<div class="vehicle-list" style="margin-bottom: 2rem;">
+  <div class="list-header">
+    <div class="list-title">Pending Orders</div>
+    <div class="card-body">
+      <%= form_with(method: "get") do |f|%>
+        <div class="form-section" style="margin-bottom: 2rem;    margin-top: 2.5rem;">
+          <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+            <div class="form-group">
+                <label class="form-label">Order NO</label>
+                <%= f.text_field :order_no, value: params[:order_no], class: "form-input", placeholder: "" %>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Customer</label>
+                <%= f.select :user_id, options_for_select(User.where(staff_grade: "customer").map{|user| [user.nickname, user.id]}.unshift(['','']), params[:user_id]), {}, {class: 'form-select'} %>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Need Pickup?</label>
+                <%= f.select :need_pickup, options_for_select([['',''],['Yes',true],['No',false]], params[:need_pickup]), {}, {class: 'form-select'} %>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Order Status</label>
+                <%= f.select :order_status, options_for_select(['','pending','planning'], params[:order_status]), {}, {class: 'form-select'} %>
+            </div>
+            <div class="form-group" style="text-align: left;">
+              <button type="submit" class="btn btn-primary" style="margin-top: 33px;height: 50px;">Search</button>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <table>
+    <thead>
+        <tr>
+            <th>Order NO</th>
+            <th>Customer</th>
+            <th>Goods Type</th>
+            <th>Weight (kg)</th>
+            <th>Volume (m³)</th>
+            <th>Quantity</th>
+            <th>PickUp?</th>
+            <th>IsReturn?</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+      <% @orders.each do |order|%>
+      <tr>
+        <td><%=order.order_no%></td>
+        <td><%=order.user.customer_code%></td>
+        <td><%=order.goods_type%></td>
+        <td><%=order.goods_weight%></td>
+        <td><%=order.goods_volume%></td>
+        <td><%=order.goods_quantity%></td>
+        <td><%={true=>'YES', false=>'NO'}[order.need_pickup]%>
+          <% if order.need_pickup %>
+            <a title="PickUp Note" class="btn-icon" data-bs-toggle="modal" data-bs-target="#pickup<%=order.id%>"><i class="fa-solid fa-truck-arrow-right"></i></a>
+          <% else %>
+            <% if order.arrival_time.present? %>
+            <a title="Arrival" class="btn-icon" data-bs-toggle="modal" data-bs-target="#pickup<%=order.id%>"><i class="fa-regular fa-calendar-check"></i></a>
+            <% else %>
+            <a title="Non-arrival" class="btn-icon" data-bs-toggle="modal" data-bs-target="#pickup<%=order.id%>"><i class="fa-regular fa-calendar-xmark"></i></a>
+            <% end %>
+          <% end %>
+        </td>
+        <td><%={true=>'YES', false=>'NO'}[order.is_return]%></td>
+        <td><span class="status on-route"><%=order.order_status%></span></td>
+        <td>
+          <a title="Show" class="btn-icon" href="<%=transport_order_path(order)%>"><i class="fas fa-circle-info"></i></a>
+          <% if order.can_plan?%>
+          <a title="Route Plan" class="btn-icon" href="<%=route_plan_transport_order_path(order)%>"><i class="fas fa-route"></i></a>
+          <% end %>
+          <% unless order.need_pickup %>
+            <% unless order.arrival_time.present? %>
+              <%= link_to arrived_transport_order_path(order), data: {turbo_method: :get, turbo_confirm: 'Has the cargo of this order arrived at the warehouse?'}, title: "Arrived To Warehouse", class: "btn-icon" do %>
+                <i class="fa-solid fa-truck-droplet"></i>
+              <% end %>
+            <% end %>
+          <% end %>
+          <a title="Tracking Info" class="btn-icon" data-bs-toggle="modal" data-bs-target="#tracking<%=order.id%>"><i class="fa-solid fa-magnifying-glass-location"></i></a>
+        </td>
+        <!-- Modal -->
+        <div class="modal fade" id="pickup<%=order.id%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><%if order.need_pickup%>PickUp Note<%else%>Delivery Note<% end %></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <%if order.need_pickup%>
+                  <h6><span style="font-weight: bold;">Estimated Pickup Time:</span> <span style="color: #842029;"><%=order.estimated_pickup_time&.strftime("%F %T")%></span></h6>
+                  <% if order.pickup_drivers.present? %>
+                  <h6><span style="font-weight: bold;">PickUp Driver:</span> <span style="color: #842029;"><%=order.pickup_drivers[0].user_name%></span></h6>
+                  <h6><span style="font-weight: bold;">PickUp Driver Phone:</span> <span style="color: #842029;"><%=order.pickup_drivers[0].user_phone%></span></h6>
+                  <% end %>
+                <%else%>
+                  <h6><span style="font-weight: bold;">Reached Depot?:</span> <span style="color: #842029;"><%=order.arrival_time.present? ? "YES" : "NO"%></span></h6>
+                  <% if order.arrival_time.present? %>
+                  <h6><span style="font-weight: bold;">Reached Depot Time:</span> <span style="color: #842029;"><%=order.arrival_time&.strftime("%F %T")%></span></h6>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="tracking<%=order.id%>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Tracking Infos</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div class="timeline">
+                  <% TrackingInfo.where(order_id: order.id).order("seq asc").each do |ti|%>
+                  <div class="timeline-item">
+                      <div class="timeline-dot"></div>
+                      <div class="timeline-content">
+                          <div class="timeline-time"><%=ti.event_time&.strftime('%F %T')%>,&nbsp;<%=ti.location%></div>
+                          <div class="list-title"><%=ti.description%></div>
+                          <div class="list-detail">
+                            <% ti.images&.each do |image| %>
+                            <%= link_to(image_tag(image.url, alt: 'Image', size: "60x60"), image.url, target: '_blank')%>
+                            <% end %>
+                          </div>
+                      </div>
+                  </div>
+                  <% end %>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%== @pagy.series_nav(:bootstrap) if @pagy.pages > 1%>
+</div>
+<style type="text/css">
+/* Timeline Styles */
+.timeline {
+    position: relative;
+    padding: 20px 0;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 20px;
+    width: 2px;
+    background: #dadce0;
+}
+
+.timeline-item {
+    position: relative;
+    padding-left: 40px;
+    margin-bottom: 20px;
+}
+
+.timeline-dot {
+    position: absolute;
+    left: 12px;
+    top: 5px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #1a73e8;
+    z-index: 1;
+}
+
+.timeline-content {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.timeline-time {
+    font-size: 12px;
+    color: #5f6368;
+    margin-bottom: 4px;
+}
+
+.list-title {
+    font-weight: 600;
+    color: #1a73e8;
+}
+
+.list-detail {
+    color: #5f6368;
+    font-size: 14px;
+    margin: 4px 0;
+    display: flex;
+    align-items: center;
+}
+
+.list-detail i {
+    margin-right: 8px;
+    width: 20px;
+    color: #5f6368;
+}
+</style>

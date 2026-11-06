@@ -36,6 +36,7 @@ Rails.application.routes.draw do
       get :new_batch
       post :uploaded
       get :template
+      get :pending_orders
     end
     member do
       get :route_plan

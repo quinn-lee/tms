@@ -29,6 +29,23 @@ class TransportOrdersController < ApplicationController
     @pagy, @orders = pagy(:offset, @all_orders.order("id desc"))
   end
 
+  def pending_orders
+    @all_orders = TransportOrder.where(order_status: ['pending','planning'])
+    if params[:order_no].present?
+      @all_orders = @all_orders.where("order_no ilike '%#{params[:order_no]}%'")
+    end
+    if params[:user_id].present?
+      @all_orders = @all_orders.where(user_id: params[:user_id])
+    end
+    if params[:need_pickup].present?
+      @all_orders = @all_orders.where(need_pickup: params[:need_pickup])
+    end
+    if params[:order_status].present?
+      @all_orders = @all_orders.where(order_status: params[:order_status])
+    end
+    @pagy, @orders = pagy(:offset, @all_orders.order("id desc"))
+  end
+
   def show
     @order = TransportOrder.find(params[:id])
   end
